@@ -163,7 +163,7 @@ export function LandingPage() {
           fontSize: '18px', color: 'var(--text-secondary)',
           lineHeight: 1.6, maxWidth: '620px', margin: '0 auto 36px',
         }}>
-          InfraPilot turns a GitHub repository into a fully deployed cloud application — CI pipelines, Kubernetes manifests, secrets, and DNS — in a single click.
+          Meridian turns a GitHub repository into a fully deployed cloud application — CI pipelines, Kubernetes manifests, secrets, and DNS — in a single click.
         </p>
 
         <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -194,7 +194,7 @@ export function LandingPage() {
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--warning)' }} />
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--success)' }} />
             <span style={{ marginLeft: '8px', fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-              infrapilot — pipeline: my-app → prod-eks
+              meridian — pipeline: my-app → prod-eks
             </span>
           </div>
           <div style={{ padding: '18px 22px', background: 'var(--bg-base)' }}>
@@ -265,7 +265,7 @@ export function LandingPage() {
               </ul>
               <button
                 type="button"
-                onClick={p.id === 'enterprise' ? () => window.open('mailto:sales@infrapilot.io', '_blank') : handleGetStarted}
+                onClick={p.id === 'enterprise' ? () => window.open('mailto:sales@meridian.io', '_blank') : handleGetStarted}
                 className={p.popular ? 'ip-button-primary' : 'ip-button-secondary'}
                 style={{ width: '100%', padding: '8px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >

@@ -104,6 +104,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::selection {
+  background: var(--badge-bg);
+  color: var(--text-primary);
 }
 
 html, body, #root {
@@ -180,6 +187,16 @@ code, pre, .font-mono {
   100% { background-position: 200% 0; }
 }
 
+@keyframes toast-shrink {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.75); }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -202,8 +219,8 @@ code, pre, .font-mono {
 /* Custom Glass & Card utility classes */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
 }
 
@@ -279,5 +296,44 @@ code, pre, .font-mono {
 .ip-hero-gradient {
   background: var(--accent-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* ── select color-scheme follows data-theme ── */
+:root select,
+[data-theme="dark"] select  { color-scheme: dark; }
+[data-theme="light"] select { color-scheme: light; }
+
+/* ── skeleton shimmer ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-hover) 25%,
+    var(--border) 50%,
+    var(--bg-hover) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ── focus ring utility ── */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ── page layout helpers ── */
+.ip-page {
+  padding: 24px 28px;
+  max-width: 1400px;
+}
+
+.ip-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }

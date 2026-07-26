@@ -34,7 +34,7 @@ class Route53Service:
                 client.change_resource_record_sets,
                 HostedZoneId=self._zone_id,
                 ChangeBatch={
-                    "Comment": "Created by InfraPilot",
+                    "Comment": "Created by Meridian",
                     "Changes": [{
                         "Action": "UPSERT",
                         "ResourceRecordSet": {

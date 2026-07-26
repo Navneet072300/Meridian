@@ -50,7 +50,7 @@ function inp(extra?: React.CSSProperties): React.CSSProperties {
 }
 
 function sel(extra?: React.CSSProperties): React.CSSProperties {
-  return { ...inp(), cursor: 'pointer', colorScheme: 'dark', ...extra };
+  return { ...inp(), cursor: 'pointer', ...extra };
 }
 
 function SectionCard({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
@@ -976,7 +976,7 @@ export function ConnectedPlatformsTab() {
           </div>
           {/* Generate PAT button — top right */}
           <a
-            href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot"
+            href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -1051,7 +1051,7 @@ export function ConnectedPlatformsTab() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot', '_blank')}
+                    onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian', '_blank')}
                     style={{ flexShrink: 0, padding: '4px 10px', background: expiryDays <= 0 ? V.red : V.yellow, border: 'none', borderRadius: 5, color: '#000', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}
                   >
                     Regenerate
@@ -1077,7 +1077,7 @@ export function ConnectedPlatformsTab() {
             <div style={{ display: 'flex', gap: 8, marginBottom: '0.875rem', flexWrap: 'wrap' }}>
               {[['1', 'Click Generate PAT'], ['2', 'GitHub opens pre-configured'], ['3', 'Paste token below']].map(([n, label]) => (
                 <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <span style={{ width: 16, height: 16, borderRadius: '50%', background: `${V.accent}22`, border: `1px solid ${V.accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 700, color: V.accent, flexShrink: 0 }}>{n}</span>
+                  <span style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--badge-bg)', border: '1px solid var(--border-focus)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 700, color: V.accent, flexShrink: 0 }}>{n}</span>
                   <span style={{ fontSize: '0.78rem', color: V.muted }}>{label}</span>
                   {n !== '3' && <span style={{ color: V.border, fontSize: '0.7rem' }}>›</span>}
                 </div>
@@ -1830,7 +1830,7 @@ const CHANNEL_META: Record<ChannelType, { label: string; color: string; icon: Re
   },
   email: {
     label: 'Email', color: '#22c55e', icon: <Mail size={14} />,
-    fields: [{ key: 'address', label: 'Email address', placeholder: 'you@example.com', guide: 'Alerts are sent from alerts@infrapilot.dev via Resend. Check spam if you don\'t receive the test.' }],
+    fields: [{ key: 'address', label: 'Email address', placeholder: 'you@example.com', guide: 'Alerts are sent from alerts@meridian.dev via Resend. Check spam if you don\'t receive the test.' }],
   },
   discord: {
     label: 'Discord', color: '#5865F2', icon: <MessageSquare size={14} />,
@@ -1843,8 +1843,8 @@ const CHANNEL_META: Record<ChannelType, { label: string; color: string; icon: Re
   webhook: {
     label: 'Custom Webhook', color: '#6366f1', icon: <Globe size={14} />,
     fields: [
-      { key: 'url', label: 'Endpoint URL', placeholder: 'https://your-server.com/infrapilot-hook', guide: 'Your server must respond with 2xx. Payloads are JSON. Add a secret to verify signatures.' },
-      { key: 'secret', label: 'HMAC secret (optional)', placeholder: 'your-signing-secret', guide: 'InfraPilot signs each request with SHA-256 HMAC. Verify the X-InfraPilot-Signature header.' },
+      { key: 'url', label: 'Endpoint URL', placeholder: 'https://your-server.com/meridian-hook', guide: 'Your server must respond with 2xx. Payloads are JSON. Add a secret to verify signatures.' },
+      { key: 'secret', label: 'HMAC secret (optional)', placeholder: 'your-signing-secret', guide: 'Meridian signs each request with SHA-256 HMAC. Verify the X-Meridian-Signature header.' },
     ],
   },
 };
@@ -2063,7 +2063,7 @@ function AlertsTab() {
                     </button>
                   </div>
                   {showGuide[field.key] && (
-                    <div style={{ background: `${V.accent}12`, border: `1px solid ${V.accent}33`, borderRadius: 6, padding: '8px 12px', marginBottom: 6, fontSize: '0.77rem', color: V.muted }}>{field.guide}</div>
+                    <div style={{ background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 6, padding: '8px 12px', marginBottom: 6, fontSize: '0.77rem', color: V.muted }}>{field.guide}</div>
                   )}
                   {editChannel
                     ? <input value={formConfig[field.key] ?? ''} onChange={(e) => setFormConfig((p) => ({ ...p, [field.key]: e.target.value }))} placeholder={`Leave blank to keep existing ${field.label.toLowerCase()}`} style={inputStyle} />

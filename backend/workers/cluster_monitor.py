@@ -527,7 +527,7 @@ async def _send_slack(cfg: dict, incident: dict, alert_type: str, minutes_active
         text = f"✅ *Resolved* — {incident['title']}\nCluster: {incident['cluster_name']}{duration}"
     elif alert_type == "re_alert":
         esc = f"\n⚠️ *ESCALATION* — still unacknowledged after {minutes_active} min" if escalate else ""
-        text = f"🔄 *Still active* — {incident['title']}\nActive for {minutes_active} min{esc}\n<{inc_url}|View in InfraPilot>"
+        text = f"🔄 *Still active* — {incident['title']}\nActive for {minutes_active} min{esc}\n<{inc_url}|View in Meridian>"
     else:
         blocks = [
             {"type": "header", "text": {"type": "plain_text", "text": f"{emoji} {sev.upper()} — {incident['title']}"}},
@@ -538,7 +538,7 @@ async def _send_slack(cfg: dict, incident: dict, alert_type: str, minutes_active
                 {"type": "mrkdwn", "text": f"*Issue:*\n{incident['issue_type']}"},
             ]},
             {"type": "actions", "elements": [
-                {"type": "button", "text": {"type": "plain_text", "text": "🔍 View in InfraPilot"},
+                {"type": "button", "text": {"type": "plain_text", "text": "🔍 View in Meridian"},
                  "url": inc_url, "style": "primary"},
                 {"type": "button", "text": {"type": "plain_text", "text": "💤 Snooze 30min"},
                  "action_id": "snooze", "value": incident["id"]},
@@ -575,7 +575,7 @@ async def _send_teams(cfg: dict, incident: dict, alert_type: str, **_):
                         {"title": "Issue", "value": incident["issue_type"]},
                     ]},
                 ],
-                "actions": [{"type": "Action.OpenUrl", "title": "View in InfraPilot", "url": inc_url}],
+                "actions": [{"type": "Action.OpenUrl", "title": "View in Meridian", "url": inc_url}],
             },
         }],
     }
@@ -608,7 +608,7 @@ async def _send_email_alert(cfg: dict, incident: dict, alert_type: str, **_):
       </table>
       <p style="margin-top:20px">
         <a href="{inc_url}" style="background:#6366f1;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none">
-          View in InfraPilot →
+          View in Meridian →
         </a>
       </p>
     </div>
@@ -618,7 +618,7 @@ async def _send_email_alert(cfg: dict, incident: dict, alert_type: str, **_):
             await client.post(
                 "https://api.resend.com/emails",
                 headers={"Authorization": f"Bearer {resend_key}"},
-                json={"from": "InfraPilot <noreply@infrapilot.dev>", "to": to_email, "subject": subject, "html": body},
+                json={"from": "Meridian <noreply@meridian.dev>", "to": to_email, "subject": subject, "html": body},
             )
     except Exception as e:
         logger.error("Email alert failed: %s", e)

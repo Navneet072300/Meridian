@@ -15,8 +15,8 @@ async def query_range(
     end: float,
     step: str = "60s",
 ) -> dict:
-    """Run a PromQL range query, always injecting {infrapilot_user="<user_id>"} label filter."""
-    wrapped = f'{query}{{infrapilot_user="{user_id}"}}'
+    """Run a PromQL range query, always injecting {meridian_user="<user_id>"} label filter."""
+    wrapped = f'{query}{{meridian_user="{user_id}"}}'
     async with httpx.AsyncClient(timeout=10) as client:
         try:
             r = await client.get(

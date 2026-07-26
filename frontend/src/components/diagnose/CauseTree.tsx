@@ -56,6 +56,11 @@ const STATUS_COLOR: Record<CauseStatus, string> = {
   confirmed: 'var(--success)',
   ruled_out: 'var(--text-muted)',
 };
+const STATUS_BG: Record<CauseStatus, string> = {
+  investigating: 'var(--bg-hover)',
+  confirmed: 'var(--success-bg)',
+  ruled_out: 'var(--bg-hover)',
+};
 const STATUS_LABEL: Record<CauseStatus, string> = {
   investigating: '⟳ Investigating',
   confirmed: '✓ Confirmed',
@@ -143,7 +148,7 @@ function CauseCard({ cause, status, onStatusChange, onRunCommand, sessionId }: {
           <div style={{ display: 'flex', gap: 5 }}>
             {(['confirmed', 'ruled_out', 'investigating'] as CauseStatus[]).map(s => (
               <button key={s} type="button" onClick={() => handleStatus(s)}
-                style={{ padding: '3px 9px', borderRadius: 4, fontSize: 10, border: `1px solid ${status === s ? STATUS_COLOR[s] : 'var(--border)'}`, background: status === s ? `${STATUS_COLOR[s]}22` : 'transparent', color: status === s ? STATUS_COLOR[s] : 'var(--text-muted)', cursor: 'pointer' }}>
+                style={{ padding: '3px 9px', borderRadius: 4, fontSize: 10, border: `1px solid ${status === s ? STATUS_COLOR[s] : 'var(--border)'}`, background: status === s ? STATUS_BG[s] : 'transparent', color: status === s ? STATUS_COLOR[s] : 'var(--text-muted)', cursor: 'pointer' }}>
                 {s === 'confirmed' ? '✓ Confirmed' : s === 'ruled_out' ? '✗ Ruled out' : '⟳ Investigating'}
               </button>
             ))}

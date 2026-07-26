@@ -288,7 +288,7 @@ function AddModal({ entry, onClose, onSaved }: { entry: CatalogEntry; onClose: (
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78rem', color: V.muted, marginBottom: 4 }}>Environment</label>
                   <select value={clusterForm.environment} onChange={e => setClusterForm(f => ({ ...f, environment: e.target.value }))}
-                    style={{ ...inputStyle, colorScheme: 'dark' }}>
+                    style={{ ...inputStyle }}>
                     <option value="dev">dev</option><option value="staging">staging</option><option value="prod">prod</option>
                   </select>
                 </div>
@@ -321,7 +321,7 @@ function AddModal({ entry, onClose, onSaved }: { entry: CatalogEntry; onClose: (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: V.bg, border: `1px solid ${V.border}`, borderRadius: 8, padding: '8px 12px' }}>
                   <span style={{ fontSize: '0.75rem', color: V.muted }}>Need to create a token first?</span>
                   <a
-                    href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot"
+                    href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian"
                     target="_blank" rel="noreferrer"
                     style={{ padding: '4px 12px', background: '#24292f', borderRadius: 6, color: '#fff', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
                     <GitBranch size={11} /> Create PAT →
@@ -455,11 +455,11 @@ function EditClusterModal({ cluster, onClose, onSaved }: { cluster: ClusterConfi
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.78rem', color: V.muted, marginBottom: 4 }}>Name</label>
-              <div style={{ ...inputStyle, color: V.muted, background: `${V.bg}88`, userSelect: 'none' }}>{cluster.name}</div>
+              <div style={{ ...inputStyle, color: V.muted, background: 'var(--bg-hover)', userSelect: 'none' }}>{cluster.name}</div>
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '0.78rem', color: V.muted, marginBottom: 4 }}>Environment</label>
-              <select value={form.environment} onChange={e => setForm(f => ({ ...f, environment: e.target.value as 'dev' | 'staging' | 'prod' }))} style={{ ...inputStyle, colorScheme: 'dark' }}>
+              <select value={form.environment} onChange={e => setForm(f => ({ ...f, environment: e.target.value as 'dev' | 'staging' | 'prod' }))} style={{ ...inputStyle }}>
                 <option value="dev">dev</option><option value="staging">staging</option><option value="prod">prod</option>
               </select>
             </div>
@@ -726,7 +726,7 @@ export default function PlatformsPage() {
 
   function clusterStatusBadge(name: string): { label: string; color: string; bg: string; border: string } {
     const h = clusterHealth[name];
-    if (!h || h.loading) return { label: '○ Checking…', color: V.muted, bg: `${V.border}22`, border: V.border };
+    if (!h || h.loading) return { label: '○ Checking…', color: V.muted, bg: 'var(--bg-hover)', border: V.border };
     if (h.healthy) return { label: '● Reachable', color: V.green, bg: 'rgba(63,185,80,0.1)', border: 'rgba(63,185,80,0.2)' };
     const err = (h.error ?? '').toLowerCase();
     if (err.includes('unauthorized') || err.includes('403') || err.includes('401'))
@@ -748,7 +748,7 @@ export default function PlatformsPage() {
       {/* Header */}
       <div style={{ marginBottom: '1.5rem' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '1.35rem', fontWeight: 700, color: V.text }}>Integrations</h1>
-        <p style={{ margin: 0, color: V.muted, fontSize: '0.85rem' }}>Search and connect external services to InfraPilot.</p>
+        <p style={{ margin: 0, color: V.muted, fontSize: '0.85rem' }}>Search and connect external services to Meridian.</p>
       </div>
 
       {/* Search bar */}
@@ -779,7 +779,7 @@ export default function PlatformsPage() {
           <button key={c.id} type="button" onClick={() => setCategory(c.id)}
             style={{
               padding: '4px 14px', borderRadius: 100, border: `1px solid ${category === c.id ? V.accent : V.border}`,
-              background: category === c.id ? `${V.accent}18` : 'transparent',
+              background: category === c.id ? 'var(--badge-bg)' : 'transparent',
               color: category === c.id ? V.accent : V.muted,
               fontSize: '0.78rem', fontWeight: category === c.id ? 700 : 400, cursor: 'pointer',
             }}>

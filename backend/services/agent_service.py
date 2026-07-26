@@ -1,4 +1,4 @@
-"""Agent token management — generate, validate, revoke tokens for the InfraPilot Helm agent."""
+"""Agent token management — generate, validate, revoke tokens for the Meridian Helm agent."""
 import logging
 import secrets
 import string

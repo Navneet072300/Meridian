@@ -222,7 +222,7 @@ function EnvCard({ option, selected, onClick, branchForEnv }: { option: typeof E
       <p style={{ margin: 0, fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{option.sub}</p>
       <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
         {option.envs.map(env => (
-          <div key={env} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, padding: '3px 8px', borderRadius: 5, background: env === 'prod' ? 'rgba(248,113,113,0.1)' : env === 'staging' ? 'rgba(251,191,36,0.1)' : 'rgba(52,211,153,0.1)', border: `1px solid ${env === 'prod' ? 'rgba(248,113,113,0.3)' : env === 'staging' ? 'rgba(251,191,36,0.3)' : 'rgba(52,211,153,0.3)'}`, color: env === 'prod' ? '#f87171' : env === 'staging' ? '#fbbf24' : '#34d399' }}>
+          <div key={env} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, padding: '3px 8px', borderRadius: 5, background: env === 'prod' ? 'var(--error-bg)' : env === 'staging' ? 'var(--warning-bg)' : 'var(--success-bg)', border: `1px solid ${env === 'prod' ? 'var(--error)' : env === 'staging' ? 'var(--warning)' : 'var(--success)'}`, color: env === 'prod' ? 'var(--error)' : env === 'staging' ? 'var(--warning)' : 'var(--success)' }}>
             <GitBranch size={9} />
             <span>{getB(env)} → {env}</span>
           </div>
@@ -255,7 +255,7 @@ function TreeView({ nodes, onSelect, selectedPath }: {
       <div key={node.path}>
         <button type="button" onClick={() => { if (node.isDir) setExpanded(e => { const n = new Set(e); n.has(node.path) ? n.delete(node.path) : n.add(node.path); return n; }); else onSelect(node.path); }} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: `4px 6px 4px ${6 + depth * 12}px`, background: isSel ? 'rgba(99,102,241,0.1)' : 'transparent', border: 'none', borderRadius: 5, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: isSel ? 'var(--accent)' : 'var(--text-secondary)', transition: 'background 0.1s' }}>
           {node.isDir
-            ? <>{isExp ? <ChevronDown size={10} style={{ flexShrink: 0 }} /> : <ChevronRight size={10} style={{ flexShrink: 0 }} />}{isExp ? <FolderOpen size={12} style={{ color: '#fbbf24', flexShrink: 0 }} /> : <Folder size={12} style={{ color: '#fbbf24', flexShrink: 0 }} />}</>
+            ? <>{isExp ? <ChevronDown size={10} style={{ flexShrink: 0 }} /> : <ChevronRight size={10} style={{ flexShrink: 0 }} />}{isExp ? <FolderOpen size={12} style={{ color: 'var(--warning)', flexShrink: 0 }} /> : <Folder size={12} style={{ color: 'var(--warning)', flexShrink: 0 }} />}</>
             : <span style={{ paddingLeft: 3 }}>{fileIcon(node.name)}</span>}
           <span style={{ fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{node.name}</span>
         </button>
@@ -427,7 +427,7 @@ export function DeployMode() {
       }
       if (composeContent) files.push({ path: 'docker-compose.yml', content: composeContent });
 
-      const r = await fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch: scanResult.default_branch, files, message: 'ci: add Dockerfiles and docker-compose.yml via InfraPilot' }) });
+      const r = await fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch: scanResult.default_branch, files, message: 'ci: add Dockerfiles and docker-compose.yml via Meridian' }) });
       const data = await r.json();
       if (!r.ok) throw new Error(data.detail ?? 'Commit failed');
       setContainersCommitted(true);
@@ -481,7 +481,7 @@ export function DeployMode() {
       const targets = [...branchSet];
 
       await Promise.all(targets.map(branch =>
-        fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch, files, message: `ci: add ${choices.ciTool}+${choices.cdTool}+${choices.configTool} pipeline via InfraPilot` }) })
+        fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch, files, message: `ci: add ${choices.ciTool}+${choices.cdTool}+${choices.configTool} pipeline via Meridian` }) })
           .then(async r => { if (!r.ok) throw new Error((await r.json()).detail ?? 'Commit failed'); })
       ));
 
@@ -793,7 +793,7 @@ export function DeployMode() {
               )}
 
               {scanError && (
-                <div style={{ padding: 14, background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: 9, display: 'flex', gap: 10 }}>
+                <div style={{ padding: 14, background: 'var(--error-bg)', border: '1px solid var(--error)', borderRadius: 9, display: 'flex', gap: 10 }}>
                   <AlertCircle size={14} style={{ color: 'var(--error)', flexShrink: 0, marginTop: 1 }} />
                   <div style={{ flex: 1 }}><p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--error)' }}>Scan failed</p><p style={{ margin: '3px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>{scanError}</p></div>
                   <button type="button" onClick={() => { setScanError(null); handleScan(); }} style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}><RefreshCw size={11} /> Retry</button>
@@ -860,7 +860,7 @@ export function DeployMode() {
                           <select
                             value={svc.role ?? 'backend'}
                             onChange={e => updateUserService(idx, 'role', e.target.value)}
-                            style={{ fontSize: 10, padding: '4px 4px', borderRadius: 5, background: 'var(--bg-base)', border: `1px solid ${c}44`, color: c, colorScheme: 'dark', fontWeight: 600 }}
+                            style={{ fontSize: 10, padding: '4px 4px', borderRadius: 5, background: 'var(--bg-base)', border: `1px solid ${c}44`, color: c, fontWeight: 600 }}
                           >
                             {['backend', 'frontend', 'admin', 'worker', 'other'].map(r => (
                               <option key={r} value={r}>{r}</option>
@@ -1534,7 +1534,7 @@ export function DeployMode() {
           <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 560, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
             <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 700 }}>Where are you deploying?</h3>
             <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)' }}>
-              InfraPilot will monitor your CI runs, stream logs, and suggest fixes automatically.
+              Meridian will monitor your CI runs, stream logs, and suggest fixes automatically.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
               {DEPLOY_TARGETS.map(t => (

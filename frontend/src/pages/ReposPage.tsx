@@ -58,7 +58,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
           GitHub PAT required
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 6px', lineHeight: 1.6 }}>
-          <strong style={{ color: 'var(--text-secondary)' }}>{repo.full_name}</strong> is a private repository. To deploy it, InfraPilot needs a GitHub Personal Access Token with <code style={{ background: 'var(--bg-hover)', padding: '1px 5px', borderRadius: 4, fontSize: 11 }}>repo</code> scope so it can clone the code.
+          <strong style={{ color: 'var(--text-secondary)' }}>{repo.full_name}</strong> is a private repository. To deploy it, Meridian needs a GitHub Personal Access Token with <code style={{ background: 'var(--bg-hover)', padding: '1px 5px', borderRadius: 4, fontSize: 11 }}>repo</code> scope so it can clone the code.
         </p>
 
         {hasPat ? (

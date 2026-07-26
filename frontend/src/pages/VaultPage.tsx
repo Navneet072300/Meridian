@@ -79,7 +79,7 @@ function AddModal({ onClose, onSaved }: AddModalProps) {
         </div>
 
         {err && (
-          <div style={{ background: `${V.red}18`, border: `1px solid ${V.red}44`, borderRadius: 8, padding: '0.6rem 0.875rem', fontSize: '0.82rem', color: V.red, marginBottom: '0.875rem' }}>
+          <div style={{ background: 'var(--error-bg)', border: '1px solid var(--error)', borderRadius: 8, padding: '0.6rem 0.875rem', fontSize: '0.82rem', color: 'var(--error)', marginBottom: '0.875rem' }}>
             {err}
           </div>
         )}
@@ -100,7 +100,7 @@ function AddModal({ onClose, onSaved }: AddModalProps) {
             <select
               value={form.secret_type}
               onChange={e => setForm(f => ({ ...f, secret_type: e.target.value }))}
-              style={{ ...inp(), cursor: 'pointer', colorScheme: 'dark' }}
+              style={{ ...inp(), cursor: 'pointer' }}
             >
               {SECRET_TYPES.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
             </select>
@@ -253,7 +253,7 @@ function SecretRow({ secret, onDelete }: { secret: Secret; onDelete: (id: string
             <button
               type="button"
               onClick={() => onDelete(secret.id)}
-              style={{ padding: '0.3rem 0.6rem', borderRadius: 6, border: `1px solid ${V.red}44`, background: `${V.red}18`, color: V.red, cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600 }}
+              style={{ padding: '0.3rem 0.6rem', borderRadius: 6, border: '1px solid var(--error)', background: 'var(--error-bg)', color: 'var(--error)', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600 }}
             >
               Confirm
             </button>
@@ -320,7 +320,7 @@ export default function VaultPage() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.75rem', gap: 12 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: V.text, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: `${V.accent}22`, border: `1px solid ${V.accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--badge-bg)', border: '1px solid var(--border-focus)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <KeyRound size={16} style={{ color: V.accent }} />
             </div>
             Vault
@@ -362,7 +362,7 @@ export default function VaultPage() {
                 key={t}
                 type="button"
                 onClick={() => setTypeFilter(t)}
-                style={{ padding: '0.3rem 0.75rem', borderRadius: 6, border: `1px solid ${typeFilter === t ? V.accent : V.border}`, background: typeFilter === t ? `${V.accent}18` : 'transparent', color: typeFilter === t ? V.accent : V.muted, fontSize: '0.78rem', fontWeight: typeFilter === t ? 600 : 400, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                style={{ padding: '0.3rem 0.75rem', borderRadius: 6, border: `1px solid ${typeFilter === t ? V.accent : V.border}`, background: typeFilter === t ? 'var(--badge-bg)' : 'transparent', color: typeFilter === t ? V.accent : V.muted, fontSize: '0.78rem', fontWeight: typeFilter === t ? 600 : 400, cursor: 'pointer', whiteSpace: 'nowrap' }}
               >
                 {t === 'all' ? `All (${secrets.length})` : typeLabel(t)}
               </button>

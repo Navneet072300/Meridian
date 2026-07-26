@@ -40,7 +40,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 limiter = Limiter(key_func=get_remote_address)
-app = FastAPI(title="InfraPilot API v2", version="2.0.0")
+app = FastAPI(title="Meridian API v2", version="2.0.0")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -97,4 +97,4 @@ async def startup():
     await init_db()
     await init_redis()
     _aio.create_task(cluster_monitor.run())
-    logger.info("InfraPilot v2 backend ready")
+    logger.info("Meridian v2 backend ready")

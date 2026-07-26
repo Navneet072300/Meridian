@@ -27,14 +27,14 @@ async def _send_invite_email(invitee_email: str, inviter_name: str, workspace_na
                 "https://api.resend.com/emails",
                 headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
                 json={
-                    "from": "InfraPilot <noreply@infrapilot.dev>",
+                    "from": "Meridian <noreply@meridian.dev>",
                     "to": invitee_email,
-                    "subject": f"{inviter_name} invited you to {workspace_name} on InfraPilot",
+                    "subject": f"{inviter_name} invited you to {workspace_name} on Meridian",
                     "html": f"""
                     <div style="font-family:sans-serif;max-width:480px;margin:0 auto">
                       <h2 style="color:#1a1a2e">You've been invited to {workspace_name}</h2>
                       <p><strong>{inviter_name}</strong> has invited you to join
-                      <strong>{workspace_name}</strong> on InfraPilot as a <strong>{role}</strong>.</p>
+                      <strong>{workspace_name}</strong> on Meridian as a <strong>{role}</strong>.</p>
                       <p style="margin:24px 0">
                         <a href="{invite_url}"
                            style="background:#6366f1;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
@@ -141,7 +141,7 @@ async def invite_member(
     _aio.create_task(_send_invite_email(
         invitee_email=body.email,
         inviter_name=user.name or user.email or "A teammate",
-        workspace_name="InfraPilot Workspace",
+        workspace_name="Meridian Workspace",
         invite_token=invite.token,
         role=body.role,
     ))

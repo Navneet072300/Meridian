@@ -144,7 +144,7 @@ class AnalyzeRequest(BaseModel):
 
 class ApplyFixRequest(BaseModel):
     files: list[dict]   # [{path, content}]
-    message: str = "fix: apply InfraPilot AI suggestion"
+    message: str = "fix: apply Meridian AI suggestion"
     branch: str = ""
 
 

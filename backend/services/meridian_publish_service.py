@@ -1,9 +1,9 @@
-"""InfraPilot-managed *.infrapilot.app subdomain publishing (Scenario 2).
+"""Meridian-managed *.meridian.app subdomain publishing (Scenario 2).
 
 Reads system-level Cloudflare credentials from env vars:
-  INFRAPILOT_CF_TOKEN    — Cloudflare API token (needs DNS:Edit on the zone)
-  INFRAPILOT_CF_ZONE_ID  — Zone ID for infrapilot.app (or INFRAPILOT_DOMAIN)
-  INFRAPILOT_DOMAIN      — defaults to infrapilot.app
+  MERIDIAN_CF_TOKEN    — Cloudflare API token (needs DNS:Edit on the zone)
+  MERIDIAN_CF_ZONE_ID  — Zone ID for meridian.app (or MERIDIAN_DOMAIN)
+  MERIDIAN_DOMAIN      — defaults to meridian.app
 
 If the env vars are not set, the subdomain URL is still returned so it can be
 set up manually, and a note is included in the output.
@@ -17,16 +17,16 @@ import httpx
 logger = logging.getLogger(__name__)
 
 _CF_BASE = "https://api.cloudflare.com/client/v4"
-_CF_TOKEN = os.getenv("INFRAPILOT_CF_TOKEN", "")
-_CF_ZONE_ID = os.getenv("INFRAPILOT_CF_ZONE_ID", "")
-_IP_DOMAIN = os.getenv("INFRAPILOT_DOMAIN", "infrapilot.app")
+_CF_TOKEN = os.getenv("MERIDIAN_CF_TOKEN", "")
+_CF_ZONE_ID = os.getenv("MERIDIAN_CF_ZONE_ID", "")
+_IP_DOMAIN = os.getenv("MERIDIAN_DOMAIN", "meridian.app")
 
 
 def _slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9-]+", "-", name.lower()).strip("-") or "app"
 
 
-class InfraPilotPublishService:
+class MeridianPublishService:
     @staticmethod
     def subdomain_for(app_name: str) -> str:
         return f"{_slugify(app_name)}.{_IP_DOMAIN}"
@@ -37,7 +37,7 @@ class InfraPilotPublishService:
 
         if not _CF_TOKEN or not _CF_ZONE_ID:
             lines += [
-                "⚠ INFRAPILOT_CF_TOKEN / INFRAPILOT_CF_ZONE_ID not set on this server",
+                "⚠ MERIDIAN_CF_TOKEN / MERIDIAN_CF_ZONE_ID not set on this server",
                 f"  Manually create: A  {subdomain} → <LoadBalancer IP>",
                 f"✓ Reserved subdomain: https://{subdomain}",
             ]
@@ -101,7 +101,7 @@ class InfraPilotPublishService:
     @staticmethod
     def cloudflared_manifest(app_name: str) -> str:
         """Returns a cloudflared Deployment YAML for Cloudflare Tunnel mode."""
-        subdomain = InfraPilotPublishService.subdomain_for(app_name)
+        subdomain = MeridianPublishService.subdomain_for(app_name)
         slug = _slugify(app_name)
         return f"""\
 # Cloudflare Tunnel — routes {subdomain} into the cluster without a LoadBalancer IP.

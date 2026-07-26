@@ -136,9 +136,9 @@ async def _send_email_otp(email: str, code: str) -> bool:
         import resend
         resend.api_key = RESEND_API_KEY
         resend.Emails.send({
-            "from": "InfraPilot <noreply@infrapilot.dev>",
+            "from": "Meridian <noreply@meridian.dev>",
             "to": [email],
-            "subject": f"Your InfraPilot verification code: {code}",
+            "subject": f"Your Meridian verification code: {code}",
             "html": f"""
                 <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0d1117;color:#e6edf3;border-radius:12px">
                     <h2>Verification code</h2>
@@ -792,7 +792,7 @@ async def setup_2fa(
     totp = pyotp.TOTP(totp_secret)
     provisioning_uri = totp.provisioning_uri(
         name=user.email or f"user_{user_id}",
-        issuer_name="InfraPilot",
+        issuer_name="Meridian",
     )
     return {
         "secret": totp_secret,

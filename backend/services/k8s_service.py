@@ -47,7 +47,7 @@ class KubernetesService:
         if self._cfg.get("connection_type") == "kubeconfig":
             raw = self._cfg.get("kubeconfig", "")
             tf = tempfile.NamedTemporaryFile(
-                mode="w", suffix=".yaml", delete=False, prefix="infrapilot_"
+                mode="w", suffix=".yaml", delete=False, prefix="meridian_"
             )
             tf.write(raw)
             tf.flush()
@@ -70,7 +70,7 @@ class KubernetesService:
                 ],
                 "users": [
                     {
-                        "name": "infrapilot",
+                        "name": "meridian",
                         "user": {"token": token},
                     }
                 ],
@@ -79,14 +79,14 @@ class KubernetesService:
                         "name": self.cluster_name,
                         "context": {
                             "cluster": self.cluster_name,
-                            "user": "infrapilot",
+                            "user": "meridian",
                         },
                     }
                 ],
                 "current-context": self.cluster_name,
             }
             tf = tempfile.NamedTemporaryFile(
-                mode="w", suffix=".yaml", delete=False, prefix="infrapilot_"
+                mode="w", suffix=".yaml", delete=False, prefix="meridian_"
             )
             yaml.dump(kubeconfig, tf)
             tf.flush()

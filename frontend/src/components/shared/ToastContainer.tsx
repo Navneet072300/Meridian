@@ -3,10 +3,10 @@ import { CheckCircle2, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 import { useToastStore, type Toast } from '../../store/toastStore';
 
 const CONFIG = {
-  success: { icon: <CheckCircle2 size={16} />, color: 'var(--success)',  bg: 'rgba(52,211,153,0.12)',  border: 'rgba(52,211,153,0.3)'  },
-  error:   { icon: <XCircle      size={16} />, color: 'var(--error)',    bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.3)'  },
-  warning: { icon: <AlertTriangle size={16}/>, color: 'var(--warning)',  bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.3)'   },
-  info:    { icon: <Info          size={16} />, color: 'var(--info)',    bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.3)'   },
+  success: { icon: <CheckCircle2 size={16} />, color: 'var(--success)', border: 'var(--success-bg)' },
+  error:   { icon: <XCircle      size={16} />, color: 'var(--error)',   border: 'var(--error-bg)'   },
+  warning: { icon: <AlertTriangle size={16}/>, color: 'var(--warning)', border: 'var(--warning-bg)' },
+  info:    { icon: <Info          size={16} />, color: 'var(--info)',   border: 'var(--info-bg)'    },
 };
 
 function ToastItem({ t }: { t: Toast }) {
@@ -30,7 +30,7 @@ function ToastItem({ t }: { t: Toast }) {
         border: `1px solid ${cfg.border}`,
         borderLeft: `3px solid ${cfg.color}`,
         borderRadius: 10,
-        boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+        boxShadow: 'var(--shadow-lg)',
         minWidth: 280, maxWidth: 380,
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateX(0)' : 'translateX(32px)',
@@ -71,7 +71,8 @@ function ToastItem({ t }: { t: Toast }) {
       <div
         style={{
           position: 'absolute', bottom: 0, left: 0,
-          height: 2, background: cfg.color, opacity: 0.5,
+          width: '100%', height: 2, background: cfg.color, opacity: 0.5,
+          transformOrigin: 'left',
           animation: `toast-shrink ${(t.duration ?? 4000)}ms linear forwards`,
         }}
       />
@@ -84,12 +85,6 @@ export function ToastContainer() {
 
   return (
     <>
-      <style>{`
-        @keyframes toast-shrink {
-          from { width: 100%; }
-          to   { width: 0%; }
-        }
-      `}</style>
       <div
         style={{
           position: 'fixed', bottom: 24, right: 24,

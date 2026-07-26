@@ -104,13 +104,13 @@ async def _send_slack(cfg: dict, incident: dict, diagnosis: dict,
                 "text": f"*Fastest fix*\n```{cmd}```"}})
         blocks.append({"type": "actions", "elements": [
             {"type": "button", "style": "primary",
-             "text": {"type": "plain_text", "text": "View in InfraPilot →"},
+             "text": {"type": "plain_text", "text": "View in Meridian →"},
              "url": f"{FRONTEND_URL}/app/monitor"},
         ]})
         payload = {"blocks": blocks}
     else:
         dur = kwargs.get("duration_minutes", 0)
-        fix = "Fixed by InfraPilot AI" if kwargs.get("fix_method") == "ai_auto" else "Fixed manually"
+        fix = "Fixed by Meridian AI" if kwargs.get("fix_method") == "ai_auto" else "Fixed manually"
         payload = {"text": f"✅ *Resolved* — {incident['title']}\nDuration: {dur} min · {fix}"}
 
     async with httpx.AsyncClient(timeout=10.0) as client:
@@ -152,7 +152,7 @@ async def _send_teams(cfg: dict, incident: dict, diagnosis: dict,
                 "content": {"$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
                     "type": "AdaptiveCard", "version": "1.4",
                     "body": body_items,
-                    "actions": [{"type": "Action.OpenUrl", "title": "View in InfraPilot",
+                    "actions": [{"type": "Action.OpenUrl", "title": "View in Meridian",
                         "url": f"{FRONTEND_URL}/app/monitor"}]}}]
         }
     else:
@@ -205,13 +205,13 @@ async def _send_email(cfg: dict, incident: dict, diagnosis: dict,
     {f'<p>{diagnosis.get("what_is_happening","")}</p>' if diagnosis.get("what_is_happening") else ""}
     {cause_html}
     {fix_html}
-    <a href="{FRONTEND_URL}/app/monitor" style="display:inline-block;background:#6366f1;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:500;">View in InfraPilot →</a>
+    <a href="{FRONTEND_URL}/app/monitor" style="display:inline-block;background:#6366f1;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:500;">View in Meridian →</a>
   </div>
-  <p style="color:#9ca3af;font-size:12px;margin-top:16px;text-align:center;">InfraPilot · <a href="{FRONTEND_URL}/app/settings" style="color:#6366f1;">Manage alerts</a></p>
+  <p style="color:#9ca3af;font-size:12px;margin-top:16px;text-align:center;">Meridian · <a href="{FRONTEND_URL}/app/settings" style="color:#6366f1;">Manage alerts</a></p>
 </div>"""
     else:
         dur = kwargs.get("duration_minutes", 0)
-        fix_label = "Fixed automatically by InfraPilot AI" if kwargs.get("fix_method") == "ai_auto" else "Fixed manually"
+        fix_label = "Fixed automatically by Meridian AI" if kwargs.get("fix_method") == "ai_auto" else "Fixed manually"
         subject = f"[RESOLVED] {incident['title']} — {incident.get('cluster_name','')}"
         html = f"""<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
   <div style="background:#22c55e;color:white;padding:12px 20px;border-radius:8px;">
@@ -229,7 +229,7 @@ async def _send_email(cfg: dict, incident: dict, diagnosis: dict,
     import resend
     resend.api_key = resend_key
     resend.Emails.send({
-        "from": "InfraPilot Alerts <alerts@infrapilot.dev>",
+        "from": "Meridian Alerts <alerts@meridian.dev>",
         "to": address,
         "subject": subject,
         "html": html,
@@ -257,14 +257,14 @@ async def _send_discord(cfg: dict, incident: dict, diagnosis: dict,
                 {"name": "Resource",  "value": incident.get("resource_name", "—"), "inline": True},
             ],
             "url": f"{FRONTEND_URL}/app/monitor",
-            "footer": {"text": "InfraPilot"},
+            "footer": {"text": "Meridian"},
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }]}
     else:
         dur = kwargs.get("duration_minutes", 0)
         payload = {"embeds": [{"title": f"✅ Resolved — {incident['title']}",
             "description": f"Duration: {dur} minutes",
-            "color": 3066993, "footer": {"text": "InfraPilot"},
+            "color": 3066993, "footer": {"text": "Meridian"},
             "timestamp": datetime.now(timezone.utc).isoformat()}]}
 
     async with httpx.AsyncClient(timeout=10.0) as client:
@@ -294,7 +294,7 @@ async def _send_gchat(cfg: dict, incident: dict, diagnosis: dict,
         if top_cause:
             pct = top_cause.get("confidence_percent", 0)
             lines.append(f"\n*Most likely cause ({pct}%)*\n{top_cause.get('title','')}")
-        lines.append(f"\n<{FRONTEND_URL}/app/monitor|View in InfraPilot →>")
+        lines.append(f"\n<{FRONTEND_URL}/app/monitor|View in Meridian →>")
         text = "\n".join(lines)
     else:
         dur = kwargs.get("duration_minutes", 0)
@@ -317,7 +317,7 @@ async def _send_webhook(cfg: dict, incident: dict, diagnosis: dict,
 
     payload = {
         "event": event_type,
-        "source": "infrapilot",
+        "source": "meridian",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "incident": {
             "id": str(incident.get("id", "")),
@@ -335,11 +335,11 @@ async def _send_webhook(cfg: dict, incident: dict, diagnosis: dict,
         } if event_type == "firing" else None,
     }
 
-    headers = {"Content-Type": "application/json", "User-Agent": "InfraPilot-Alerts/1.0"}
+    headers = {"Content-Type": "application/json", "User-Agent": "Meridian-Alerts/1.0"}
     if secret:
         body_bytes = json.dumps(payload).encode()
         sig = hmac.new(secret.encode(), body_bytes, hashlib.sha256).hexdigest()
-        headers["X-InfraPilot-Signature"] = f"sha256={sig}"
+        headers["X-Meridian-Signature"] = f"sha256={sig}"
 
     async with httpx.AsyncClient(timeout=10.0) as client:
         r = await client.post(url, json=payload, headers=headers)

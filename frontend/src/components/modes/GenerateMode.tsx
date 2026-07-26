@@ -683,7 +683,7 @@ export function GenerateMode() {
     const a = document.createElement('a');
     a.href = url;
     const slug = generateInput.trim().slice(0, 40).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'generated';
-    a.download = `infrapilot-${slug}.zip`;
+    a.download = `meridian-${slug}.zip`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

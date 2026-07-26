@@ -16,7 +16,7 @@ from db.database import AsyncSessionLocal
 from db.models import User
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@infrapilot.dev")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@meridian.dev")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
 # In-memory upgrade request store (use DB in production)
@@ -310,7 +310,7 @@ async def _notify_admin_upgrade(user_email: str, user_id: int, plan: str, billin
                 "https://api.resend.com/emails",
                 headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
                 json={
-                    "from": "InfraPilot <noreply@infrapilot.dev>",
+                    "from": "Meridian <noreply@meridian.dev>",
                     "to": ADMIN_EMAIL,
                     "subject": f"UPGRADE REQUEST: {user_email} → {plan}",
                     "html": f"""

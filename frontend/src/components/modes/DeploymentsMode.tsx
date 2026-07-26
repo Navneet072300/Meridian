@@ -327,7 +327,7 @@ export function DeploymentsMode() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           files: analysis.files.map(f => ({ path: f.path, content: f.content })),
-          message: `fix: ${analysis.fix_summary || 'apply InfraPilot AI suggestion'}`,
+          message: `fix: ${analysis.fix_summary || 'apply Meridian AI suggestion'}`,
           branch: selectedRun?.head_branch || selected.branch,
         }),
       });
@@ -674,7 +674,7 @@ export function DeploymentsMode() {
 
                     {/* Root cause line */}
                     {analysis.root_cause_line && (
-                      <div style={{ padding: '8px 12px', background: '#0d1117', borderRadius: 6, border: '1px solid rgba(248,113,113,0.3)', fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#f87171', wordBreak: 'break-all' }}>
+                      <div style={{ padding: '8px 12px', background: 'var(--bg-base)', borderRadius: 6, border: '1px solid var(--error)', fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--error)', wordBreak: 'break-all' }}>
                         {analysis.root_cause_line}
                       </div>
                     )}

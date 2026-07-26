@@ -17,8 +17,8 @@ from services import agent_service
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/agent", tags=["agent-mgmt"])
 
-ENDPOINT = os.getenv("INFRAPILOT_ENDPOINT", "https://api.infrapilot.dev")
-HELM_REPO = "https://charts.infrapilot.dev"
+ENDPOINT = os.getenv("MERIDIAN_ENDPOINT", "https://api.meridian.dev")
+HELM_REPO = "https://charts.meridian.dev"
 
 
 async def _get_user(ip_session: str, authorization: str) -> User:
@@ -39,13 +39,13 @@ async def _get_user(ip_session: str, authorization: str) -> User:
 
 def _helm_command(token: str, cluster_name: str) -> str:
     return (
-        f"helm repo add infrapilot {HELM_REPO} && \\\n"
-        f"helm install infrapilot-agent infrapilot/infrapilot-agent \\\n"
-        f"  --namespace infrapilot-system \\\n"
+        f"helm repo add meridian {HELM_REPO} && \\\n"
+        f"helm install meridian-agent meridian/meridian-agent \\\n"
+        f"  --namespace meridian-system \\\n"
         f"  --create-namespace \\\n"
-        f"  --set infrapilot.token={token} \\\n"
-        f"  --set infrapilot.endpoint={ENDPOINT} \\\n"
-        f"  --set infrapilot.clusterName={cluster_name}"
+        f"  --set meridian.token={token} \\\n"
+        f"  --set meridian.endpoint={ENDPOINT} \\\n"
+        f"  --set meridian.clusterName={cluster_name}"
     )
 
 

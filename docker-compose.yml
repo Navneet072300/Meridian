@@ -5,15 +5,15 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: infrapilot-backend:latest
-    container_name: infrapilot-backend
+    image: meridian-backend:latest
+    container_name: meridian-backend
     ports:
       - "8000:8000"
     env_file:
       - ./backend/.env
     environment:
       # Override localhost refs from .env with Docker service names
-      - DATABASE_URL=postgresql+asyncpg://infrapilot:infrapilot@postgres:5432/infrapilot
+      - DATABASE_URL=postgresql+asyncpg://meridian:meridian@postgres:5432/meridian
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       postgres:
@@ -22,7 +22,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
@@ -34,15 +34,15 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: infrapilot-frontend:latest
-    container_name: infrapilot-frontend
+    image: meridian-frontend:latest
+    container_name: meridian-frontend
     ports:
       - "3000:80"
     depends_on:
       - backend
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:80"]
       interval: 30s
@@ -52,28 +52,28 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: infrapilot-postgres
+    container_name: meridian-postgres
     environment:
-      POSTGRES_DB: infrapilot
-      POSTGRES_USER: infrapilot
-      POSTGRES_PASSWORD: infrapilot
+      POSTGRES_DB: meridian
+      POSTGRES_USER: meridian
+      POSTGRES_PASSWORD: meridian
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U infrapilot -d infrapilot"]
+      test: ["CMD-SHELL", "pg_isready -U meridian -d meridian"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: infrapilot-redis
+    container_name: meridian-redis
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -82,7 +82,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v2.51.2
-    container_name: infrapilot-prometheus
+    container_name: meridian-prometheus
     profiles: [monitoring]
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
@@ -97,7 +97,7 @@ services:
       - "9090:9090"
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/healthy"]
       interval: 15s
@@ -106,7 +106,7 @@ services:
 
   grafana:
     image: grafana/grafana:10.4.2
-    container_name: infrapilot-grafana
+    container_name: meridian-grafana
     profiles: [monitoring]
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
@@ -124,7 +124,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - infrapilot-net
+      - meridian-net
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
       interval: 15s
@@ -132,7 +132,7 @@ services:
       retries: 5
 
 networks:
-  infrapilot-net:
+  meridian-net:
     driver: bridge
 
 volumes:

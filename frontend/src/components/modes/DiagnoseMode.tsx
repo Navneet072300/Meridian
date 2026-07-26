@@ -52,6 +52,10 @@ const SEV_BG: Record<string, string> = {
   critical: 'rgba(248,81,73,0.12)', high: 'rgba(249,115,22,0.12)',
   medium: 'rgba(240,180,41,0.12)', low: 'rgba(87,171,90,0.12)',
 };
+const SEV_BORDER: Record<string, string> = {
+  critical: 'rgba(248,81,73,0.35)', high: 'rgba(249,115,22,0.35)',
+  medium: 'rgba(240,180,41,0.35)', low: 'rgba(87,171,90,0.35)',
+};
 
 function CopyBtn({ text }: { text: string }) {
   const [c, setC] = useState(false);
@@ -587,14 +591,14 @@ export function DiagnoseMode() {
 
             {/* Incident header */}
             {headerData && (
-              <div style={{ background: SEV_BG[headerData.severity] || 'var(--bg-surface)', border: `1px solid ${SEV_COLOR[headerData.severity] || 'var(--border)'}44`, borderRadius: 10, padding: 16 }}>
+              <div style={{ background: SEV_BG[headerData.severity] || 'var(--bg-surface)', border: `1px solid ${SEV_BORDER[headerData.severity] || 'var(--border)'}`, borderRadius: 10, padding: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <span style={{ padding: '3px 10px', borderRadius: 100, background: `${SEV_COLOR[headerData.severity]}22`, border: `1px solid ${SEV_COLOR[headerData.severity]}`, color: SEV_COLOR[headerData.severity], fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <span style={{ padding: '3px 10px', borderRadius: 100, background: SEV_BG[headerData.severity], border: `1px solid ${SEV_COLOR[headerData.severity]}`, color: SEV_COLOR[headerData.severity], fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     {headerData.severity}
                   </span>
                   {analyzing && <span style={{ fontSize: 11, color: 'var(--accent)' }}>● Analyzing…</span>}
                   {pixieUsed && (
-                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 100, background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.4)', color: '#fbbf24', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 100, background: 'var(--warning-bg)', border: '1px solid var(--warning)', color: 'var(--warning)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
                       <Zap size={9} /> eBPF
                     </span>
                   )}

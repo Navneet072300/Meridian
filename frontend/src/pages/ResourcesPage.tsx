@@ -67,7 +67,7 @@ function NodesTab({ cluster }: { cluster: string | null }) {
             </thead>
             <tbody>
               {nodes.map((n) => (
-                <tr key={n.name} style={{ borderBottom: `1px solid ${V['--border']}20` }}>
+                <tr key={n.name} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                   <td style={{ padding: '0.625rem 0.75rem', color: V['--text'], fontFamily: 'monospace', fontSize: '0.8rem' }}>{n.name}</td>
                   <td style={{ padding: '0.625rem 0.75rem' }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 5, color: n.status === 'Ready' ? V['--green'] : V['--red'] }}>
@@ -139,7 +139,7 @@ function PodsTab({ cluster, namespace }: { cluster: string | null; namespace: st
             </thead>
             <tbody>
               {pods.map((p) => (
-                <tr key={p.name} style={{ borderBottom: `1px solid ${V['--border']}20` }}>
+                <tr key={p.name} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                   <td style={{ padding: '0.625rem 0.75rem', color: V['--text'], fontFamily: 'monospace', fontSize: '0.78rem', maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</td>
                   <td style={{ padding: '0.625rem 0.75rem' }}>
                     <span style={{ color: statusColor(p.status), fontWeight: 500 }}>{p.status}</span>
@@ -197,7 +197,7 @@ function EventsTab({ cluster, namespace }: { cluster: string | null; namespace: 
               key={`${ev.name}-${i}`}
               style={{
                 background: V['--bg'],
-                border: `1px solid ${ev.type === 'Warning' ? `${V['--yellow']}44` : V['--border']}`,
+                border: `1px solid ${ev.type === 'Warning' ? 'var(--warning)' : 'var(--border)'}`,
                 borderRadius: 8,
                 padding: '0.625rem 0.875rem',
               }}
@@ -213,7 +213,7 @@ function EventsTab({ cluster, namespace }: { cluster: string | null; namespace: 
                     <span style={{ color: V['--text'], fontWeight: 600, fontSize: '0.825rem' }}>{ev.reason}</span>
                     <span style={{ color: V['--muted'], fontSize: '0.75rem', fontFamily: 'monospace' }}>{ev.object}</span>
                     {ev.count > 1 && (
-                      <span style={{ color: V['--yellow'], fontSize: '0.7rem', background: 'rgba(210,153,34,0.1)', borderRadius: 4, padding: '1px 5px' }}>×{ev.count}</span>
+                      <span style={{ color: 'var(--warning)', fontSize: '0.7rem', background: 'var(--warning-bg)', borderRadius: 4, padding: '1px 5px' }}>×{ev.count}</span>
                     )}
                   </div>
                   <p style={{ margin: 0, color: V['--muted'], fontSize: '0.8rem', wordBreak: 'break-word' }}>{ev.message}</p>
@@ -243,7 +243,7 @@ function Loading() {
 
 function ErrorMsg({ msg }: { msg: string }) {
   return (
-    <div style={{ background: 'rgba(248,81,73,0.08)', border: `1px solid ${V['--red']}`, borderRadius: 8, padding: '1rem', color: V['--red'], fontSize: '0.875rem' }}>
+    <div style={{ background: 'var(--error-bg)', border: '1px solid var(--error)', borderRadius: 8, padding: '1rem', color: 'var(--error)', fontSize: '0.875rem' }}>
       {msg}
     </div>
   );
@@ -341,7 +341,7 @@ export default function ResourcesPage() {
       </div>
 
       {/* Content */}
-      <div style={{ background: V['--surface'], border: `1px solid ${V['--border']}`, borderRadius: 12, padding: '1.25rem' }}>
+      <div className="ip-card" style={{ padding: '1.25rem' }}>
         {tab === 'nodes' && <NodesTab cluster={activeCluster} />}
         {tab === 'pods' && <PodsTab cluster={activeCluster} namespace={selectedNs} />}
         {tab === 'events' && <EventsTab cluster={activeCluster} namespace={selectedNs} />}

@@ -21,15 +21,15 @@ interface AuditResponse {
 }
 
 const ACTION_LABELS: Record<string, { label: string; color: string; bg: string }> = {
-  'pipeline.run':       { label: 'Pipeline',   color: 'var(--accent)', bg: 'rgba(167,139,250,0.12)' },
-  'pipeline.abort':     { label: 'Pipeline',   color: 'var(--accent)', bg: 'rgba(167,139,250,0.12)' },
-  'diagnose':           { label: 'Diagnose',   color: '#38bdf8', bg: 'rgba(56,189,248,0.12)' },
-  'kubectl':            { label: 'Kubectl',    color: '#fb923c', bg: 'rgba(251,146,60,0.12)' },
-  'login':              { label: 'Auth',       color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' },
-  'logout':             { label: 'Auth',       color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' },
-  'password.changed':   { label: 'Account',   color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' },
-  '2fa.enabled':        { label: 'Security',  color: 'var(--success)', bg: 'rgba(52,211,153,0.1)'  },
-  '2fa.disabled':       { label: 'Security',  color: 'var(--error)', bg: 'rgba(248,113,113,0.1)' },
+  'pipeline.run':       { label: 'Pipeline',   color: 'var(--accent)',   bg: 'var(--badge-bg)'   },
+  'pipeline.abort':     { label: 'Pipeline',   color: 'var(--accent)',   bg: 'var(--badge-bg)'   },
+  'diagnose':           { label: 'Diagnose',   color: '#38bdf8',         bg: 'rgba(56,189,248,0.12)' },
+  'kubectl':            { label: 'Kubectl',    color: '#fb923c',         bg: 'rgba(251,146,60,0.12)'  },
+  'login':              { label: 'Auth',       color: 'var(--text-muted)', bg: 'var(--bg-hover)'  },
+  'logout':             { label: 'Auth',       color: 'var(--text-muted)', bg: 'var(--bg-hover)'  },
+  'password.changed':   { label: 'Account',   color: 'var(--text-muted)', bg: 'var(--bg-hover)'  },
+  '2fa.enabled':        { label: 'Security',  color: 'var(--success)',   bg: 'var(--success-bg)' },
+  '2fa.disabled':       { label: 'Security',  color: 'var(--error)',     bg: 'var(--error-bg)'   },
 };
 
 const ACTION_FILTERS = [
@@ -160,7 +160,7 @@ export function HistoryPage() {
 
       {/* Table */}
       {!isLoading && entries.length > 0 && (
-        <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
+        <div className="ip-card" style={{ overflow: 'hidden' }}>
           {/* Table header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 180px 90px 100px', gap: 0, padding: '9px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-base)' }}>
             {['Action', 'Type', 'Resource', 'Status', 'When'].map((h) => (

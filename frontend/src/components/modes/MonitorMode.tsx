@@ -17,17 +17,17 @@ const C = {
   bg:      'var(--bg-base)',
   surface: 'var(--bg-surface)',
   border:  'var(--border)',
-  rowWarn: 'rgba(251, 191, 36, 0.05)',
-  rowErr:  'rgba(248, 113, 113, 0.05)',
-  badgeErr:'rgba(248, 113, 113, 0.15)',
+  rowWarn: 'rgba(245, 158, 11, 0.05)',
+  rowErr:  'rgba(239, 68, 68, 0.05)',
+  badgeErr:'rgba(239, 68, 68, 0.15)',
   primary: 'var(--text-primary)',
   muted:   'var(--text-secondary)',
   dim:     'var(--text-muted)',
   dead:    'var(--text-muted)',
-  accent:  '#818cf8',
-  success: '#34d399',
-  warning: '#fbbf24',
-  error:   '#f87171',
+  accent:  '#6366f1',
+  success: '#10b981',
+  warning: '#f59e0b',
+  error:   '#ef4444',
 };
 
 function barColor(pct: number) {
@@ -986,12 +986,12 @@ function NoHelmSteps({ token }: { token: string }) {
   const [os, setOs] = useState<'linux' | 'windows'>('linux');
   const isLinux = os === 'linux';
   const step1 = isLinux
-    ? `curl -o infrapilot-agent.yaml \\\n  https://charts.infrapilot.dev/manifest/latest.yaml`
-    : `Invoke-WebRequest -Uri \`\n  https://charts.infrapilot.dev/manifest/latest.yaml \`\n  -OutFile infrapilot-agent.yaml`;
+    ? `curl -o meridian-agent.yaml \\\n  https://charts.meridian.dev/manifest/latest.yaml`
+    : `Invoke-WebRequest -Uri \`\n  https://charts.meridian.dev/manifest/latest.yaml \`\n  -OutFile meridian-agent.yaml`;
   const step2 = isLinux
-    ? `sed -i 's/INFRAPILOT_TOKEN/${token}/g' \\\n  infrapilot-agent.yaml`
-    : `(Get-Content infrapilot-agent.yaml) \`\n  -replace 'INFRAPILOT_TOKEN','${token}' \`\n  | Set-Content infrapilot-agent.yaml`;
-  const step3 = 'kubectl apply -f infrapilot-agent.yaml';
+    ? `sed -i 's/MERIDIAN_TOKEN/${token}/g' \\\n  meridian-agent.yaml`
+    : `(Get-Content meridian-agent.yaml) \`\n  -replace 'MERIDIAN_TOKEN','${token}' \`\n  | Set-Content meridian-agent.yaml`;
+  const step3 = 'kubectl apply -f meridian-agent.yaml';
 
   const Cb = ({ text }: { text: string }) => (
     <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 5, padding: '10px 12px', marginBottom: 4 }}>
@@ -1098,7 +1098,7 @@ function AgentTab() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {/* One-time warning */}
-        <div style={{ background: '#1f1700', border: `1px solid ${C.warning}44`, borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ background: 'var(--warning-bg)', border: `1px solid ${C.warning}44`, borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
           <AlertTriangle size={14} color={C.warning} style={{ marginTop: 1, flexShrink: 0 }} />
           <div>
             <div style={{ fontSize: 11, color: C.warning, fontWeight: 700, marginBottom: 2 }}>Save this token — it will not be shown again.</div>
@@ -1139,7 +1139,7 @@ function AgentTab() {
 
           {/* Tab: Linux / macOS */}
           {installTab === 'linux' && (() => {
-            const cmd = `helm repo add infrapilot https://charts.infrapilot.dev\nhelm repo update\nhelm install infrapilot-agent \\\n  infrapilot/infrapilot-agent \\\n  --namespace infrapilot-system \\\n  --create-namespace \\\n  --set infrapilot.token=${newToken.token} \\\n  --set infrapilot.endpoint=https://api.infrapilot.dev \\\n  --set infrapilot.clusterName=${clusterName}`;
+            const cmd = `helm repo add meridian https://charts.meridian.dev\nhelm repo update\nhelm install meridian-agent \\\n  meridian/meridian-agent \\\n  --namespace meridian-system \\\n  --create-namespace \\\n  --set meridian.token=${newToken.token} \\\n  --set meridian.endpoint=https://api.meridian.dev \\\n  --set meridian.clusterName=${clusterName}`;
             return (
               <div>
                 <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: '12px 14px', marginBottom: 6 }}>
@@ -1152,7 +1152,7 @@ function AgentTab() {
 
           {/* Tab: Windows — PowerShell */}
           {installTab === 'powershell' && (() => {
-            const cmd = `helm repo add infrapilot https://charts.infrapilot.dev\nhelm repo update\nhelm install infrapilot-agent \`\n  infrapilot/infrapilot-agent \`\n  --namespace infrapilot-system \`\n  --create-namespace \`\n  --set infrapilot.token=${newToken.token} \`\n  --set infrapilot.endpoint=https://api.infrapilot.dev \`\n  --set infrapilot.clusterName=${clusterName}`;
+            const cmd = `helm repo add meridian https://charts.meridian.dev\nhelm repo update\nhelm install meridian-agent \`\n  meridian/meridian-agent \`\n  --namespace meridian-system \`\n  --create-namespace \`\n  --set meridian.token=${newToken.token} \`\n  --set meridian.endpoint=https://api.meridian.dev \`\n  --set meridian.clusterName=${clusterName}`;
             return (
               <div>
                 <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: '12px 14px', marginBottom: 6 }}>
@@ -1165,7 +1165,7 @@ function AgentTab() {
 
           {/* Tab: Windows — CMD */}
           {installTab === 'cmd' && (() => {
-            const cmd = `helm repo add infrapilot https://charts.infrapilot.dev && helm repo update && helm install infrapilot-agent infrapilot/infrapilot-agent --namespace infrapilot-system --create-namespace --set infrapilot.token=${newToken.token} --set infrapilot.endpoint=https://api.infrapilot.dev --set infrapilot.clusterName=${clusterName}`;
+            const cmd = `helm repo add meridian https://charts.meridian.dev && helm repo update && helm install meridian-agent meridian/meridian-agent --namespace meridian-system --create-namespace --set meridian.token=${newToken.token} --set meridian.endpoint=https://api.meridian.dev --set meridian.clusterName=${clusterName}`;
             return (
               <div>
                 <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: '12px 14px', marginBottom: 6 }}>
@@ -1183,7 +1183,7 @@ function AgentTab() {
           {installTab === 'nohelm' && <NoHelmSteps token={newToken.token} />}
 
           <div style={{ marginTop: 16, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            {[['infrapilot-system', 'namespace'], ['read-only', 'ClusterRole'], ['~60 s', 'to connect']].map(([v, l]) => (
+            {[['meridian-system', 'namespace'], ['read-only', 'ClusterRole'], ['~60 s', 'to connect']].map(([v, l]) => (
               <div key={l} style={{ display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: 11, color: C.primary, fontWeight: 600, fontFamily: 'monospace' }}>{v}</span>
                 <span style={{ fontSize: 9, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{l}</span>
@@ -1213,7 +1213,7 @@ function AgentTab() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <Bot size={20} color={C.accent} />
             <div>
-              <div style={{ fontSize: 14, color: C.primary, fontWeight: 600 }}>Install InfraPilot Agent</div>
+              <div style={{ fontSize: 14, color: C.primary, fontWeight: 600 }}>Install Meridian Agent</div>
               <div style={{ fontSize: 11, color: C.muted }}>A lightweight Helm chart that sends heartbeats and metrics from <strong>{clusterName}</strong> to your workspace.</div>
             </div>
           </div>
@@ -1221,7 +1221,7 @@ function AgentTab() {
             {[['Read-only', 'ClusterRole lists only allowed resources — no write access'],
               ['Heartbeat', 'Sends a ping every 60 s to show the cluster is reachable'],
               ['Rate limited', '1 heartbeat per 30 s · 1 metrics push per 60 s per token'],
-              ['Namespace', 'Runs in infrapilot-system — isolated from your workloads']].map(([t, d]) => (
+              ['Namespace', 'Runs in meridian-system — isolated from your workloads']].map(([t, d]) => (
               <div key={t}>
                 <div style={{ fontSize: 10, color: C.accent, fontWeight: 700, marginBottom: 2 }}>{t}</div>
                 <div style={{ fontSize: 10, color: C.muted }}>{d}</div>
@@ -1246,10 +1246,10 @@ function AgentTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {/* Offline warning */}
       {offline && status.last_seen && (
-        <div style={{ background: '#1a1400', border: `1px solid ${C.warning}44`, borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ background: 'var(--warning-bg)', border: `1px solid ${C.warning}44`, borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <WifiOff size={13} color={C.warning} />
           <span style={{ fontSize: 11, color: C.warning }}>
-            Agent offline — last seen {minutesAgo !== null ? `${minutesAgo} min ago` : 'unknown'}. Check that the Helm chart is running in <code style={{ background: `${C.warning}22`, padding: '1px 4px', borderRadius: 3 }}>infrapilot-system</code>.
+            Agent offline — last seen {minutesAgo !== null ? `${minutesAgo} min ago` : 'unknown'}. Check that the Helm chart is running in <code style={{ background: `${C.warning}22`, padding: '1px 4px', borderRadius: 3 }}>meridian-system</code>.
           </span>
         </div>
       )}
@@ -1354,13 +1354,6 @@ export function MonitorMode() {
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: C.bg, overflow: 'hidden' }}>
-      <style>{`
-        @keyframes livePulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.35; transform: scale(0.75); }
-        }
-      `}</style>
-
       {/* Top bar — 48px */}
       <div style={{ height: 48, minHeight: 48, background: C.surface, borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', padding: '0 18px', gap: 10, flexShrink: 0 }}>
         <span style={{ fontSize: 11, color: C.dim }}>Monitor</span>

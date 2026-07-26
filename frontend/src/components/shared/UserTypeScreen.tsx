@@ -107,7 +107,7 @@ export function UserTypeScreen({ onDone }: Props) {
           How do you usually work?
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 24 }}>
-          This helps InfraPilot use the right terminology for you.
+          This helps Meridian use the right terminology for you.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

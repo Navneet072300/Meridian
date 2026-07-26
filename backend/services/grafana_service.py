@@ -13,8 +13,8 @@ PROMETHEUS_URL = os.getenv("PROMETHEUS_URL", "http://prometheus:9090")
 
 _DEFAULT_DASHBOARD = {
     "id": None,
-    "title": "InfraPilot Cluster Overview",
-    "tags": ["infrapilot"],
+    "title": "Meridian Cluster Overview",
+    "tags": ["meridian"],
     "timezone": "browser",
     "refresh": "30s",
     "time": {"from": "now-1h", "to": "now"},
@@ -53,7 +53,7 @@ async def setup_user(user_id: int) -> dict:
     Returns {"org_id": int, "dashboard_uid": str}.
     """
     async with httpx.AsyncClient(base_url=GRAFANA_URL, auth=_admin_auth(), timeout=15) as client:
-        org_name = f"infrapilot-user-{user_id}"
+        org_name = f"meridian-user-{user_id}"
 
         # Create or find org
         r = await client.post("/api/orgs", json={"name": org_name})

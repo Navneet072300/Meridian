@@ -1,4 +1,4 @@
-# InfraPilot v2
+# Meridian v2
 
 AI-native DevOps workspace. From a GitHub repo URL to a live Kubernetes deployment — CI pipeline, manifests, secrets, and DNS — in a single pipeline run.
 
@@ -44,7 +44,7 @@ The Vite dev server proxies `/api` to `http://localhost:8000`.
 
 ## First Run
 
-On first launch, InfraPilot checks `GET /api/platform/config`. If no cluster is configured, it redirects to `/onboarding`.
+On first launch, Meridian checks `GET /api/platform/config`. If no cluster is configured, it redirects to `/onboarding`.
 
 The onboarding wizard collects:
 1. **Platforms** — cloud, CI/CD, GitOps, secrets, monitoring, registry, CDN
@@ -97,7 +97,7 @@ CONFIG_FILE=config/platforms.json  # optional override
 ## Project Structure
 
 ```
-InfraPilot/
+Meridian/
 ├── backend/
 │   ├── config/
 │   │   └── platforms.json          # cluster + credential config

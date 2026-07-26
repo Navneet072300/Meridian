@@ -25,14 +25,14 @@ const QUICK_START = [
     icon: <Zap size={20} />,
     color: '#f78166',
     title: 'Deploy Your First App',
-    desc: 'Open Deploy, enter your repo URL and target namespace. InfraPilot generates the CI/CD manifests and deploys automatically.',
+    desc: 'Open Deploy, enter your repo URL and target namespace. Meridian generates the CI/CD manifests and deploys automatically.',
     route: '/app/deploy',
   },
   {
     icon: <Terminal size={20} />,
     color: V.accent,
     title: 'Generate Kubernetes YAML',
-    desc: 'Use Generate mode to describe what you need in plain English — InfraPilot writes production-ready YAML scoped to your cluster.',
+    desc: 'Use Generate mode to describe what you need in plain English — Meridian writes production-ready YAML scoped to your cluster.',
     route: '/app/generate',
   },
 ];
@@ -99,9 +99,9 @@ const MODES = [
 
 const FAQS = [
   { q: 'How do I connect my Kubernetes cluster?', a: 'Go to Integrations (sidebar) → Add Kubernetes Cluster. Enter the cluster name, environment, API server URL, and a bearer token with at least read access to pods and deployments. Hit Connect — the cluster becomes active immediately.' },
-  { q: 'Cluster shows red / connection failed', a: 'Click Edit on the cluster in Integrations and paste a fresh bearer token. The token needs read access to pods, deployments, and nodes. Check that the API server URL is reachable from InfraPilot.' },
+  { q: 'Cluster shows red / connection failed', a: 'Click Edit on the cluster in Integrations and paste a fresh bearer token. The token needs read access to pods, deployments, and nodes. Check that the API server URL is reachable from Meridian.' },
   { q: 'AI generation is slow or times out', a: 'Streaming can take 15–60 seconds for complex prompts. If it consistently times out, check that your Anthropic API key is valid and has quota remaining. Shorter, more focused prompts tend to be faster.' },
-  { q: 'Pods are not loading in Resources or Diagnose', a: 'The connected service account needs read access to pods in the namespace. If you see a 403, check the RBAC binding. InfraPilot uses: get, list, watch on pods, services, deployments, nodes, events.' },
+  { q: 'Pods are not loading in Resources or Diagnose', a: 'The connected service account needs read access to pods in the namespace. If you see a 403, check the RBAC binding. Meridian uses: get, list, watch on pods, services, deployments, nodes, events.' },
   { q: 'How do I invite teammates?', a: 'Team plan required. Go to Settings → Team, enter the email address, choose a role (Admin, Member, or Viewer), and send the invite. They\'ll receive an email with a sign-up link that joins your workspace automatically.' },
   { q: 'Can I use my own AI model?', a: 'Yes — Pro plan and above. Go to Settings → AI Model and enter your Ollama, vLLM, or compatible OpenAI-format endpoint URL. All generation requests will route through your own model.' },
   { q: 'Where can I download the generated YAML?', a: 'Every code block in Generate and Deploy modes has a Copy button. For full pipeline manifests, use the Download button in the Deploy summary step to get a ZIP of all generated files.' },
@@ -186,7 +186,7 @@ export default function HelpPage() {
       {/* Header */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 9, background: `${V.accent}18`, border: `1px solid ${V.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: V.accent }}>
+          <div style={{ width: 36, height: 36, borderRadius: 9, background: 'var(--badge-bg)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: V.accent }}>
             <HelpCircle size={18} />
           </div>
           <div>
@@ -310,7 +310,7 @@ export default function HelpPage() {
               <div key={version} style={{ background: V.surface, border: `1px solid ${i === 0 ? V.accent + '44' : V.border}`, borderRadius: 10, padding: '0.875rem 1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.5rem' }}>
                   <span style={{ color: i === 0 ? V.accent : V.text, fontWeight: 700, fontSize: '0.875rem', fontFamily: 'monospace' }}>{version}</span>
-                  {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: V.accent, background: `${V.accent}14`, borderRadius: 4, padding: '1px 6px' }}>LATEST</span>}
+                  {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: V.accent, background: 'var(--badge-bg)', borderRadius: 4, padding: '1px 6px' }}>LATEST</span>}
                   <span style={{ color: V.muted, fontSize: '0.75rem', marginLeft: 'auto' }}>{date}</span>
                 </div>
                 <ul style={{ margin: 0, paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -331,7 +331,7 @@ export default function HelpPage() {
           <div style={{ display: 'flex', padding: '0.625rem 1rem', borderBottom: `1px solid ${V.border}`, gap: 4 }}>
             {([['bug', 'Report a Bug', <Bug size={12} />], ['feature', 'Request a Feature', <Lightbulb size={12} />]] as const).map(([key, label, icon]) => (
               <button key={key} type="button" onClick={() => setSupportTab(key)}
-                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '0.35rem 0.875rem', borderRadius: 6, border: 'none', background: supportTab === key ? `${V.accent}18` : 'transparent', color: supportTab === key ? V.accent : V.muted, cursor: 'pointer', fontSize: '0.82rem', fontWeight: supportTab === key ? 600 : 400 }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '0.35rem 0.875rem', borderRadius: 6, border: 'none', background: supportTab === key ? 'var(--badge-bg)' : 'transparent', color: supportTab === key ? V.accent : V.muted, cursor: 'pointer', fontSize: '0.82rem', fontWeight: supportTab === key ? 600 : 400 }}>
                 {icon} {label}
               </button>
             ))}
@@ -345,11 +345,11 @@ export default function HelpPage() {
       {/* Footer */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.875rem 1rem', background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10 }}>
         <div style={{ color: V.muted, fontSize: '0.8rem' }}>
-          InfraPilot <strong style={{ color: V.text }}>v2.2.0</strong> · FastAPI · React · Anthropic Claude
+          Meridian <strong style={{ color: V.text }}>v2.2.0</strong> · FastAPI · React · Anthropic Claude
         </div>
-        <a href="mailto:support@infrapilot.io" rel="noreferrer"
+        <a href="mailto:support@meridian.io" rel="noreferrer"
           style={{ display: 'flex', alignItems: 'center', gap: 4, color: V.accent, fontSize: '0.8rem', textDecoration: 'none' }}>
-          <ExternalLink size={13} /> support@infrapilot.io
+          <ExternalLink size={13} /> support@meridian.io
         </a>
       </div>
     </div>

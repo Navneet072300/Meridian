@@ -35,6 +35,11 @@ const ACTION_COLOR: Record<string, string> = {
   deploy: 'var(--success)', login: 'var(--text-secondary)', default: 'var(--text-secondary)',
 };
 
+const ACTION_BG: Record<string, string> = {
+  pipeline: 'var(--badge-bg)', generate: 'var(--badge-bg)', diagnose: 'var(--warning-bg)',
+  deploy: 'var(--success-bg)', login: 'var(--bg-hover)', default: 'var(--bg-hover)',
+};
+
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
@@ -78,14 +83,14 @@ export default function ProfilePage() {
   return (
     <div style={{ padding: '1.5rem 2rem', maxWidth: 900, margin: '0 auto' }}>
       {/* Identity card */}
-      <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 12, padding: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '1.25rem', marginBottom: '1.5rem' }}>
+      <div className="ip-card" style={{ padding: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '1.25rem', marginBottom: '1.5rem' }}>
         <div style={{ width: 72, height: 72, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 700, color: '#fff' }}>
           {initials}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
             <h1 style={{ margin: 0, color: V.text, fontWeight: 700, fontSize: '1.25rem' }}>{user.name}</h1>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', color: planColor, background: `${planColor}18`, border: `1px solid ${planColor}44`, borderRadius: 4, padding: '2px 7px', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', color: planColor, background: planKey === 'free' ? 'var(--bg-hover)' : 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 7px', textTransform: 'uppercase' }}>
               {PLAN_LABEL[planKey] ?? planKey}
             </span>
           </div>
@@ -96,7 +101,7 @@ export default function ProfilePage() {
               <Settings size={13} /> Edit Profile
             </button>
             <button type="button" onClick={() => navigate('/app/subscription')}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '0.4rem 0.875rem', borderRadius: 8, border: `1px solid ${planColor}55`, background: `${planColor}10`, color: planColor, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 500 }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '0.4rem 0.875rem', borderRadius: 8, border: '1px solid var(--border-focus)', background: 'var(--badge-bg)', color: 'var(--accent)', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 500 }}>
               <CreditCard size={13} /> {planKey === 'free' ? 'Upgrade Plan' : 'Manage Plan'}
             </button>
           </div>
@@ -106,14 +111,14 @@ export default function ProfilePage() {
       {/* Metric cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
         {statsLoading
-          ? Array.from({ length: 4 }).map((_, i) => <div key={i} style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, height: 88 }} />)
+          ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="skeleton" style={{ height: 88, borderRadius: 10 }} />)
           : [
             { icon: <Code2 size={16} />, label: 'Files Generated', value: stats?.files_generated ?? 0, sub: 'this month', color: V.purple },
             { icon: <GitBranch size={16} />, label: 'Pipelines Run', value: stats?.pipelines_run ?? 0, sub: 'this month', color: V.accent },
             { icon: <Cpu size={16} />, label: 'Pods Diagnosed', value: stats?.pods_diagnosed ?? 0, sub: 'this month', color: V.yellow },
             { icon: <Box size={16} />, label: 'Deploy Success', value: successRate !== null ? `${successRate}%` : '—', sub: stats?.deployments_total ? `${stats.deployments_total} total` : 'no data', color: successRate !== null && successRate >= 90 ? V.green : V.muted },
           ].map(({ icon, label, value, sub, color }) => (
-            <div key={label} style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, padding: '1rem 1.125rem' }}>
+            <div key={label} className="ip-card" style={{ padding: '1rem 1.125rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.625rem' }}>
                 <span style={{ color }}>{icon}</span>
                 <span style={{ color: V.muted, fontSize: '0.78rem', fontWeight: 500 }}>{label}</span>
@@ -125,7 +130,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Plan usage bar */}
-      <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
+      <div className="ip-card" style={{ padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <span style={{ color: V.text, fontSize: '0.875rem', fontWeight: 600 }}>Monthly Usage</span>
           <span style={{ color: V.muted, fontSize: '0.78rem' }}>
@@ -149,8 +154,8 @@ export default function ProfilePage() {
       {/* Two-column: activity + saved */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
         {/* Activity feed */}
-        <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, overflow: 'hidden' }}>
-          <div style={{ padding: '0.875rem 1.25rem', borderBottom: `1px solid ${V.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="ip-card" style={{ overflow: 'hidden' }}>
+          <div style={{ padding: '0.875rem 1.25rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Activity size={15} color={V.accent} />
             <span style={{ color: V.text, fontWeight: 600, fontSize: '0.875rem' }}>Recent Activity</span>
           </div>
@@ -167,7 +172,7 @@ export default function ProfilePage() {
               const color = ACTION_COLOR[cat] ?? ACTION_COLOR.default;
               return (
                 <div key={item.id} style={{ display: 'flex', gap: '0.75rem', padding: '0.75rem 0', borderBottom: i < activity.length - 1 ? `1px solid ${V.border}` : 'none' }}>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: `${color}18`, border: `1px solid ${color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: ACTION_BG[cat] ?? 'var(--bg-hover)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color, flexShrink: 0 }}>
                     {icon}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
@@ -184,8 +189,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Saved items */}
-        <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, overflow: 'hidden' }}>
-          <div style={{ padding: '0.625rem 1.25rem', borderBottom: `1px solid ${V.border}`, display: 'flex', gap: 4 }}>
+        <div className="ip-card" style={{ overflow: 'hidden' }}>
+          <div style={{ padding: '0.625rem 1.25rem', borderBottom: '1px solid var(--border)', display: 'flex', gap: 4 }}>
             {([['code', 'Saved Code', <Code2 size={13} />], ['arch', 'Architectures', <Box size={13} />]] as const).map(([key, label, icon]) => (
               <button key={key} type="button" onClick={() => setSavedTab(key as 'code' | 'arch')}
                 style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '0.35rem 0.7rem', borderRadius: 6, border: 'none', background: savedTab === key ? V.bg : 'transparent', color: savedTab === key ? V.text : V.muted, cursor: 'pointer', fontSize: '0.8rem', fontWeight: savedTab === key ? 600 : 400 }}>

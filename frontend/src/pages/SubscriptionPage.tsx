@@ -3,7 +3,7 @@ import { Check, X, ChevronDown, ChevronUp, Zap, Shield, Users, Building2, Credit
 import { useProfileStore } from '../store/profileStore';
 
 const V = {
-  bg: 'var(--bg-base)', surface: 'var(--bg-surface)', surface2: '#1a1a21', border: 'var(--border)',
+  bg: 'var(--bg-base)', surface: 'var(--bg-surface)', surface2: 'var(--bg-surface-elev)', border: 'var(--border)',
   text: 'var(--text-primary)', muted: 'var(--text-secondary)', accent: 'var(--accent)', accentLight: 'var(--accent)',
   green: 'var(--success)', red: 'var(--error)', yellow: 'var(--warning)', purple: 'var(--accent)',
 } as const;
@@ -161,7 +161,7 @@ export default function SubscriptionPage() {
   function handleSelect(p: Plan) {
     if (p.id === currentPlan) return;
     if (p.id === 'enterprise') {
-      window.open('mailto:sales@infrapilot.io?subject=Enterprise+Inquiry', '_blank');
+      window.open('mailto:sales@meridian.io?subject=Enterprise+Inquiry', '_blank');
       return;
     }
     setUpgrading(p.id);
@@ -173,9 +173,9 @@ export default function SubscriptionPage() {
 
   const planColors: Record<string, string> = {
     free: '#6b7280',
-    pro: V.accentLight,
+    pro: '#6366f1',
     team: '#a78bfa',
-    enterprise: V.yellow,
+    enterprise: '#f59e0b',
   };
 
   return (
@@ -183,7 +183,7 @@ export default function SubscriptionPage() {
 
       {/* ── Header ── */}
       <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: `${V.accent}14`, border: `1px solid ${V.accent}28`, borderRadius: 20, padding: '4px 14px', marginBottom: 16 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 20, padding: '4px 14px', marginBottom: 16 }}>
           <Sparkles size={12} color={V.accentLight} />
           <span style={{ fontSize: '0.78rem', color: V.accentLight, fontWeight: 600 }}>Simple, transparent pricing</span>
         </div>
@@ -194,7 +194,7 @@ export default function SubscriptionPage() {
           </span>
         </h1>
         <p style={{ margin: '0 auto 1.5rem', color: V.muted, fontSize: '0.9rem', maxWidth: 480 }}>
-          From solo engineers to enterprise platforms — InfraPilot scales with your workflow.
+          From solo engineers to enterprise platforms — Meridian scales with your workflow.
         </p>
 
         {/* Billing toggle */}
@@ -281,7 +281,7 @@ export default function SubscriptionPage() {
                   cursor: isCurrent ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                   opacity: isUpgrading ? 0.7 : 1,
-                  boxShadow: p.highlighted && !isCurrent ? `0 3px 10px ${V.accent}38` : 'none',
+                  boxShadow: p.highlighted && !isCurrent ? '0 3px 10px rgba(99, 102, 241, 0.22)' : 'none',
                 } as React.CSSProperties}>
                 {isUpgrading ? 'Switching…' : p.cta}
                 {!isCurrent && !isUpgrading && <ChevronRight size={12} />}
@@ -332,7 +332,7 @@ export default function SubscriptionPage() {
               </thead>
               <tbody>
                 {COMPARISON_ROWS.map((row, i) => (
-                  <tr key={row.label} style={{ borderBottom: i < COMPARISON_ROWS.length - 1 ? `1px solid ${V.border}18` : 'none', background: i % 2 === 0 ? 'transparent' : `${V.surface2}60` }}>
+                  <tr key={row.label} style={{ borderBottom: i < COMPARISON_ROWS.length - 1 ? '1px solid var(--border)' : 'none', background: i % 2 === 0 ? 'transparent' : 'var(--bg-hover)' }}>
                     <td style={{ padding: '0.55rem 1.25rem', color: V.text }}>{row.label}</td>
                     <td style={{ padding: '0.55rem' }}><CompCell val={row.free} color={planColors.free} /></td>
                     <td style={{ padding: '0.55rem' }}><CompCell val={row.pro} color={planColors.pro} /></td>
@@ -411,7 +411,7 @@ export default function SubscriptionPage() {
         </div>
       ) : (
         <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 12, padding: '1.5rem', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 40, height: 40, borderRadius: 9, background: `${V.accent}14`, border: `1px solid ${V.accent}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: V.accent, flexShrink: 0 }}>
+          <div style={{ width: 40, height: 40, borderRadius: 9, background: 'var(--badge-bg)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: V.accent, flexShrink: 0 }}>
             <CreditCard size={18} />
           </div>
           <div style={{ flex: 1 }}>
@@ -434,14 +434,14 @@ export default function SubscriptionPage() {
       </div>
 
       {/* ── Enterprise CTA ── */}
-      <div style={{ background: `linear-gradient(135deg, ${V.accent}12, ${V.purple}12)`, border: `1px solid ${V.accent}20`, borderRadius: 14, padding: '2rem', textAlign: 'center' }}>
+      <div style={{ background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '2rem', textAlign: 'center' }}>
         <Building2 size={28} style={{ color: V.accent, marginBottom: 12 }} />
         <h3 style={{ margin: '0 0 0.5rem', fontWeight: 700, fontSize: '1.1rem' }}>Need a custom solution?</h3>
         <p style={{ margin: '0 0 1.25rem', color: V.muted, fontSize: '0.875rem', maxWidth: 480, marginInline: 'auto' }}>
           Enterprise plans include on-premise deployment, custom AI fine-tuning, SAML SSO, and dedicated support scoped to your exact infrastructure requirements.
         </p>
-        <button type="button" onClick={() => window.open('mailto:sales@infrapilot.io?subject=Enterprise+Inquiry', '_blank')}
-          style={{ background: `linear-gradient(135deg, ${V.accent}, ${V.accentLight})`, border: 'none', borderRadius: 8, padding: '0.65rem 1.75rem', color: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 700, boxShadow: `0 4px 14px ${V.accent}38` }}>
+        <button type="button" onClick={() => window.open('mailto:sales@meridian.io?subject=Enterprise+Inquiry', '_blank')}
+          style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '0.65rem 1.75rem', color: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 700, boxShadow: '0 4px 14px rgba(99, 102, 241, 0.22)' }}>
           Talk to Sales
         </button>
       </div>

@@ -365,7 +365,7 @@ class CommitRequest(BaseModel):
     repo_full_name: str
     branch: str = "main"
     files: list[CommitFile]
-    message: str = "ci: add InfraPilot-generated pipeline"
+    message: str = "ci: add Meridian-generated pipeline"
 
 
 @router.post("/deploy/commit")

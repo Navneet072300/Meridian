@@ -151,7 +151,7 @@ export function EnvUploader({ onSecretsParsed, existingSecretNames = [], context
           style={{
             border: `2px dashed ${dragging ? V.accent : V.border}`,
             borderRadius: 10, padding: '2rem', textAlign: 'center', cursor: 'pointer',
-            background: dragging ? `${V.accent}08` : 'transparent',
+            background: dragging ? 'var(--badge-bg)' : 'transparent',
             transition: 'all 0.15s',
           }}
         >

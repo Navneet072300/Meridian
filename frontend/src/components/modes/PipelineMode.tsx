@@ -66,7 +66,7 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
     gitops_path: '/deployments',
     namespace: '',
     target_url: '',
-    publish_mode: 'none' as 'none' | 'infrapilot' | 'cloudflare' | 'route53' | 'azure_dns' | 'gcp_dns',
+    publish_mode: 'none' as 'none' | 'meridian' | 'cloudflare' | 'route53' | 'azure_dns' | 'gcp_dns',
     iac_tool: 'kustomize' as 'kustomize' | 'helm',
     registry: 'ghcr.io',
     selected_clusters: activeCluster ? [activeCluster] : [] as string[],
@@ -229,7 +229,7 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
             {(
               [
                 { id: 'none', label: 'No Publish', always: true },
-                { id: 'infrapilot', label: '⬡ infrapilot.app', always: true },
+                { id: 'meridian', label: '⬡ meridian.app', always: true },
                 { id: 'cloudflare', label: '☁ Cloudflare', always: false, key: 'cloudflare' as const },
                 { id: 'route53', label: '⬡ Route 53', always: false, key: 'route53' as const },
                 { id: 'azure_dns', label: '⬡ Azure DNS', always: false, key: 'azure_dns' as const },
@@ -251,14 +251,14 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
                 );
               })}
           </div>
-          {form.publish_mode === 'infrapilot' && (
+          {form.publish_mode === 'meridian' && (
             <div style={{ padding: '8px 12px', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Globe size={12} style={{ color: 'var(--accent)', flexShrink: 0 }} />
               <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Your app will be available at </span>
               <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
                 {form.app_name
-                  ? `${form.app_name.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}.infrapilot.app`
-                  : '<app-name>.infrapilot.app'}
+                  ? `${form.app_name.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}.meridian.app`
+                  : '<app-name>.meridian.app'}
               </span>
             </div>
           )}
@@ -390,8 +390,8 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
             if (!canSubmit) return;
             const appSlug = form.app_name.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             const resolvedTargetUrl =
-              form.publish_mode === 'infrapilot'
-                ? `${appSlug}.infrapilot.app`
+              form.publish_mode === 'meridian'
+                ? `${appSlug}.meridian.app`
                 : form.publish_mode === 'none'
                 ? ''
                 : form.target_url.trim();

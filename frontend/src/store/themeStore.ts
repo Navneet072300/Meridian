@@ -25,7 +25,7 @@ export const useThemeStore = create<ThemeStore>()(
       },
     }),
     {
-      name: 'infrapilot-theme',
+      name: 'meridian-theme',
       onRehydrateStorage: () => (state) => {
         if (state) applyTheme(state.theme);
       },

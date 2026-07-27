@@ -250,7 +250,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
             </button>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}>
-              {/* IP logo mark */}
+              {/* Meridian logo mark */}
               <div style={{
                 width: 32, height: 32, borderRadius: '9px',
                 background: 'var(--accent-gradient)',
@@ -259,12 +259,12 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                 boxShadow: '0 3px 14px var(--accent-glow)',
                 letterSpacing: '-0.02em',
               }}>
-                IP
+                M
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{ fontWeight: 800, fontSize: '16.5px', letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
-                    Infra<span style={{ color: 'var(--accent)' }}>Pilot</span>
+                    Meri<span style={{ color: 'var(--accent)' }}>dian</span>
                   </span>
                   <span style={{ fontSize: '9px', fontWeight: 700, color: 'var(--accent-text)', background: 'var(--badge-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
                     v2.4

@@ -88,9 +88,9 @@ export function LandingPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '12px', fontWeight: 800, color: '#fff',
             boxShadow: '0 2px 10px var(--accent-glow)',
-          }}>IP</div>
+          }}>M</div>
           <span style={{ fontWeight: 800, fontSize: '18px', letterSpacing: '-0.02em' }}>
-            Infra<span style={{ color: 'var(--accent)' }}>Pilot</span>
+            Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </span>
         </div>
 

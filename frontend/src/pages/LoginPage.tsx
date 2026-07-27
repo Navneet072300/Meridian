@@ -43,10 +43,10 @@ export function LoginPage() {
             margin: '0 auto 16px',
             boxShadow: '0 4px 20px var(--accent-glow)',
           }}>
-            IP
+            M
           </div>
           <h1 style={{ margin: '0 0 8px', color: 'var(--text-primary)', fontWeight: 800, fontSize: 24, letterSpacing: '-0.02em' }}>
-            Infra<span style={{ color: 'var(--accent)' }}>Pilot</span>
+            Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </h1>
           <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13.5, lineHeight: 1.6 }}>
             Sign in with your Git provider to connect<br />repositories and deploy infrastructure.

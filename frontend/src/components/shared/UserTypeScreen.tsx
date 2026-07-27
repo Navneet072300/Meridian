@@ -99,7 +99,7 @@ export function UserTypeScreen({ onDone }: Props) {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
-            Infra<span style={{ color: 'var(--accent)' }}>Pilot</span>
+            Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </div>
         </div>
 

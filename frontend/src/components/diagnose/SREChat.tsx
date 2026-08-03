@@ -27,8 +27,8 @@ export function CommandConfirmModal({ command, onConfirm, onCancel }: {
       <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 12, width: 480, padding: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
           <Shield size={16} style={{ color: riskColor }} />
-          <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Confirm Command</span>
-          <span style={{ marginLeft: 'auto', padding: '2px 8px', borderRadius: 100, background: `${riskColor}22`, border: `1px solid ${riskColor}`, color: riskColor, fontSize: 10, fontWeight: 700 }}>
+          <span style={{ fontWeight: 500, fontSize: 14, color: 'var(--text-primary)' }}>Confirm Command</span>
+          <span style={{ marginLeft: 'auto', padding: '2px 8px', borderRadius: 100, background: `${riskColor}22`, border: `1px solid ${riskColor}`, color: riskColor, fontSize: 10, fontWeight: 500 }}>
             {riskLabel}
           </span>
         </div>
@@ -188,7 +188,7 @@ export function SREChat({ sessionId, headerData, causes, causeStatuses }: SRECha
       <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <Zap size={13} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>SRE Assistant</span>
+          <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>SRE Assistant</span>
         </div>
         {headerData && (
           <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>

@@ -98,12 +98,12 @@ export function UserTypeScreen({ onDone }: Props) {
 
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+          <div style={{ fontSize: 28, fontWeight: 500, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
             Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </div>
         </div>
 
-        <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6, textAlign: 'center' }}>
+        <h2 style={{ fontSize: 22, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 6, textAlign: 'center' }}>
           How do you usually work?
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 24 }}>
@@ -130,7 +130,7 @@ export function UserTypeScreen({ onDone }: Props) {
               >
                 <span style={{ fontSize: 26, flexShrink: 0, lineHeight: 1.2 }}>{c.icon}</span>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: active ? 'var(--accent-text)' : 'var(--text-primary)', marginBottom: 4 }}>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: active ? 'var(--accent-text)' : 'var(--text-primary)', marginBottom: 4 }}>
                     {c.title}
                   </div>
                   {c.lines.map((l, i) => (
@@ -152,7 +152,7 @@ export function UserTypeScreen({ onDone }: Props) {
           className={selected ? 'ip-button-primary' : 'ip-button-secondary'}
           style={{
             width: '100%', marginTop: 24, padding: '12px',
-            fontSize: 14, fontWeight: 700, opacity: (!selected || saving) ? 0.6 : 1,
+            fontSize: 14, fontWeight: 500, opacity: (!selected || saving) ? 0.6 : 1,
           }}
         >
           {saving ? 'Saving…' : 'Continue →'}

@@ -35,7 +35,7 @@ export function AppLayout({ children }: Props) {
             type="button"
             onClick={() => navigate('/signup')}
             style={{
-              fontSize: 11, fontWeight: 700, color: '#fff',
+              fontSize: 11, fontWeight: 500, color: '#fff',
               background: 'var(--warning)', border: 'none',
               borderRadius: 6, padding: '3px 10px', cursor: 'pointer',
               boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
@@ -57,7 +57,7 @@ export function AppLayout({ children }: Props) {
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
           <TopBar />
-          <main className="bg-dot-pattern" style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>{children}</main>
+          <main style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', background: 'var(--bg-elevated)' }}>{children}</main>
         </div>
       </div>
     </div>

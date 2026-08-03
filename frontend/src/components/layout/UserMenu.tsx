@@ -63,7 +63,7 @@ export function UserMenu() {
           width: 24, height: 24, borderRadius: '50%',
           background: avatar ? 'transparent' : 'linear-gradient(135deg, var(--accent), #8b5cf6)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 10, fontWeight: 700, color: '#fff', flexShrink: 0, overflow: 'hidden',
+          fontSize: 10, fontWeight: 500, color: '#fff', flexShrink: 0, overflow: 'hidden',
         }}>
           {avatar
             ? <img src={avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -89,7 +89,7 @@ export function UserMenu() {
                 width: 36, height: 36, borderRadius: '50%',
                 background: avatar ? 'transparent' : 'linear-gradient(135deg, var(--accent), #8b5cf6)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 13, fontWeight: 700, color: '#fff', flexShrink: 0, overflow: 'hidden',
+                fontSize: 13, fontWeight: 500, color: '#fff', flexShrink: 0, overflow: 'hidden',
               }}>
                 {avatar
                   ? <img src={avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -104,7 +104,7 @@ export function UserMenu() {
                 </div>
                 <div style={{ marginTop: 4 }}>
                   <span style={{
-                    fontSize: 9.5, fontWeight: 700, letterSpacing: '0.05em',
+                    fontSize: 9.5, fontWeight: 500, letterSpacing: '0.05em',
                     color: 'var(--accent-text)', background: 'var(--badge-bg)',
                     border: '1px solid var(--border)', borderRadius: 4, padding: '1px 6px',
                     textTransform: 'uppercase',

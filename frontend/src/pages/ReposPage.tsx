@@ -54,7 +54,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
           <Lock size={20} style={{ color: 'var(--warning)' }} />
         </div>
 
-        <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>
+        <h2 style={{ fontSize: 16, fontWeight: 500, color: 'var(--text-primary)', margin: '0 0 8px' }}>
           GitHub PAT required
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 6px', lineHeight: 1.6 }}>
@@ -69,7 +69,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
           </div>
         ) : (
           <div style={{ background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: 9, padding: '14px 16px', margin: '20px 0' }}>
-            <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>How to fix this</p>
+            <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>How to fix this</p>
             {[
               'Go to Settings → Connect Platforms → GitHub',
               'Click "Generate PAT" to open GitHub token page',
@@ -77,7 +77,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
               'Come back here — we\'ll detect it automatically',
             ].map((step, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: i < 3 ? 8 : 0 }}>
-                <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--accent)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</span>
+                <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--accent)', color: '#fff', fontSize: 10, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</span>
                 <p style={{ fontSize: 12, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>{step}</p>
               </div>
             ))}
@@ -93,7 +93,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
               <button
                 type="button"
                 onClick={onDeploy}
-                style={{ flex: 2, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                style={{ flex: 2, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
                 <Rocket size={13} /> Deploy now
               </button>
@@ -105,7 +105,7 @@ function NoPATModal({ repo, hasPat, onClose, onRetry, onDeploy }: NoPATModalProp
               </button>
               <a
                 href="/app/settings"
-                style={{ flex: 2, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, textDecoration: 'none' }}
+                style={{ flex: 2, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, textDecoration: 'none' }}
               >
                 <KeyRound size={13} /> Go to Settings <ArrowRight size={12} />
               </a>
@@ -191,7 +191,7 @@ export function ReposPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <GitBranch size={22} style={{ color: 'var(--accent)' }} />
           <div>
-            <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Repositories</h1>
+            <h1 style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>Repositories</h1>
             {repos.length > 0 && (
               <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '2px 0 0' }}>
                 {publicCount} public · {privateCount} private
@@ -240,7 +240,7 @@ export function ReposPage() {
       {(isError || data?.error) && (
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '32px 28px', textAlign: 'center', maxWidth: 480, margin: '0 auto' }}>
           <GitBranch size={36} style={{ color: 'var(--accent)', marginBottom: 16 }} />
-          <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
+          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 8 }}>
             {data?.auth_required ? 'GitHub not connected' : 'Could not load repositories'}
           </p>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6 }}>
@@ -250,7 +250,7 @@ export function ReposPage() {
           </p>
           <a
             href="/app/settings"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 20px', background: 'var(--accent)', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 700, textDecoration: 'none' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 20px', background: 'var(--accent)', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 500, textDecoration: 'none' }}
           >
             <KeyRound size={14} /> Save GitHub PAT
           </a>
@@ -300,7 +300,7 @@ export function ReposPage() {
                       {repo.private
                         ? <Lock size={12} style={{ color: 'var(--warning)', flexShrink: 0 }} />
                         : <Globe size={12} style={{ color: 'var(--success)', flexShrink: 0 }} />}
-                      <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {repo.name}
                       </span>
                     </div>

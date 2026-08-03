@@ -86,7 +86,7 @@ ${body}
         {/* Header */}
         <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <FileText size={15} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Root Cause Analysis Report</span>
+          <span style={{ fontWeight: 500, fontSize: 14, color: 'var(--text-primary)' }}>Root Cause Analysis Report</span>
           {loading && <span style={{ fontSize: 11, color: 'var(--accent)' }}>● Generating…</span>}
           <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
             <button type="button" onClick={() => navigator.clipboard.writeText(content)} disabled={!content}

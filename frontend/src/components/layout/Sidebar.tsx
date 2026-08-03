@@ -106,12 +106,11 @@ export function Sidebar({ collapsed, onToggle }: Props) {
           padding: collapsed ? '10px 0' : '8px 12px',
           margin: collapsed ? '2px 0' : '2px 8px 2px 6px',
           width: collapsed ? '100%' : 'calc(100% - 14px)',
-          background: active ? 'var(--badge-bg)' : 'transparent',
+          background: active ? 'var(--bg-hover)' : 'transparent',
           border: 'none',
-          borderLeft: !collapsed ? (active ? '3px solid var(--accent)' : '3px solid transparent') : 'none',
-          borderRadius: collapsed ? 8 : '0 8px 8px 0',
-          color: active ? 'var(--accent-text)' : (item.stub || locked) ? 'var(--text-muted)' : 'var(--text-secondary)',
-          fontSize: '13px', fontWeight: active ? 600 : 400,
+          borderRadius: 8,
+          color: active ? 'var(--text-primary)' : (item.stub || locked) ? 'var(--text-muted)' : 'var(--text-secondary)',
+          fontSize: '13px', fontWeight: active ? 500 : 400,
           cursor: 'pointer',
           textAlign: 'left',
           justifyContent: collapsed ? 'center' : 'flex-start',
@@ -138,8 +137,8 @@ export function Sidebar({ collapsed, onToggle }: Props) {
           width: 26, height: 26,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           borderRadius: 6,
-          background: active ? 'var(--accent-glow)' : 'transparent',
-          color: active ? 'var(--accent)' : 'inherit',
+          background: 'transparent',
+          color: 'inherit',
           transition: 'all 0.15s ease',
         }}>
           {item.icon}
@@ -162,12 +161,11 @@ export function Sidebar({ collapsed, onToggle }: Props) {
           margin: collapsed ? '1px 0' : '1px 8px 1px 6px',
           display: 'flex', alignItems: 'center', gap: '9px',
           padding: collapsed ? '8px 0' : '6px 10px',
-          background: active ? 'var(--badge-bg)' : 'transparent',
+          background: active ? 'var(--bg-hover)' : 'transparent',
           border: 'none',
-          borderLeft: !collapsed ? (active ? '3px solid var(--accent)' : '3px solid transparent') : 'none',
-          borderRadius: '0 8px 8px 0',
-          color: active ? 'var(--accent-text)' : 'var(--text-muted)',
-          fontSize: '12.5px', fontWeight: active ? 600 : 400,
+          borderRadius: 8,
+          color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+          fontSize: '12.5px', fontWeight: active ? 500 : 400,
           cursor: 'pointer', textAlign: 'left',
           fontFamily: 'inherit',
           justifyContent: collapsed ? 'center' : 'flex-start',
@@ -197,7 +195,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
     !collapsed ? (
       <p style={{
         padding: '14px 16px 4px',
-        fontSize: '9.5px', fontWeight: 700,
+        fontSize: '9.5px', fontWeight: 500,
         letterSpacing: '0.08em',
         color: 'var(--text-muted)',
         textTransform: 'uppercase',
@@ -253,20 +251,19 @@ export function Sidebar({ collapsed, onToggle }: Props) {
               {/* Meridian logo mark */}
               <div style={{
                 width: 32, height: 32, borderRadius: '9px',
-                background: 'var(--accent-gradient)',
+                background: 'var(--accent)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '12px', fontWeight: 800, color: '#fff', flexShrink: 0,
-                boxShadow: '0 3px 14px var(--accent-glow)',
+                fontSize: '12px', fontWeight: 500, color: '#fff', flexShrink: 0,
                 letterSpacing: '-0.02em',
               }}>
                 M
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontWeight: 800, fontSize: '16.5px', letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
+                  <span style={{ fontWeight: 500, fontSize: '15px', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
                     Meri<span style={{ color: 'var(--accent)' }}>dian</span>
                   </span>
-                  <span style={{ fontSize: '9px', fontWeight: 700, color: 'var(--accent-text)', background: 'var(--badge-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
+                  <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--text-muted)', background: 'var(--bg-hover)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
                     v2.4
                   </span>
                 </div>
@@ -337,11 +334,10 @@ export function Sidebar({ collapsed, onToggle }: Props) {
               <div
                 style={{
                   width: 32, height: 32, borderRadius: '50%',
-                  background: avatar ? 'transparent' : 'var(--accent-gradient)',
+                  background: avatar ? 'transparent' : 'var(--accent)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '12px', fontWeight: 700, color: '#fff',
+                  fontSize: '12px', fontWeight: 500, color: '#fff',
                   overflow: 'hidden',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                 }}
               >
                 {avatar
@@ -364,7 +360,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                     onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }}
                     style={{
                       position: 'absolute', inset: 0, borderRadius: '50%',
-                      background: 'rgba(0,0,0,0.55)',
+                      background: 'rgba(0,0,0,0.2)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       opacity: 0, transition: 'opacity 0.15s',
                       border: 'none', cursor: 'pointer', color: '#fff',
@@ -382,7 +378,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
             {!collapsed && (
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{
-                  fontSize: '12.5px', fontWeight: 600,
+                  fontSize: '12.5px', fontWeight: 500,
                   color: 'var(--text-primary)',
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 }}>
@@ -390,9 +386,9 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                 </div>
                 <span style={{
                   display: 'inline-block', marginTop: 2,
-                  fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.05em',
-                  color: 'var(--accent-text)',
-                  background: 'var(--badge-bg)',
+                  fontSize: '9.5px', fontWeight: 500, letterSpacing: '0.05em',
+                  color: 'var(--text-muted)',
+                  background: 'var(--bg-hover)',
                   border: '1px solid var(--border)',
                   borderRadius: 4, padding: '1px 6px',
                   textTransform: 'uppercase',

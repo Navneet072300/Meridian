@@ -57,7 +57,7 @@ function ActionBadge({ action }: { action: string }) {
   const key = Object.keys(ACTION_LABELS).find((k) => action.startsWith(k)) ?? '';
   const meta = ACTION_LABELS[key] ?? { label: 'Other', color: '#94a3b8', bg: 'rgba(148,163,184,0.1)' };
   return (
-    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 100, color: meta.color, background: meta.bg, whiteSpace: 'nowrap' }}>
+    <span style={{ fontSize: 10, fontWeight: 500, padding: '2px 7px', borderRadius: 100, color: meta.color, background: meta.bg, whiteSpace: 'nowrap' }}>
       {meta.label}
     </span>
   );
@@ -98,7 +98,7 @@ export function HistoryPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
         <Clock size={22} style={{ color: 'var(--accent)' }} />
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Activity History</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>Activity History</h1>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '2px 0 0' }}>
             {total > 0 ? `${total} events recorded` : 'All pipeline runs, diagnose sessions, and k8s operations'}
           </p>
@@ -164,7 +164,7 @@ export function HistoryPage() {
           {/* Table header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 180px 90px 100px', gap: 0, padding: '9px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-base)' }}>
             {['Action', 'Type', 'Resource', 'Status', 'When'].map((h) => (
-              <span key={h} style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</span>
+              <span key={h} style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</span>
             ))}
           </div>
 

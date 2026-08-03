@@ -84,13 +84,13 @@ export default function ProfilePage() {
     <div style={{ padding: '1.5rem 2rem', maxWidth: 900, margin: '0 auto' }}>
       {/* Identity card */}
       <div className="ip-card" style={{ padding: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '1.25rem', marginBottom: '1.5rem' }}>
-        <div style={{ width: 72, height: 72, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 700, color: '#fff' }}>
+        <div style={{ width: 72, height: 72, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 500, color: '#fff' }}>
           {initials}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-            <h1 style={{ margin: 0, color: V.text, fontWeight: 700, fontSize: '1.25rem' }}>{user.name}</h1>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.06em', color: planColor, background: planKey === 'free' ? 'var(--bg-hover)' : 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 7px', textTransform: 'uppercase' }}>
+            <h1 style={{ margin: 0, color: V.text, fontWeight: 500, fontSize: '1.25rem' }}>{user.name}</h1>
+            <span style={{ fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.06em', color: planColor, background: planKey === 'free' ? 'var(--bg-hover)' : 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 7px', textTransform: 'uppercase' }}>
               {PLAN_LABEL[planKey] ?? planKey}
             </span>
           </div>
@@ -123,7 +123,7 @@ export default function ProfilePage() {
                 <span style={{ color }}>{icon}</span>
                 <span style={{ color: V.muted, fontSize: '0.78rem', fontWeight: 500 }}>{label}</span>
               </div>
-              <div style={{ color: V.text, fontWeight: 700, fontSize: '1.6rem', lineHeight: 1 }}>{typeof value === 'number' ? value.toLocaleString() : value}</div>
+              <div style={{ color: V.text, fontWeight: 500, fontSize: '1.6rem', lineHeight: 1 }}>{typeof value === 'number' ? value.toLocaleString() : value}</div>
               <div style={{ color: V.muted, fontSize: '0.72rem', marginTop: 4 }}>{sub}</div>
             </div>
           ))}

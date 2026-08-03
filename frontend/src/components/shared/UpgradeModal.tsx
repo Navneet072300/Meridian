@@ -178,7 +178,7 @@ export function UpgradeModal({ feature, requiredPlan, onClose, onUpgrade }: Prop
         </div>
 
         {/* Headline */}
-        <h2 style={{ margin: '0 0 0.375rem', color: 'var(--text-primary)', fontWeight: 700, fontSize: '1.3rem', textAlign: 'center' }}>
+        <h2 style={{ margin: '0 0 0.375rem', color: 'var(--text-primary)', fontWeight: 500, fontSize: '1.3rem', textAlign: 'center' }}>
           {content.headline}
         </h2>
         <p style={{ margin: '0 0 1.5rem', color: 'var(--text-muted)', fontSize: '0.875rem', textAlign: 'center' }}>
@@ -201,14 +201,14 @@ export function UpgradeModal({ feature, requiredPlan, onClose, onUpgrade }: Prop
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: '1.25rem', padding: '0.75rem', background: 'var(--bg-base)', borderRadius: 8, border: '1px solid var(--border)' }}>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', background: 'var(--bg-hover)', borderRadius: 4, padding: '3px 10px' }}>Free</span>
           <ChevronRight size={14} color="var(--text-muted)" />
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-text)', background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 10px' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--accent-text)', background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 10px' }}>
             {planName}
           </span>
         </div>
 
         {/* Price */}
         <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-          <div style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '2rem', lineHeight: 1 }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '2rem', lineHeight: 1 }}>
             ${price?.monthly}<span style={{ fontSize: '0.9rem', fontWeight: 400, color: 'var(--text-muted)' }}>/month</span>
           </div>
           {price && price.annual < price.monthly && (

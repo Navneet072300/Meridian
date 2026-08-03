@@ -37,15 +37,14 @@ export function LoginPage() {
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{
             width: 52, height: 52, borderRadius: 16,
-            background: 'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
+            background: 'var(--accent)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, fontWeight: 800, color: '#fff',
+            fontSize: 18, fontWeight: 500, color: '#fff',
             margin: '0 auto 16px',
-            boxShadow: '0 4px 20px var(--accent-glow)',
           }}>
             M
           </div>
-          <h1 style={{ margin: '0 0 8px', color: 'var(--text-primary)', fontWeight: 800, fontSize: 24, letterSpacing: '-0.02em' }}>
+          <h1 style={{ margin: '0 0 8px', color: 'var(--text-primary)', fontWeight: 500, fontSize: 22, letterSpacing: '-0.02em' }}>
             Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </h1>
           <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13.5, lineHeight: 1.6 }}>

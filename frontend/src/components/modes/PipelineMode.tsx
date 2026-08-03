@@ -128,11 +128,11 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
   return (
     <div style={{ maxWidth: '700px', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-        <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(99,102,241,0.15)', border: '1px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'var(--accent-subtle)', border: '1px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Rocket size={18} color="var(--accent)" />
         </div>
         <div>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>New Deployment</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 500, color: 'var(--text-primary)' }}>New Deployment</h2>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>From GitHub repo to live URL in one pipeline</p>
         </div>
       </div>
@@ -167,7 +167,7 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
                   <KeyRound size={14} style={{ color: 'var(--success)' }} />
                 </div>
                 <div>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--success)', margin: 0 }}>GitHub credentials saved</p>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--success)', margin: 0 }}>GitHub credentials saved</p>
                   {savedCreds.username && (
                     <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: '2px 0 0' }}>
                       Deploying as <strong style={{ color: 'var(--text-secondary)' }}>{savedCreds.username}</strong>
@@ -255,7 +255,7 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
             <div style={{ padding: '8px 12px', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Globe size={12} style={{ color: 'var(--accent)', flexShrink: 0 }} />
               <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Your app will be available at </span>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
+              <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-primary)' }}>
                 {form.app_name
                   ? `${form.app_name.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}.meridian.app`
                   : '<app-name>.meridian.app'}
@@ -418,7 +418,7 @@ function IntakeForm({ onAnalyze, initialRepoUrl = '', initialPrivate = false }: 
           style={{
             padding: '10px', background: canSubmit ? 'var(--accent)' : 'var(--bg-hover)',
             border: 'none', borderRadius: '7px', color: '#fff',
-            fontSize: '14px', fontWeight: 700, cursor: canSubmit ? 'pointer' : 'not-allowed',
+            fontSize: '14px', fontWeight: 500, cursor: canSubmit ? 'pointer' : 'not-allowed',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
             boxShadow: canSubmit ? '0 0 20px var(--accent-glow)' : 'none', fontFamily: 'inherit',
           }}
@@ -465,7 +465,7 @@ function AnalysisCard({ analysis, onConfirm, onBack }: { analysis: RepoAnalysis 
     <div style={{ maxWidth: '600px', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
         <CheckCircle2 size={18} color="var(--success)" />
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>Repository Analysis</h3>
+        <h3 style={{ fontSize: '15px', fontWeight: 500, color: 'var(--text-primary)' }}>Repository Analysis</h3>
       </div>
 
       <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px', marginBottom: '16px' }}>
@@ -503,7 +503,7 @@ function AnalysisCard({ analysis, onConfirm, onBack }: { analysis: RepoAnalysis 
 
       <div style={{ display: 'flex', gap: '10px' }}>
         <button onClick={onBack} style={{ padding: '9px 20px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', color: 'var(--text-secondary)', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
-        <button onClick={onConfirm} style={{ flex: 1, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 0 16px var(--accent-glow)' }}>
+        <button onClick={onConfirm} style={{ flex: 1, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 0 16px var(--accent-glow)' }}>
           Generate Pipeline →
         </button>
       </div>
@@ -586,7 +586,7 @@ export function PipelineMode() {
           }}
         >
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)' }}>
+            <p style={{ fontWeight: 500, fontSize: '14px', color: 'var(--text-primary)' }}>
               Deploying: {pipelineCfg?.app_name} → {pipelineCfg?.cluster || 'cluster'}
             </p>
             <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
@@ -666,7 +666,7 @@ export function PipelineMode() {
               boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
             }}
           >
-            <p style={{ fontWeight: 700, fontSize: '16px', marginBottom: '10px' }}>
+            <p style={{ fontWeight: 500, fontSize: '16px', marginBottom: '10px' }}>
               {pipelineCfg?.cluster?.includes('prod') ? '⚠ Deploying to Production' : '🚀 Start Pipeline'}
             </p>
             <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '20px' }}>
@@ -674,7 +674,7 @@ export function PipelineMode() {
             </p>
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => setShowConfirm(false)} style={{ flex: 1, padding: '9px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', color: 'var(--text-secondary)', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-              <button onClick={confirmRun} style={{ flex: 1, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 0 16px var(--accent-glow)' }}>
+              <button onClick={confirmRun} style={{ flex: 1, padding: '9px', background: 'var(--accent)', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 0 16px var(--accent-glow)' }}>
                 Confirm & Run
               </button>
             </div>

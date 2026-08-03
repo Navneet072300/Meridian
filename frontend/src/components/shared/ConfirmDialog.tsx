@@ -43,7 +43,7 @@ export function ConfirmDialog({ title, message, confirmLabel = 'Confirm', danger
             <AlertTriangle size={18} />
           </div>
           <div>
-            <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3 }}>{title}</p>
+            <p style={{ margin: 0, fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1.3 }}>{title}</p>
             {message && (
               <p style={{ margin: '6px 0 0', fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{message}</p>
             )}

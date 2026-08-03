@@ -83,10 +83,8 @@ export function TopBar() {
   return (
     <header
       style={{
-        height: '60px',
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        height: '48px',
+        background: 'var(--bg-elevated)',
         borderBottom: '1px solid var(--border)',
         display: 'flex',
         alignItems: 'center',
@@ -114,7 +112,7 @@ export function TopBar() {
           <Home size={15} />
         </button>
         <span style={{ color: 'var(--text-muted)', fontSize: 14, userSelect: 'none', opacity: 0.6 }}>/</span>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{pageName}</span>
+        <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>{pageName}</span>
       </div>
 
       {/* Divider */}

@@ -341,7 +341,7 @@ function GeneralTab() {
             width: 56, height: 56, borderRadius: '50%',
             background: `linear-gradient(135deg, ${form.avatar_color}, ${form.avatar_color}88)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20, fontWeight: 700, color: '#fff', flexShrink: 0,
+            fontSize: 20, fontWeight: 500, color: '#fff', flexShrink: 0,
           }}>
             {form.name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2) || 'U'}
           </div>
@@ -1040,7 +1040,7 @@ export function ConnectedPlatformsTab() {
                 <div style={{ marginTop: 12, display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', background: expiryDays <= 0 ? 'rgba(248,81,73,0.08)' : 'rgba(210,153,34,0.08)', border: `1px solid ${expiryDays <= 0 ? 'rgba(248,81,73,0.3)' : 'rgba(210,153,34,0.3)'}`, borderRadius: 8 }}>
                   <span style={{ fontSize: 16, flexShrink: 0 }}>{expiryDays <= 0 ? '🔴' : '⚠️'}</span>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: '0.78rem', fontWeight: 700, color: expiryDays <= 0 ? V.red : V.yellow, margin: '0 0 3px' }}>
+                    <p style={{ fontSize: '0.78rem', fontWeight: 500, color: expiryDays <= 0 ? V.red : V.yellow, margin: '0 0 3px' }}>
                       {expiryDays <= 0 ? 'Token expired' : `Token expires in ${expiryDays} day${expiryDays === 1 ? '' : 's'}`}
                     </p>
                     <p style={{ fontSize: '0.72rem', color: V.muted, margin: 0, lineHeight: 1.5 }}>
@@ -1052,7 +1052,7 @@ export function ConnectedPlatformsTab() {
                   <button
                     type="button"
                     onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian', '_blank')}
-                    style={{ flexShrink: 0, padding: '4px 10px', background: expiryDays <= 0 ? V.red : V.yellow, border: 'none', borderRadius: 5, color: '#000', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                    style={{ flexShrink: 0, padding: '4px 10px', background: expiryDays <= 0 ? V.red : V.yellow, border: 'none', borderRadius: 5, color: '#000', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap' }}
                   >
                     Regenerate
                   </button>
@@ -1077,7 +1077,7 @@ export function ConnectedPlatformsTab() {
             <div style={{ display: 'flex', gap: 8, marginBottom: '0.875rem', flexWrap: 'wrap' }}>
               {[['1', 'Click Generate PAT'], ['2', 'GitHub opens pre-configured'], ['3', 'Paste token below']].map(([n, label]) => (
                 <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <span style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--badge-bg)', border: '1px solid var(--border-focus)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 700, color: V.accent, flexShrink: 0 }}>{n}</span>
+                  <span style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--badge-bg)', border: '1px solid var(--border-focus)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 500, color: V.accent, flexShrink: 0 }}>{n}</span>
                   <span style={{ fontSize: '0.78rem', color: V.muted }}>{label}</span>
                   {n !== '3' && <span style={{ color: V.border, fontSize: '0.7rem' }}>›</span>}
                 </div>
@@ -1163,7 +1163,7 @@ export function ConnectedPlatformsTab() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{ color: V.text, fontWeight: 600, fontSize: '0.875rem' }}>{c.name}</span>
-                        {c.active && <span style={{ background: 'rgba(88,166,255,0.15)', color: V.accent, borderRadius: 4, padding: '1px 5px', fontSize: '0.68rem', fontWeight: 700 }}>ACTIVE</span>}
+                        {c.active && <span style={{ background: 'rgba(88,166,255,0.15)', color: V.accent, borderRadius: 4, padding: '1px 5px', fontSize: '0.68rem', fontWeight: 500 }}>ACTIVE</span>}
                         <span style={{ borderRadius: 4, padding: '1px 5px', fontSize: '0.68rem', fontWeight: 500, background: `${envColor(c.environment)}22`, color: envColor(c.environment) }}>{c.environment}</span>
                       </div>
                       <div style={{ color: V.muted, fontSize: '0.72rem' }}>{c.connection_type === 'kubeconfig' ? 'kubeconfig' : c.api_url || 'Bearer Token'}</div>
@@ -1470,13 +1470,13 @@ function BillingTab() {
               <CreditCard size={17} color={planColor} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '1rem', color: V.text }}>{PLAN_LABEL[plan]} Plan</div>
+              <div style={{ fontWeight: 500, fontSize: '1rem', color: V.text }}>{PLAN_LABEL[plan]} Plan</div>
               <div style={{ fontSize: '0.75rem', color: V.muted }}>
                 {plan === 'free' ? 'No payment method on file' : 'Renews Jul 29, 2026 · •••• 4242'}
               </div>
             </div>
           </div>
-          <span style={{ fontSize: '0.7rem', fontWeight: 700, color: planColor, background: `${planColor}18`, border: `1px solid ${planColor}33`, borderRadius: 6, padding: '3px 9px', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: '0.7rem', fontWeight: 500, color: planColor, background: `${planColor}18`, border: `1px solid ${planColor}33`, borderRadius: 6, padding: '3px 9px', textTransform: 'uppercase' }}>
             Active
           </span>
         </div>
@@ -1521,8 +1521,8 @@ function BillingTab() {
                   <div style={{ color: V.muted, fontSize: '0.72rem' }}>{inv.date}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontWeight: 700, color: V.text }}>{inv.amount}</span>
-                  <span style={{ fontSize: '0.68rem', fontWeight: 700, background: 'rgba(63,185,80,0.1)', color: V.green, borderRadius: 4, padding: '2px 6px' }}>Paid</span>
+                  <span style={{ fontWeight: 500, color: V.text }}>{inv.amount}</span>
+                  <span style={{ fontSize: '0.68rem', fontWeight: 500, background: 'rgba(63,185,80,0.1)', color: V.green, borderRadius: 4, padding: '2px 6px' }}>Paid</span>
                 </div>
               </div>
             ))}
@@ -1986,7 +1986,7 @@ function AlertsTab() {
                   </div>
                   <div style={{ display: 'flex', gap: 4, marginTop: 5 }}>
                     {ch.alert_on.map((s) => (
-                      <span key={s} style={{ fontSize: '0.68rem', color: SEV_COLORS[s], background: `${SEV_COLORS[s]}18`, border: `1px solid ${SEV_COLORS[s]}33`, borderRadius: 100, padding: '1px 7px', fontWeight: 700, textTransform: 'uppercase' }}>{s}</span>
+                      <span key={s} style={{ fontSize: '0.68rem', color: SEV_COLORS[s], background: `${SEV_COLORS[s]}18`, border: `1px solid ${SEV_COLORS[s]}33`, borderRadius: 100, padding: '1px 7px', fontWeight: 500, textTransform: 'uppercase' }}>{s}</span>
                     ))}
                   </div>
                   {res && (
@@ -2131,7 +2131,7 @@ export default function SettingsPage() {
         padding: '1.5rem 0.75rem', display: 'flex', flexDirection: 'column', gap: 2,
         background: 'var(--bg-base)',
       }}>
-        <div style={{ color: V.muted, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>
+        <div style={{ color: V.muted, fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>
           Settings
         </div>
         {NAV_ITEMS.map(({ id, label, icon }) => {
@@ -2162,7 +2162,7 @@ export default function SettingsPage() {
       {/* Content */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem 2rem' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <h1 style={{ margin: '0 0 1.5rem', color: V.text, fontWeight: 700, fontSize: '1.3rem' }}>
+          <h1 style={{ margin: '0 0 1.5rem', color: V.text, fontWeight: 500, fontSize: '1.3rem' }}>
             {NAV_ITEMS.find((n) => n.id === tab)?.label}
           </h1>
           {renderTab()}

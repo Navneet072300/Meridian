@@ -176,7 +176,7 @@ function StepBar({ current }: { current: Step }) {
         return (
           <div key={s.id} style={{ display: 'flex', alignItems: 'center', flex: i < STEPS.length - 1 ? 1 : 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-              <div style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--bg-hover)', border: `2px solid ${done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--border)'}`, fontSize: 9, fontWeight: 700, color: done || active ? '#fff' : 'var(--text-muted)', transition: 'all 0.2s' }}>
+              <div style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--bg-hover)', border: `2px solid ${done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--border)'}`, fontSize: 9, fontWeight: 500, color: done || active ? '#fff' : 'var(--text-muted)', transition: 'all 0.2s' }}>
                 {done ? <Check size={10} /> : i + 1}
               </div>
               <span style={{ fontSize: 9, color: active ? 'var(--accent)' : done ? 'var(--success)' : 'var(--text-muted)', fontWeight: active ? 700 : 400, whiteSpace: 'nowrap' }}>{s.label}</span>
@@ -194,14 +194,14 @@ function OptionCard({ label, sub, icon, badge, selected, onClick }: {
   badge?: string; selected: boolean; onClick: () => void;
 }) {
   return (
-    <button type="button" onClick={onClick} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '11px 13px', background: selected ? 'rgba(99,102,241,0.08)' : 'var(--bg-hover)', border: `1.5px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 9, cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'all 0.15s', fontFamily: 'inherit' }}>
-      <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, background: selected ? 'rgba(99,102,241,0.15)' : 'var(--bg-surface)', border: `1px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: selected ? 'var(--accent)' : 'var(--text-secondary)' }}>
+    <button type="button" onClick={onClick} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '11px 13px', background: selected ? 'var(--accent-subtle)' : 'var(--bg-hover)', border: `1.5px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 9, cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'all 0.15s', fontFamily: 'inherit' }}>
+      <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, background: selected ? 'var(--accent-subtle)' : 'var(--bg-surface)', border: `1px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: selected ? 'var(--accent)' : 'var(--text-secondary)' }}>
         {icon}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: selected ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{label}</span>
-          {badge && <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: 'rgba(99,102,241,0.15)', color: 'var(--accent)', border: '1px solid rgba(99,102,241,0.3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{badge}</span>}
+          <span style={{ fontSize: 13, fontWeight: 500, color: selected ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{label}</span>
+          {badge && <span style={{ fontSize: 9, fontWeight: 500, padding: '2px 6px', borderRadius: 4, background: 'var(--accent-subtle)', color: 'var(--accent)', border: '1px solid var(--border-strong)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{badge}</span>}
           {selected && <CheckCircle2 size={12} style={{ color: 'var(--accent)', marginLeft: 'auto' }} />}
         </div>
         <p style={{ margin: '3px 0 0', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{sub}</p>
@@ -213,10 +213,10 @@ function OptionCard({ label, sub, icon, badge, selected, onClick }: {
 function EnvCard({ option, selected, onClick, branchForEnv }: { option: typeof ENV_OPTIONS[number]; selected: boolean; onClick: () => void; branchForEnv?: (env: string) => string }) {
   const getB = (env: string) => branchForEnv ? branchForEnv(env) : (ENV_BRANCH[env] ?? env);
   return (
-    <button type="button" onClick={onClick} style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 14px', background: selected ? 'rgba(99,102,241,0.08)' : 'var(--bg-hover)', border: `1.5px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 9, cursor: 'pointer', textAlign: 'left', width: '100%', fontFamily: 'inherit', transition: 'all 0.15s' }}>
+    <button type="button" onClick={onClick} style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 14px', background: selected ? 'var(--accent-subtle)' : 'var(--bg-hover)', border: `1.5px solid ${selected ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 9, cursor: 'pointer', textAlign: 'left', width: '100%', fontFamily: 'inherit', transition: 'all 0.15s' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: selected ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{option.label}</span>
-        {option.badge && <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: 'rgba(99,102,241,0.15)', color: 'var(--accent)', border: '1px solid rgba(99,102,241,0.3)', textTransform: 'uppercase' }}>{option.badge}</span>}
+        <span style={{ fontSize: 13, fontWeight: 500, color: selected ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{option.label}</span>
+        {option.badge && <span style={{ fontSize: 9, fontWeight: 500, padding: '2px 6px', borderRadius: 4, background: 'var(--accent-subtle)', color: 'var(--accent)', border: '1px solid var(--border-strong)', textTransform: 'uppercase' }}>{option.badge}</span>}
         {selected && <CheckCircle2 size={12} style={{ color: 'var(--accent)', marginLeft: 'auto' }} />}
       </div>
       <p style={{ margin: 0, fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{option.sub}</p>
@@ -253,7 +253,7 @@ function TreeView({ nodes, onSelect, selectedPath }: {
     const isSel = !node.isDir && node.path === selectedPath;
     return (
       <div key={node.path}>
-        <button type="button" onClick={() => { if (node.isDir) setExpanded(e => { const n = new Set(e); n.has(node.path) ? n.delete(node.path) : n.add(node.path); return n; }); else onSelect(node.path); }} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: `4px 6px 4px ${6 + depth * 12}px`, background: isSel ? 'rgba(99,102,241,0.1)' : 'transparent', border: 'none', borderRadius: 5, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: isSel ? 'var(--accent)' : 'var(--text-secondary)', transition: 'background 0.1s' }}>
+        <button type="button" onClick={() => { if (node.isDir) setExpanded(e => { const n = new Set(e); n.has(node.path) ? n.delete(node.path) : n.add(node.path); return n; }); else onSelect(node.path); }} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: `4px 6px 4px ${6 + depth * 12}px`, background: isSel ? 'var(--accent-subtle)' : 'transparent', border: 'none', borderRadius: 5, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', color: isSel ? 'var(--accent)' : 'var(--text-secondary)', transition: 'background 0.1s' }}>
           {node.isDir
             ? <>{isExp ? <ChevronDown size={10} style={{ flexShrink: 0 }} /> : <ChevronRight size={10} style={{ flexShrink: 0 }} />}{isExp ? <FolderOpen size={12} style={{ color: 'var(--warning)', flexShrink: 0 }} /> : <Folder size={12} style={{ color: 'var(--warning)', flexShrink: 0 }} />}</>
             : <span style={{ paddingLeft: 3 }}>{fileIcon(node.name)}</span>}
@@ -675,16 +675,16 @@ export function DeployMode() {
       {/* Header */}
       <div style={{ padding: '12px 24px 10px', borderBottom: '1px solid var(--border)', background: 'var(--bg-surface)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: 'var(--accent-subtle)', border: '1px solid var(--border-strong)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap size={15} style={{ color: 'var(--accent)' }} />
           </div>
           <div>
-            <h2 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>Deploy Wizard</h2>
+            <h2 style={{ margin: 0, fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>Deploy Wizard</h2>
             <p style={{ margin: 0, fontSize: 11, color: 'var(--text-muted)' }}>Dockerfiles per service → CI/CD pipeline → K8s manifests per environment</p>
           </div>
           {selectedRepo && (
             <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'var(--text-muted)', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{selectedRepo.name}</span>
+              <span style={{ color: 'var(--accent)', fontWeight: 500 }}>{selectedRepo.name}</span>
               {userServices.length > 1 && <><span>·</span><span>{userServices.length} services</span></>}
               {choices.ciTool && <><span>·</span><span>{choices.ciTool}</span></>}
               {choices.environments.length > 0 && <><span>·</span><span>{choices.environments.join('+')}</span></>}
@@ -701,7 +701,7 @@ export function DeployMode() {
           {/* ── STEP 1: Repo ────────────────────────────────────────────── */}
           {step === 'repo' && (
             <div style={{ maxWidth: 700 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>Select Repository</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>Select Repository</h3>
               <p style={{ margin: '0 0 16px', fontSize: 13, color: 'var(--text-muted)' }}>We'll scan to detect services (backend/frontend/admin), languages, and existing DevOps files.</p>
 
               <div style={{ position: 'relative', marginBottom: 12 }}>
@@ -716,11 +716,11 @@ export function DeployMode() {
                 const renderRepoRow = (repo: Repo) => {
                   const sel = selectedRepo?.id === repo.id;
                   return (
-                    <button key={repo.id} type="button" onClick={() => setSelectedRepo(repo)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: sel ? 'rgba(99,102,241,0.08)' : 'var(--bg-surface)', border: `1.5px solid ${sel ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', transition: 'all 0.1s', width: '100%' }}>
+                    <button key={repo.id} type="button" onClick={() => setSelectedRepo(repo)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: sel ? 'var(--accent-subtle)' : 'var(--bg-surface)', border: `1.5px solid ${sel ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', transition: 'all 0.1s', width: '100%' }}>
                       <GitBranch size={13} style={{ color: sel ? 'var(--accent)' : 'var(--text-muted)', flexShrink: 0 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{repo.name}</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{repo.name}</span>
                           {repo.private && <Lock size={10} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />}
                           {repo.language && <span style={{ fontSize: 10, padding: '1px 6px', borderRadius: 4, background: 'var(--bg-hover)', color: 'var(--text-muted)', border: '1px solid var(--border)', flexShrink: 0 }}>{repo.language}</span>}
                         </div>
@@ -744,7 +744,7 @@ export function DeployMode() {
                   <div>
                     {personalRepos.length > 0 && (
                       <div style={{ marginBottom: hasGroups ? 16 : 0 }}>
-                        {hasGroups && <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Personal</p>}
+                        {hasGroups && <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Personal</p>}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           {personalRepos.map(renderRepoRow)}
                         </div>
@@ -752,7 +752,7 @@ export function DeployMode() {
                     )}
                     {Object.entries(orgMap).map(([org, orgRepos]) => (
                       <div key={org} style={{ marginBottom: 16 }}>
-                        <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{org}</p>
+                        <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{org}</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           {orgRepos.map(renderRepoRow)}
                         </div>
@@ -778,7 +778,7 @@ export function DeployMode() {
           {/* ── STEP 2: Scan ────────────────────────────────────────────── */}
           {step === 'scan' && (
             <div style={{ maxWidth: 580 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>Scanning {selectedRepo?.name}</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>Scanning {selectedRepo?.name}</h3>
               <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)' }}>Detecting services (backend/frontend/admin), languages, and existing configs.</p>
 
               {scanning && (
@@ -795,7 +795,7 @@ export function DeployMode() {
               {scanError && (
                 <div style={{ padding: 14, background: 'var(--error-bg)', border: '1px solid var(--error)', borderRadius: 9, display: 'flex', gap: 10 }}>
                   <AlertCircle size={14} style={{ color: 'var(--error)', flexShrink: 0, marginTop: 1 }} />
-                  <div style={{ flex: 1 }}><p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--error)' }}>Scan failed</p><p style={{ margin: '3px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>{scanError}</p></div>
+                  <div style={{ flex: 1 }}><p style={{ margin: 0, fontSize: 13, fontWeight: 500, color: 'var(--error)' }}>Scan failed</p><p style={{ margin: '3px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>{scanError}</p></div>
                   <button type="button" onClick={() => { setScanError(null); handleScan(); }} style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}><RefreshCw size={11} /> Retry</button>
                 </div>
               )}
@@ -806,13 +806,13 @@ export function DeployMode() {
                   <div style={{ padding: '13px 15px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 12 }}>
                       <Layers size={13} style={{ color: 'var(--accent)' }} />
-                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                         Services & Endpoints ({userServices.length})
                       </span>
                       <button
                         type="button"
                         onClick={addUserService}
-                        style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 8px', borderRadius: 4, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', color: 'var(--accent)', cursor: 'pointer' }}
+                        style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, padding: '3px 8px', borderRadius: 4, background: 'var(--accent-subtle)', border: '1px solid var(--border)', color: 'var(--accent)', cursor: 'pointer' }}
                       >
                         <Plus size={9} /> Add Service
                       </button>
@@ -821,7 +821,7 @@ export function DeployMode() {
                     {/* Column headers */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px 64px 140px 26px', gap: 6, padding: '0 2px 6px', borderBottom: '1px solid var(--border)', marginBottom: 8 }}>
                       {['Service / Path', 'Role', 'Port', 'Public URL', ''].map(h => (
-                        <span key={h} style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{h}</span>
+                        <span key={h} style={{ fontSize: 9, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{h}</span>
                       ))}
                     </div>
 
@@ -837,10 +837,10 @@ export function DeployMode() {
                                 value={svc.name}
                                 onChange={e => updateUserService(idx, 'name', e.target.value)}
                                 placeholder="service-name"
-                                style={{ fontSize: 11, fontWeight: 600, padding: '3px 6px', borderRadius: 4, background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '100%', boxSizing: 'border-box' }}
+                                style={{ fontSize: 11, fontWeight: 500, padding: '3px 6px', borderRadius: 4, background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '100%', boxSizing: 'border-box' }}
                               />
                             ) : (
-                              <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{svc.name}</span>
+                              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{svc.name}</span>
                             )}
                             <span style={{ fontSize: 9, color: 'var(--text-muted)', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                               {svc._manual ? (
@@ -860,7 +860,7 @@ export function DeployMode() {
                           <select
                             value={svc.role ?? 'backend'}
                             onChange={e => updateUserService(idx, 'role', e.target.value)}
-                            style={{ fontSize: 10, padding: '4px 4px', borderRadius: 5, background: 'var(--bg-base)', border: `1px solid ${c}44`, color: c, fontWeight: 600 }}
+                            style={{ fontSize: 10, padding: '4px 4px', borderRadius: 5, background: 'var(--bg-base)', border: `1px solid ${c}44`, color: c, fontWeight: 500 }}
                           >
                             {['backend', 'frontend', 'admin', 'worker', 'other'].map(r => (
                               <option key={r} value={r}>{r}</option>
@@ -912,7 +912,7 @@ export function DeployMode() {
                   <div style={{ padding: '13px 15px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 10 }}>
                       <FileCode2 size={13} style={{ color: 'var(--accent)' }} />
-                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Existing DevOps Files</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Existing DevOps Files</span>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                       {[
@@ -923,7 +923,7 @@ export function DeployMode() {
                         ...(scanResult.has_jenkinsfile    ? [{ ok: true,  label: 'Jenkinsfile',        gen: false }] : []),
                         ...(scanResult.has_gitlab_ci      ? [{ ok: true,  label: '.gitlab-ci.yml',     gen: false }] : []),
                       ].map(({ ok, label, gen }) => (
-                        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 9px', background: 'var(--bg-hover)', borderRadius: 6, border: `1px solid ${ok ? 'rgba(52,211,153,0.2)' : 'rgba(99,102,241,0.2)'}` }}>
+                        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 9px', background: 'var(--bg-hover)', borderRadius: 6, border: `1px solid ${ok ? 'rgba(52,211,153,0.2)' : 'var(--border)'}` }}>
                           {ok ? <CheckCircle2 size={11} style={{ color: 'var(--success)', flexShrink: 0 }} /> : <Zap size={11} style={{ color: 'var(--accent)', flexShrink: 0 }} />}
                           <span style={{ fontSize: 12, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-primary)' }}>{label}</span>
                           {!ok && gen && <span style={{ fontSize: 10, color: 'var(--accent)', marginLeft: 'auto' }}>will generate</span>}
@@ -940,7 +940,7 @@ export function DeployMode() {
           {/* ── STEP 3: Containers ──────────────────────────────────────── */}
           {step === 'containers' && (
             <div style={{ maxWidth: 860 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>Docker Files</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>Docker Files</h3>
               <p style={{ margin: '0 0 14px', fontSize: 13, color: 'var(--text-muted)' }}>
                 {userServices.length > 1
                   ? `Generated a Dockerfile for each of the ${userServices.length} services, plus a docker-compose.yml.`
@@ -986,7 +986,7 @@ export function DeployMode() {
                   />
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                    <button type="button" onClick={handleCommitContainers} disabled={containersCommitting || containersCommitted} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', background: containersCommitted ? 'var(--success)' : 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 12, fontWeight: 600, cursor: containersCommitting || containersCommitted ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: containersCommitting ? 0.7 : 1 }}>
+                    <button type="button" onClick={handleCommitContainers} disabled={containersCommitting || containersCommitted} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', background: containersCommitted ? 'var(--success)' : 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 12, fontWeight: 500, cursor: containersCommitting || containersCommitted ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: containersCommitting ? 0.7 : 1 }}>
                       {containersCommitting ? <Loader2 size={12} style={{ animation: 'spin 0.8s linear infinite' }} /> : containersCommitted ? <CheckCircle2 size={12} /> : <GitBranch size={12} />}
                       {containersCommitting ? 'Committing…' : containersCommitted ? 'Committed!' : `Commit All to ${selectedRepo?.name}`}
                     </button>
@@ -994,7 +994,7 @@ export function DeployMode() {
                   </div>
 
                   {containersCommitted && (
-                    <div style={{ marginTop: 10, padding: '8px 12px', background: 'rgba(52,211,153,0.07)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 7, display: 'flex', gap: 7, alignItems: 'center' }}>
+                    <div style={{ marginTop: 10, padding: '8px 12px', background: 'rgba(52,211,153,0.07)', border: '1px solid var(--success)', borderRadius: 7, display: 'flex', gap: 7, alignItems: 'center' }}>
                       <CheckCircle2 size={12} style={{ color: 'var(--success)' }} />
                       <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Dockerfiles and docker-compose.yml committed to <strong>{selectedRepo?.full_name}</strong>.</span>
                     </div>
@@ -1007,13 +1007,13 @@ export function DeployMode() {
           {/* ── STEP 4: Pipeline (CI + CD + Config) ──────────────────── */}
           {step === 'pipeline' && (
             <div style={{ maxWidth: 640 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>CI / CD Pipeline</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>CI / CD Pipeline</h3>
               <p style={{ margin: '0 0 20px', fontSize: 13, color: 'var(--text-muted)' }}>Choose your CI tool (build &amp; push image) and CD method (deploy to Kubernetes).</p>
 
               <div style={{ marginBottom: 24 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.ciTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.ciTool ? '✓' : '1'}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>CI Tool — Build, Test &amp; Push Image</span>
+                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.ciTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.ciTool ? '✓' : '1'}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>CI Tool — Build, Test &amp; Push Image</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {CI_OPTIONS.map(opt => <OptionCard key={opt.id} {...opt} selected={choices.ciTool === opt.id} onClick={() => setChoices(c => ({ ...c, ciTool: opt.id }))} />)}
@@ -1022,8 +1022,8 @@ export function DeployMode() {
 
               <div style={{ marginBottom: 24 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.cdTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.cdTool ? '✓' : '2'}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>CD Method — Deploy to Kubernetes</span>
+                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.cdTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.cdTool ? '✓' : '2'}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>CD Method — Deploy to Kubernetes</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {CD_OPTIONS.map(opt => <OptionCard key={opt.id} {...opt} selected={choices.cdTool === opt.id} onClick={() => setChoices(c => ({ ...c, cdTool: opt.id }))} />)}
@@ -1032,8 +1032,8 @@ export function DeployMode() {
 
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.configTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.configTool ? '✓' : '3'}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Kubernetes Config Management</span>
+                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: choices.configTool ? 'var(--success)' : 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{choices.configTool ? '✓' : '3'}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Kubernetes Config Management</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {CONFIG_OPTIONS.map(opt => <OptionCard key={opt.id} {...opt} selected={choices.configTool === opt.id} onClick={() => setChoices(c => ({ ...c, configTool: opt.id }))} />)}
@@ -1043,8 +1043,8 @@ export function DeployMode() {
               {/* Security Scanning */}
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--success)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>✓</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Security Scanning</span>
+                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--success)', color: '#fff', fontSize: 11, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>✓</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Security Scanning</span>
                   <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>— toggle to include in CI</span>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -1073,7 +1073,7 @@ export function DeployMode() {
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                           <span style={{ fontSize: 14 }}>{s.icon}</span>
-                          <span style={{ fontSize: 13, fontWeight: 600, color: on ? 'var(--success)' : 'var(--text-primary)' }}>{s.label}</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: on ? 'var(--success)' : 'var(--text-primary)' }}>{s.label}</span>
                           <span style={{ marginLeft: 'auto', width: 14, height: 14, borderRadius: '50%', background: on ? 'var(--success)' : 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#fff', flexShrink: 0 }}>
                             {on ? '✓' : ''}
                           </span>
@@ -1090,7 +1090,7 @@ export function DeployMode() {
           {/* ── STEP 5: Environments ───────────────────────────────────── */}
           {step === 'envs' && (
             <div style={{ maxWidth: 640 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>Deployment Environments</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>Deployment Environments</h3>
               <p style={{ margin: '0 0 14px', fontSize: 13, color: 'var(--text-muted)' }}>CI deploys to the matching K8s namespace when the branch is pushed. Options shown match branches found in your repo.</p>
 
               {/* Scanning */}
@@ -1103,7 +1103,7 @@ export function DeployMode() {
 
               {/* Protected branch notice */}
               {!branchChecking && detectedBranches.prod && (
-                <div style={{ marginBottom: 14, padding: '8px 12px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 7, display: 'flex', gap: 7, alignItems: 'center' }}>
+                <div style={{ marginBottom: 14, padding: '8px 12px', background: 'var(--accent-subtle)', border: '1px solid var(--border)', borderRadius: 7, display: 'flex', gap: 7, alignItems: 'center' }}>
                   <Lock size={11} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                   <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
                     <strong>{detectedBranches.prod}</strong> is your production branch — merges here trigger prod deploys.
@@ -1149,18 +1149,18 @@ export function DeployMode() {
                     {(needsDev || needsStaging) && (
                       <div>
                         {availableOptions.length > 0 && (
-                          <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Create additional branches</p>
+                          <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Create additional branches</p>
                         )}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                           {needsDev && (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 9 }}>
                               <GitBranch size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
                               <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>No <code style={{ fontSize: 11 }}>dev</code> branch found</div>
+                                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>No <code style={{ fontSize: 11 }}>dev</code> branch found</div>
                                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Create from <code style={{ fontSize: 11 }}>{fromBranch}</code> to unlock Dev + Production pipeline</div>
                               </div>
                               <button type="button" onClick={() => setBranchCreateConfirm('dev')} disabled={branchCreating !== null}
-                                style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.35)', borderRadius: 7, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
+                                style={{ padding: '6px 14px', fontSize: 12, fontWeight: 500, background: 'var(--accent-subtle)', border: '1px solid var(--border-strong)', borderRadius: 7, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
                                 {branchCreating === 'dev' ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Plus size={11} />} Create dev
                               </button>
                             </div>
@@ -1169,11 +1169,11 @@ export function DeployMode() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 9 }}>
                               <GitBranch size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
                               <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>No <code style={{ fontSize: 11 }}>staging</code> branch found</div>
+                                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>No <code style={{ fontSize: 11 }}>staging</code> branch found</div>
                                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Create from <code style={{ fontSize: 11 }}>{fromBranch}</code> to unlock Staging pipeline</div>
                               </div>
                               <button type="button" onClick={() => setBranchCreateConfirm('staging')} disabled={branchCreating !== null}
-                                style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.35)', borderRadius: 7, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
+                                style={{ padding: '6px 14px', fontSize: 12, fontWeight: 500, background: 'var(--accent-subtle)', border: '1px solid var(--border-strong)', borderRadius: 7, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
                                 {branchCreating === 'staging' ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Plus size={11} />} Create staging
                               </button>
                             </div>
@@ -1192,7 +1192,7 @@ export function DeployMode() {
                     <div style={{ padding: '13px 15px', background: 'rgba(251,191,36,0.05)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 9 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 12 }}>
                         <AlertCircle size={13} style={{ color: '#fbbf24', flexShrink: 0 }} />
-                        <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>
                           {branchIssues.filter(i => i.action === null).length} branch{branchIssues.filter(i => i.action === null).length !== 1 ? 'es' : ''} missing — resolve to continue
                         </span>
                       </div>
@@ -1203,13 +1203,13 @@ export function DeployMode() {
                               <GitBranch size={11} style={{ color: '#fbbf24', flexShrink: 0 }} />
                               <code style={{ fontSize: 12, fontFamily: 'JetBrains Mono, monospace', color: '#fbbf24' }}>{issue.branch}</code>
                               <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>not found in {selectedRepo?.name}</span>
-                              {issue.action === 'create'   && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--success)', fontWeight: 600 }}>Branch created</span>}
-                              {issue.action === 'use_main' && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--accent)', fontWeight: 600 }}>Using {selectedRepo?.default_branch}</span>}
-                              {issue.action === 'skip'     && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Env skipped</span>}
+                              {issue.action === 'create'   && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--success)', fontWeight: 500 }}>Branch created</span>}
+                              {issue.action === 'use_main' && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--accent)', fontWeight: 500 }}>Using {selectedRepo?.default_branch}</span>}
+                              {issue.action === 'skip'     && <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>Env skipped</span>}
                             </div>
                             {issue.action === null && (
                               <div style={{ display: 'flex', gap: 6 }}>
-                                <button type="button" onClick={() => setBranchCreateConfirm(issue.branch)} style={{ flex: 1, padding: '6px', fontSize: 11, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 6, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit' }}>
+                                <button type="button" onClick={() => setBranchCreateConfirm(issue.branch)} style={{ flex: 1, padding: '6px', fontSize: 11, background: 'var(--accent-subtle)', border: '1px solid var(--border-strong)', borderRadius: 6, color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit' }}>
                                   Create branch
                                 </button>
                                 <button type="button" onClick={() => setBranchIssues(prev => prev.map(i => i.env === issue.env ? { ...i, action: 'use_main' } : i))} style={{ flex: 1, padding: '6px', fontSize: 11, background: 'var(--bg-hover)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -1233,12 +1233,12 @@ export function DeployMode() {
           {/* ── STEP 6: Vault & Registry ───────────────────────────────── */}
           {step === 'vault' && (
             <div style={{ maxWidth: 640 }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700 }}>Vault &amp; Container Registry</h3>
+              <h3 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 500 }}>Vault &amp; Container Registry</h3>
               <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)' }}>Configure secrets management and where Docker images are pushed.</p>
 
               {/* ── Vault detection / selection ── */}
               <div style={{ marginBottom: 22 }}>
-                <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Secrets Manager</p>
+                <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Secrets Manager</p>
 
                 {!vaultCheckDone ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 9 }}>
@@ -1253,22 +1253,22 @@ export function DeployMode() {
                     const v = detectedVaults[0];
                     const accepted = vaultChosen === v.id;
                     return (
-                      <div style={{ padding: '14px 16px', background: accepted ? 'rgba(52,211,153,0.06)' : 'rgba(99,102,241,0.06)', border: `1px solid ${accepted ? 'rgba(52,211,153,0.25)' : 'rgba(99,102,241,0.25)'}`, borderRadius: 9 }}>
+                      <div style={{ padding: '14px 16px', background: accepted ? 'var(--success-bg)' : 'var(--accent-subtle)', border: `1px solid ${accepted ? 'var(--success)' : 'var(--border)'}`, borderRadius: 9 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 12 }}>
                           <CheckCircle2 size={13} style={{ color: accepted ? 'var(--success)' : 'var(--accent)', flexShrink: 0 }} />
-                          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Found your vault</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Found your vault</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: 12 }}>
                           <Shield size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                           <div style={{ flex: 1 }}>
-                            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{v.label}</div>
+                            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{v.label}</div>
                             <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{v.details}</div>
                           </div>
                           {accepted && <CheckCircle2 size={13} style={{ color: 'var(--success)' }} />}
                         </div>
                         <div style={{ display: 'flex', gap: 8 }}>
                           <button type="button" onClick={() => { setVaultChosen(v.id); setChoices(c => ({ ...c, vault: v.id })); }}
-                            style={{ flex: 2, padding: '8px', fontSize: 12, fontWeight: accepted ? 700 : 400, background: accepted ? 'var(--accent)' : 'rgba(99,102,241,0.12)', border: `1px solid ${accepted ? 'var(--accent)' : 'rgba(99,102,241,0.3)'}`, borderRadius: 7, color: accepted ? '#fff' : 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit' }}>
+                            style={{ flex: 2, padding: '8px', fontSize: 12, fontWeight: accepted ? 700 : 400, background: accepted ? 'var(--accent)' : 'var(--accent-subtle)', border: `1px solid ${accepted ? 'var(--accent)' : 'var(--border-strong)'}`, borderRadius: 7, color: accepted ? '#fff' : 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit' }}>
                             {accepted ? '✓ Using this vault' : 'Use this vault'}
                           </button>
                           <button type="button" onClick={() => { setVaultChosen('manual'); setChoices(c => ({ ...c, vault: null })); }}
@@ -1284,14 +1284,14 @@ export function DeployMode() {
                     // Case 2: multiple vaults detected
                     return (
                       <div style={{ padding: '14px 16px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 9 }}>
-                        <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Detected vaults — select one</p>
+                        <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Detected vaults — select one</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
                           {detectedVaults.map(v => (
                             <button key={v.id} type="button" onClick={() => { setVaultChosen(v.id); setChoices(c => ({ ...c, vault: v.id })); }}
-                              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: choices.vault === v.id ? 'rgba(99,102,241,0.08)' : 'var(--bg-hover)', border: `1.5px solid ${choices.vault === v.id ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', width: '100%' }}>
+                              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: choices.vault === v.id ? 'var(--accent-subtle)' : 'var(--bg-hover)', border: `1.5px solid ${choices.vault === v.id ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', width: '100%' }}>
                               <Shield size={14} style={{ color: choices.vault === v.id ? 'var(--accent)' : 'var(--text-muted)', flexShrink: 0 }} />
                               <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: 13, fontWeight: 600, color: choices.vault === v.id ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{v.label}</div>
+                                <div style={{ fontSize: 13, fontWeight: 500, color: choices.vault === v.id ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{v.label}</div>
                                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{v.details}</div>
                               </div>
                               {choices.vault === v.id && <CheckCircle2 size={13} style={{ color: 'var(--accent)' }} />}
@@ -1310,7 +1310,7 @@ export function DeployMode() {
                   return (
                     <>
                       {detectedVaults.length === 0 && (
-                        <div style={{ padding: '8px 12px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 7, marginBottom: 10, display: 'flex', gap: 7, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ padding: '8px 12px', background: 'var(--accent-subtle)', border: '1px solid var(--border)', borderRadius: 7, marginBottom: 10, display: 'flex', gap: 7, alignItems: 'center', flexWrap: 'wrap' }}>
                           <Database size={12} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                           <span style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                             No vault credentials detected. K8s Secrets is simplest. Add vault credentials in{' '}
@@ -1331,7 +1331,7 @@ export function DeployMode() {
               {vaultCheckDone && (
                 <div style={{ marginBottom: 22 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Stored Secrets</p>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Stored Secrets</p>
                     <div style={{ display: 'flex', gap: 6 }}>
                       <button type="button" onClick={fetchVaultSecrets} disabled={vaultSecretsLoading}
                         style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 10px', fontSize: 11, background: 'var(--bg-hover)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--text-muted)', cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -1339,7 +1339,7 @@ export function DeployMode() {
                         Refresh
                       </button>
                       <button type="button" onClick={() => setShowVaultEnvUpload(v => !v)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 10px', fontSize: 11, background: showVaultEnvUpload ? 'rgba(99,102,241,0.1)' : 'var(--bg-hover)', border: `1px solid ${showVaultEnvUpload ? 'rgba(99,102,241,0.35)' : 'var(--border)'}`, borderRadius: 6, color: showVaultEnvUpload ? 'var(--accent)' : 'var(--text-muted)', cursor: 'pointer', fontFamily: 'inherit' }}>
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 10px', fontSize: 11, background: showVaultEnvUpload ? 'var(--accent-subtle)' : 'var(--bg-hover)', border: `1px solid ${showVaultEnvUpload ? 'var(--border-strong)' : 'var(--border)'}`, borderRadius: 6, color: showVaultEnvUpload ? 'var(--accent)' : 'var(--text-muted)', cursor: 'pointer', fontFamily: 'inherit' }}>
                         <Upload size={10} /> Upload .env
                       </button>
                     </div>
@@ -1372,7 +1372,7 @@ export function DeployMode() {
                   {!vaultSecretsLoading && vaultSecrets.length > 0 && (
                     <div style={{ border: '1px solid var(--border)', borderRadius: 9, overflow: 'hidden' }}>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 90px 1fr auto', padding: '6px 12px', background: 'var(--bg-hover)', borderBottom: '1px solid var(--border)' }}>
-                        {['Name', 'Type', 'Value', ''].map((h, i) => <span key={i} style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>{h}</span>)}
+                        {['Name', 'Type', 'Value', ''].map((h, i) => <span key={i} style={{ fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>{h}</span>)}
                       </div>
                       <div style={{ maxHeight: 240, overflowY: 'auto' }}>
                         {vaultSecrets.map(s => (
@@ -1404,12 +1404,12 @@ export function DeployMode() {
               {/* "Is vault already deployed?" — only in manual mode with non-none vault */}
               {vaultCheckDone && choices.vault && choices.vault !== 'none' && (vaultChosen === 'manual' || detectedVaults.length === 0) && (
                 <div style={{ padding: '12px 14px', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 9, marginBottom: 22 }}>
-                  <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
+                  <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>
                     Is {choices.vault === 'hashicorp' ? 'HashiCorp Vault' : choices.vault === 'infisical' ? 'Infisical' : 'AWS Secrets Manager'} already deployed?
                   </p>
                   <div style={{ display: 'flex', gap: 8 }}>
                     {[{ val: true, label: 'Yes, already running' }, { val: false, label: 'No, include setup steps' }].map(({ val, label }) => (
-                      <button key={String(val)} type="button" onClick={() => setChoices(c => ({ ...c, vaultDeployed: val }))} style={{ flex: 1, padding: '8px', fontSize: 12, fontWeight: choices.vaultDeployed === val ? 700 : 400, background: choices.vaultDeployed === val ? 'rgba(99,102,241,0.1)' : 'var(--bg-hover)', border: `1.5px solid ${choices.vaultDeployed === val ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 7, cursor: 'pointer', color: choices.vaultDeployed === val ? 'var(--accent)' : 'var(--text-secondary)', fontFamily: 'inherit', transition: 'all 0.15s' }}>
+                      <button key={String(val)} type="button" onClick={() => setChoices(c => ({ ...c, vaultDeployed: val }))} style={{ flex: 1, padding: '8px', fontSize: 12, fontWeight: choices.vaultDeployed === val ? 700 : 400, background: choices.vaultDeployed === val ? 'var(--accent-subtle)' : 'var(--bg-hover)', border: `1.5px solid ${choices.vaultDeployed === val ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 7, cursor: 'pointer', color: choices.vaultDeployed === val ? 'var(--accent)' : 'var(--text-secondary)', fontFamily: 'inherit', transition: 'all 0.15s' }}>
                         {label}
                       </button>
                     ))}
@@ -1420,7 +1420,7 @@ export function DeployMode() {
               {/* Registry — always show once vault is chosen */}
               {vaultCheckDone && choices.vault && (
                 <div>
-                  <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Container Registry</p>
+                  <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Container Registry</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {REGISTRY_OPTIONS.map(opt => <OptionCard key={opt.id} {...opt} selected={choices.registry === opt.id} onClick={() => setChoices(c => ({ ...c, registry: opt.id }))} />)}
                   </div>
@@ -1435,7 +1435,7 @@ export function DeployMode() {
               {/* File tree sidebar */}
               <div style={{ width: 230, flexShrink: 0, display: 'flex', flexDirection: 'column', background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
                 <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg-hover)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Files</span>
+                  <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Files</span>
                   {generatedFiles.length > 0 && <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{generatedFiles.length} generated</span>}
                 </div>
 
@@ -1451,12 +1451,12 @@ export function DeployMode() {
                 {generatedFiles.length > 0 && !isGenerating && (
                   <div style={{ padding: '8px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0 }}>
                     {!committed ? (
-                      <button type="button" onClick={handleCommitPipeline} disabled={committing} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 11, fontWeight: 600, cursor: committing ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
+                      <button type="button" onClick={handleCommitPipeline} disabled={committing} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 11, fontWeight: 500, cursor: committing ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>
                         {committing ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <GitBranch size={11} />}
                         {committing ? 'Committing…' : 'Commit to Repo'}
                       </button>
                     ) : (
-                      <button type="button" onClick={() => setShowTargetModal(true)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 7, color: 'var(--success)', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      <button type="button" onClick={() => setShowTargetModal(true)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: 7, color: 'var(--success)', fontSize: 11, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
                         <CheckCircle2 size={11} /> Pushed — Set Up Monitoring →
                       </button>
                     )}
@@ -1470,7 +1470,7 @@ export function DeployMode() {
               {/* File content */}
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
                 {isGenerating && (
-                  <div style={{ padding: '6px 14px', borderBottom: '1px solid var(--border)', background: 'rgba(99,102,241,0.06)', display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
+                  <div style={{ padding: '6px 14px', borderBottom: '1px solid var(--border)', background: 'var(--accent-subtle)', display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
                     <Loader2 size={11} style={{ color: 'var(--accent)', animation: 'spin 0.8s linear infinite' }} />
                     <span style={{ fontSize: 11, color: 'var(--accent)' }}>Generating {choices.ciTool} + {choices.cdTool} + {choices.configTool} for [{choices.environments.join(', ')}]…</span>
                     <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--text-muted)' }}>{generatedFiles.length} file{generatedFiles.length !== 1 ? 's' : ''}</span>
@@ -1506,8 +1506,8 @@ export function DeployMode() {
       {/* ── Branch create confirmation modal ───────────────────────────────── */}
       {branchCreateConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-          <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 440, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
-            <h3 style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 700 }}>Create branch?</h3>
+          <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 440, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
+            <h3 style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 500 }}>Create branch?</h3>
             <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Create{' '}
               <code style={{ fontSize: 12, background: 'var(--bg-hover)', padding: '1px 6px', borderRadius: 4, color: 'var(--text-primary)' }}>{branchCreateConfirm}</code>{' '}
@@ -1519,7 +1519,7 @@ export function DeployMode() {
               <button type="button" onClick={() => setBranchCreateConfirm(null)} disabled={branchCreating !== null} style={{ padding: '7px 16px', background: 'transparent', border: '1px solid var(--border)', borderRadius: 7, color: 'var(--text-muted)', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Cancel
               </button>
-              <button type="button" onClick={() => handleCreateBranch(branchCreateConfirm)} disabled={branchCreating !== null} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 18px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 600, cursor: branchCreating ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: branchCreating ? 0.7 : 1 }}>
+              <button type="button" onClick={() => handleCreateBranch(branchCreateConfirm)} disabled={branchCreating !== null} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 18px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 500, cursor: branchCreating ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: branchCreating ? 0.7 : 1 }}>
                 {branchCreating ? <Loader2 size={12} style={{ animation: 'spin 0.8s linear infinite' }} /> : <GitBranch size={12} />}
                 {branchCreating ? 'Creating…' : 'Confirm — Create Branch'}
               </button>
@@ -1531,8 +1531,8 @@ export function DeployMode() {
       {/* ── Deploy target modal ─────────────────────────────────────────────── */}
       {showTargetModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-          <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 560, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}>
-            <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 700 }}>Where are you deploying?</h3>
+          <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 560, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
+            <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 500 }}>Where are you deploying?</h3>
             <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)' }}>
               Meridian will monitor your CI runs, stream logs, and suggest fixes automatically.
             </p>
@@ -1544,14 +1544,14 @@ export function DeployMode() {
                   onClick={() => setSelectedTarget(t.id)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
-                    background: selectedTarget === t.id ? 'rgba(99,102,241,0.12)' : 'var(--bg-hover)',
+                    background: selectedTarget === t.id ? 'var(--accent-subtle)' : 'var(--bg-hover)',
                     border: `1px solid ${selectedTarget === t.id ? 'var(--accent)' : 'var(--border)'}`,
                     borderRadius: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
                   }}
                 >
                   <span style={{ color: selectedTarget === t.id ? 'var(--accent)' : 'var(--text-muted)', flexShrink: 0 }}>{t.icon}</span>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: selectedTarget === t.id ? 'var(--accent)' : 'var(--text-primary)' }}>{t.label}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: selectedTarget === t.id ? 'var(--accent)' : 'var(--text-primary)' }}>{t.label}</div>
                     <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 1 }}>{t.sub}</div>
                   </div>
                 </button>
@@ -1565,7 +1565,7 @@ export function DeployMode() {
                 type="button"
                 onClick={handleSaveDeployment}
                 disabled={savingDeployment}
-                style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 20px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 600, cursor: savingDeployment ? 'not-allowed' : 'pointer', fontFamily: 'inherit', boxShadow: '0 0 12px var(--accent-glow)' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 20px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 500, cursor: savingDeployment ? 'not-allowed' : 'pointer', fontFamily: 'inherit', boxShadow: '0 0 12px var(--accent-glow)' }}
               >
                 {savingDeployment ? <Loader2 size={13} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Zap size={13} />}
                 {savingDeployment ? 'Setting up…' : 'Start Monitoring →'}
@@ -1580,7 +1580,7 @@ export function DeployMode() {
         <div style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-surface)', padding: '10px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <button type="button" onClick={goBack} disabled={step === 'repo'} style={{ padding: '7px 16px', background: 'transparent', border: '1px solid var(--border)', borderRadius: 7, color: step === 'repo' ? 'var(--text-muted)' : 'var(--text-secondary)', fontSize: 13, cursor: step === 'repo' ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: step === 'repo' ? 0.4 : 1 }}>← Back</button>
 
-          <button type="button" onClick={goNext} disabled={!canGoNext() || scanning || containersFetching} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 22px', background: canGoNext() && !scanning && !containersFetching ? 'var(--accent)' : 'var(--bg-hover)', border: 'none', borderRadius: 7, color: canGoNext() && !scanning && !containersFetching ? '#fff' : 'var(--text-muted)', fontSize: 13, fontWeight: 600, cursor: !canGoNext() || scanning || containersFetching ? 'not-allowed' : 'pointer', fontFamily: 'inherit', boxShadow: canGoNext() && !scanning && !containersFetching ? '0 0 12px var(--accent-glow)' : 'none', transition: 'all 0.15s' }}>
+          <button type="button" onClick={goNext} disabled={!canGoNext() || scanning || containersFetching} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 22px', background: canGoNext() && !scanning && !containersFetching ? 'var(--accent)' : 'var(--bg-hover)', border: 'none', borderRadius: 7, color: canGoNext() && !scanning && !containersFetching ? '#fff' : 'var(--text-muted)', fontSize: 13, fontWeight: 500, cursor: !canGoNext() || scanning || containersFetching ? 'not-allowed' : 'pointer', fontFamily: 'inherit', boxShadow: canGoNext() && !scanning && !containersFetching ? '0 0 12px var(--accent-glow)' : 'none', transition: 'all 0.15s' }}>
             {step === 'vault'
               ? <><Zap size={13} /> Generate Pipeline</>
               : scanning

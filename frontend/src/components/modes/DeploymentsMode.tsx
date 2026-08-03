@@ -80,7 +80,7 @@ function fmtTime(iso: string) {
 function StatusBadge({ status, conclusion, size = 'sm' }: { status: string; conclusion: string | null; size?: 'sm' | 'xs' }) {
   const sz = size === 'xs' ? 10 : 12;
   if (status === 'in_progress') return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: sz, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 4, padding: '1px 6px' }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: sz, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', border: '1px solid var(--warning)', borderRadius: 4, padding: '1px 6px' }}>
       <Loader2 size={sz - 2} style={{ animation: 'spin 0.8s linear infinite' }} /> Running
     </span>
   );
@@ -90,7 +90,7 @@ function StatusBadge({ status, conclusion, size = 'sm' }: { status: string; conc
     </span>
   );
   if (conclusion === 'success') return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: sz, color: 'var(--success)', background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)', borderRadius: 4, padding: '1px 6px' }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: sz, color: 'var(--success)', background: 'rgba(52,211,153,0.1)', border: '1px solid var(--success)', borderRadius: 4, padding: '1px 6px' }}>
       <CheckCircle2 size={sz - 2} /> Passed
     </span>
   );
@@ -355,7 +355,7 @@ export function DeploymentsMode() {
       <div style={{ width: 260, flexShrink: 0, borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', background: 'var(--bg-surface)' }}>
         <div style={{ padding: '14px 14px 10px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 7 }}>
           <Rocket size={14} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontWeight: 700, fontSize: 13, flex: 1 }}>Deployments</span>
+          <span style={{ fontWeight: 500, fontSize: 13, flex: 1 }}>Deployments</span>
           <button type="button" onClick={loadDeployments} title="Refresh" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 3 }}>
             <RefreshCw size={12} />
           </button>
@@ -374,13 +374,13 @@ export function DeploymentsMode() {
               type="button"
               onClick={() => selectDeployment(dep)}
               style={{
-                width: '100%', textAlign: 'left', background: selected?.id === dep.id ? 'rgba(99,102,241,0.1)' : 'none',
+                width: '100%', textAlign: 'left', background: selected?.id === dep.id ? 'var(--accent-subtle)' : 'none',
                 border: 'none', borderLeft: selected?.id === dep.id ? '2px solid var(--accent)' : '2px solid transparent',
                 padding: '8px 10px', borderRadius: 6, cursor: 'pointer', marginBottom: 2,
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {dep.repo_full_name.split('/')[1]}
                 </span>
                 <button
@@ -398,7 +398,7 @@ export function DeploymentsMode() {
                 {dep.repo_full_name.split('/')[0]} · {fmtTime(dep.updated_at)}
               </div>
               <div style={{ display: 'flex', gap: 4, marginTop: 5, flexWrap: 'wrap' }}>
-                {dep.ci_tool && <span style={{ fontSize: 9, padding: '1px 5px', borderRadius: 3, background: 'rgba(99,102,241,0.12)', color: 'var(--accent)', border: '1px solid rgba(99,102,241,0.2)' }}>{CI_LABEL[dep.ci_tool] ?? dep.ci_tool}</span>}
+                {dep.ci_tool && <span style={{ fontSize: 9, padding: '1px 5px', borderRadius: 3, background: 'var(--accent-subtle)', color: 'var(--accent)', border: '1px solid var(--border)' }}>{CI_LABEL[dep.ci_tool] ?? dep.ci_tool}</span>}
                 {dep.deploy_target && <span style={{ fontSize: 9, padding: '1px 5px', borderRadius: 3, background: 'var(--bg-hover)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>{TARGET_LABEL[dep.deploy_target] ?? dep.deploy_target}</span>}
               </div>
             </button>
@@ -420,7 +420,7 @@ export function DeploymentsMode() {
           <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, background: 'var(--bg-surface)', flexShrink: 0 }}>
             <GitBranch size={14} style={{ color: 'var(--accent)' }} />
             <div>
-              <span style={{ fontWeight: 700, fontSize: 14 }}>{selected.repo_full_name}</span>
+              <span style={{ fontWeight: 500, fontSize: 14 }}>{selected.repo_full_name}</span>
               <span style={{ fontSize: 12, color: 'var(--text-muted)', marginLeft: 8 }}>/{selected.branch}</span>
             </div>
             <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -474,7 +474,7 @@ export function DeploymentsMode() {
                     <div style={{ marginBottom: 12, padding: 12, border: `1px solid ${c}44`, borderRadius: 8, background: `${c}0d` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <ShieldCheck size={13} style={{ color: c }} />
-                        <span style={{ fontWeight: 700, fontSize: 12, color: c }}>{icons[vstatus]} {labels[vstatus] || vstatus}</span>
+                        <span style={{ fontWeight: 500, fontSize: 12, color: c }}>{icons[vstatus]} {labels[vstatus] || vstatus}</span>
                         {vstatus === 'watching' && (
                           <div style={{ flex: 1, height: 4, background: 'var(--bg-hover)', borderRadius: 2, overflow: 'hidden', marginLeft: 4 }}>
                             <div style={{ width: `${verification.progress_pct as number}%`, height: '100%', background: c, borderRadius: 2, transition: 'width 0.5s' }} />
@@ -482,7 +482,7 @@ export function DeploymentsMode() {
                         )}
                         {(vstatus === 'degraded' || vstatus === 'critical') && (
                           <button type="button" onClick={handleRollback}
-                            style={{ marginLeft: 'auto', padding: '3px 10px', background: 'var(--error)', border: 'none', borderRadius: 5, color: '#fff', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
+                            style={{ marginLeft: 'auto', padding: '3px 10px', background: 'var(--error)', border: 'none', borderRadius: 5, color: '#fff', fontSize: 11, fontWeight: 500, cursor: 'pointer' }}>
                             Rollback
                           </button>
                         )}
@@ -510,14 +510,14 @@ export function DeploymentsMode() {
                     style={{
                       padding: '10px 14px', marginBottom: 6, borderRadius: 8,
                       border: `1px solid ${selectedRun?.id === run.id ? 'var(--accent)' : 'var(--border)'}`,
-                      background: selectedRun?.id === run.id ? 'rgba(99,102,241,0.05)' : 'var(--bg-surface)',
+                      background: selectedRun?.id === run.id ? 'var(--accent-subtle)' : 'var(--bg-surface)',
                       cursor: 'pointer',
                     }}
                     onClick={() => selectRun(run)}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <StatusBadge status={run.status} conclusion={run.conclusion} />
-                      <span style={{ fontSize: 13, fontWeight: 600, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{run.name}</span>
+                      <span style={{ fontSize: 13, fontWeight: 500, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{run.name}</span>
                       <span style={{ fontSize: 11, color: 'var(--text-muted)', flexShrink: 0 }}>{fmtTime(run.created_at)}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 10, marginTop: 5, alignItems: 'center' }}>
@@ -545,7 +545,7 @@ export function DeploymentsMode() {
                               <button
                                 type="button"
                                 onClick={e => { e.stopPropagation(); selectJob(job); }}
-                                style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'var(--accent)', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 3, padding: '2px 6px', cursor: 'pointer', fontFamily: 'inherit' }}
+                                style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'var(--accent)', background: 'var(--accent-subtle)', border: '1px solid var(--border)', borderRadius: 3, padding: '2px 6px', cursor: 'pointer', fontFamily: 'inherit' }}
                               >
                                 <Play size={9} /> Logs
                               </button>
@@ -594,7 +594,7 @@ export function DeploymentsMode() {
                           type="button"
                           onClick={handleAnalyze}
                           disabled={analyzing}
-                          style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, padding: '4px 10px', background: analyzing ? 'var(--bg-hover)' : 'var(--accent)', color: analyzing ? 'var(--text-muted)' : '#fff', border: 'none', borderRadius: 5, cursor: analyzing ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
+                          style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, padding: '4px 10px', background: analyzing ? 'var(--bg-hover)' : 'var(--accent)', color: analyzing ? 'var(--text-muted)' : '#fff', border: 'none', borderRadius: 5, cursor: analyzing ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
                         >
                           {analyzing ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Zap size={11} />}
                           {analyzing ? 'Analyzing…' : 'AI Fix'}
@@ -654,10 +654,10 @@ export function DeploymentsMode() {
                     {/* Severity + re-analyze row */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{
-                        fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4,
+                        fontSize: 11, fontWeight: 500, padding: '2px 8px', borderRadius: 4,
                         background: analysis.severity === 'error' ? 'rgba(248,113,113,0.12)' : analysis.severity === 'config' ? 'rgba(245,158,11,0.12)' : 'rgba(52,211,153,0.1)',
                         color: analysis.severity === 'error' ? 'var(--error)' : analysis.severity === 'config' ? '#f59e0b' : 'var(--success)',
-                        border: `1px solid ${analysis.severity === 'error' ? 'rgba(248,113,113,0.25)' : analysis.severity === 'config' ? 'rgba(245,158,11,0.3)' : 'rgba(52,211,153,0.2)'}`,
+                        border: `1px solid ${analysis.severity === 'error' ? 'rgba(248,113,113,0.25)' : analysis.severity === 'config' ? 'var(--warning)' : 'rgba(52,211,153,0.2)'}`,
                         textTransform: 'uppercase',
                       }}>
                         {analysis.severity === 'error' ? 'Code Fix' : analysis.severity === 'config' ? 'Config Issue' : 'Transient'}
@@ -683,17 +683,17 @@ export function DeploymentsMode() {
                     <div style={{ padding: '12px 14px', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 8 }}>
                         <AlertCircle size={13} style={{ color: 'var(--error)' }} />
-                        <span style={{ fontWeight: 700, fontSize: 12, color: 'var(--error)' }}>Root Cause</span>
+                        <span style={{ fontWeight: 500, fontSize: 12, color: 'var(--error)' }}>Root Cause</span>
                       </div>
                       <p style={{ margin: 0, fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>{analysis.diagnosis}</p>
                     </div>
 
                     {/* Fix summary */}
                     {analysis.fix_summary && (
-                      <div style={{ padding: '10px 14px', background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 8 }}>
+                      <div style={{ padding: '10px 14px', background: 'var(--accent-subtle)', border: '1px solid var(--border)', borderRadius: 8 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
                           <Zap size={12} style={{ color: 'var(--accent)' }} />
-                          <span style={{ fontWeight: 700, fontSize: 12, color: 'var(--accent)' }}>Proposed Fix</span>
+                          <span style={{ fontWeight: 500, fontSize: 12, color: 'var(--accent)' }}>Proposed Fix</span>
                         </div>
                         <p style={{ margin: 0, fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>{analysis.fix_summary}</p>
                       </div>
@@ -704,7 +704,7 @@ export function DeploymentsMode() {
                       <div style={{ padding: '12px 14px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 8 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 8 }}>
                           <AlertCircle size={12} style={{ color: '#f59e0b' }} />
-                          <span style={{ fontWeight: 700, fontSize: 12, color: '#f59e0b' }}>Manual Steps Required</span>
+                          <span style={{ fontWeight: 500, fontSize: 12, color: '#f59e0b' }}>Manual Steps Required</span>
                         </div>
                         <ol style={{ margin: 0, paddingLeft: 18 }}>
                           {analysis.manual_steps.map((step, i) => (
@@ -717,7 +717,7 @@ export function DeploymentsMode() {
                     {/* File changes */}
                     {analysis.files.length > 0 && (
                       <div>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>
+                        <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>
                           File Changes ({analysis.files.length})
                         </div>
                         {analysis.files.map((f, idx) => (
@@ -756,12 +756,12 @@ export function DeploymentsMode() {
                           <button
                             type="button"
                             onClick={() => setApplyConfirm(true)}
-                            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 18px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+                            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 18px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
                           >
                             <GitBranch size={13} /> Apply Fix & Push to GitHub
                           </button>
                         ) : (
-                          <div style={{ padding: '12px 14px', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 8 }}>
+                          <div style={{ padding: '12px 14px', background: 'rgba(245,158,11,0.08)', border: '1px solid var(--warning)', borderRadius: 8 }}>
                             <p style={{ margin: '0 0 10px', fontSize: 13, color: 'var(--text-primary)' }}>
                               This will commit {analysis.files.length} file(s) to <strong>{selectedRun?.head_branch || selected.branch}</strong> and trigger a new CI run. Continue?
                             </p>
@@ -770,7 +770,7 @@ export function DeploymentsMode() {
                                 type="button"
                                 onClick={handleApplyFix}
                                 disabled={applying}
-                                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'var(--accent)', border: 'none', borderRadius: 6, color: '#fff', fontSize: 12, fontWeight: 600, cursor: applying ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+                                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'var(--accent)', border: 'none', borderRadius: 6, color: '#fff', fontSize: 12, fontWeight: 500, cursor: applying ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
                               >
                                 {applying ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <ChevronRight size={11} />}
                                 {applying ? 'Pushing…' : 'Yes, push it'}

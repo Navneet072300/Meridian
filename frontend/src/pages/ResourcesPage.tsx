@@ -287,7 +287,7 @@ export default function ResourcesPage() {
     <div style={{ padding: '1.5rem', maxWidth: 1100, margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
-          <h1 style={{ margin: 0, color: V['--text'], fontWeight: 700, fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <h1 style={{ margin: 0, color: V['--text'], fontWeight: 500, fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
             <Server size={22} color={V['--accent']} />
             Resources
           </h1>

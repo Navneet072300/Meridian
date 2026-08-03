@@ -109,7 +109,7 @@ export function NotificationPanel({ open, onClose }: Props) {
           <Bell size={14} color="var(--text-primary)" />
           <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Notifications</span>
           {hasUnread && (
-            <span style={{ fontSize: '10px', fontWeight: 700, background: 'var(--error-bg)', color: 'var(--error)', border: '1px solid var(--border)', borderRadius: 8, padding: '1px 6px' }}>
+            <span style={{ fontSize: '10px', fontWeight: 500, background: 'var(--error-bg)', color: 'var(--error)', border: '1px solid var(--border)', borderRadius: 8, padding: '1px 6px' }}>
               {notifications.filter((n) => !n.read).length} new
             </span>
           )}
@@ -190,7 +190,7 @@ export function NotificationBell({ onClick }: { onClick: () => void }) {
           background: 'var(--error)',
           borderRadius: 99,
           fontSize: 9.5,
-          fontWeight: 700,
+          fontWeight: 500,
           color: '#fff',
           display: 'flex',
           alignItems: 'center',

@@ -135,7 +135,7 @@ export function PodSelector({
                       const isSel = selectedPod === pod.name;
                       return (
                         <div key={pod.name} onClick={() => onPodSelect(pod.name)}
-                          style={{ padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7, background: isSel ? 'rgba(99,102,241,0.1)' : 'transparent', borderLeft: `2px solid ${isSel ? 'var(--accent)' : 'transparent'}`, transition: 'background 0.1s' }}>
+                          style={{ padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7, background: isSel ? 'var(--accent-subtle)' : 'transparent', borderLeft: `2px solid ${isSel ? 'var(--accent)' : 'transparent'}`, transition: 'background 0.1s' }}>
                           <div style={{ width: 6, height: 6, borderRadius: '50%', background: podDot(pod.status), flexShrink: 0 }} />
                           <span style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
                             {pod.name}
@@ -197,7 +197,7 @@ export function PodSelector({
       {/* Analyze button — pinned to bottom */}
       <div style={{ padding: 12, borderTop: '1px solid var(--border)', flexShrink: 0 }}>
         <button type="button" onClick={onAnalyze} disabled={!canAnalyze}
-          style={{ width: '100%', padding: '9px', background: canAnalyze ? 'var(--accent)' : 'var(--bg-hover)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 700, cursor: canAnalyze ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, boxShadow: canAnalyze ? '0 0 14px var(--accent-glow)' : 'none', transition: 'all 0.2s' }}>
+          style={{ width: '100%', padding: '9px', background: canAnalyze ? 'var(--accent)' : 'var(--bg-hover)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 500, cursor: canAnalyze ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, boxShadow: canAnalyze ? '0 0 14px var(--accent-glow)' : 'none', transition: 'all 0.2s' }}>
           {analyzing
             ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> Analyzing…</>
             : <><Stethoscope size={13} /> Analyze with AI</>}

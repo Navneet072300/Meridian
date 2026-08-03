@@ -201,9 +201,9 @@ export function EnvUploader({ onSecretsParsed, existingSecretNames = [], context
 
           <div style={{ border: `1px solid ${V.border}`, borderRadius: 8, overflow: 'hidden' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', padding: '6px 10px', background: V.surface, borderBottom: `1px solid ${V.border}` }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Key</span>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Value</span>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>View</span>
+              <span style={{ fontSize: '0.72rem', fontWeight: 500, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Key</span>
+              <span style={{ fontSize: '0.72rem', fontWeight: 500, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Value</span>
+              <span style={{ fontSize: '0.72rem', fontWeight: 500, color: V.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>View</span>
             </div>
             <div style={{ maxHeight: 240, overflowY: 'auto' }}>
               {parsed.map(s => {

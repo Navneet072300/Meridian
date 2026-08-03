@@ -236,7 +236,7 @@ function MarkdownView({ content }: { content: string }) {
     } else if (line.startsWith('# ')) {
       elems.push(<h1 key={i} style={{ fontSize: 16, color: 'var(--text-primary)', margin: '20px 0 10px', borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>{renderInline(line.slice(2))}</h1>);
     } else if (line.startsWith('## ')) {
-      elems.push(<h2 key={i} style={{ fontSize: 13, color: 'var(--warning)', margin: '16px 0 8px', fontWeight: 700 }}>{renderInline(line.slice(3))}</h2>);
+      elems.push(<h2 key={i} style={{ fontSize: 13, color: 'var(--warning)', margin: '16px 0 8px', fontWeight: 500 }}>{renderInline(line.slice(3))}</h2>);
     } else if (line.startsWith('### ')) {
       elems.push(<h3 key={i} style={{ fontSize: 12, color: 'var(--text-primary)', margin: '12px 0 6px', fontWeight: 600 }}>{renderInline(line.slice(4))}</h3>);
     } else if (/^\d+\. /.test(line)) {
@@ -301,7 +301,7 @@ function FileExplorer({ files, activeTab, onSelect }: { files: GeneratedFile[]; 
 
   return (
     <div style={{ width: 180, flexShrink: 0, background: 'var(--bg-surface)', borderRight: '1px solid var(--border)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ padding: '8px 8px 4px', fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>EXPLORER</div>
+      <div style={{ padding: '8px 8px 4px', fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>EXPLORER</div>
       {tree.map(n => <FileTreeNode key={n.path} node={n} depth={0} activeTab={activeTab} onSelect={onSelect} open={open} toggleOpen={toggleOpen} />)}
     </div>
   );
@@ -316,7 +316,7 @@ function TerminalPanel({ lines, done, onClose }: { lines: TermLine[]; done: bool
     <div style={{ borderTop: '1px solid var(--border)', background: '#0d0d14', height: 240, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', padding: '5px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg-surface)' }}>
         <Terminal size={12} style={{ color: 'var(--success)', marginRight: 6 }} />
-        <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.06em' }}>TERMINAL</span>
+        <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', letterSpacing: '0.06em' }}>TERMINAL</span>
         {!done && <span style={{ marginLeft: 8, fontSize: 10, color: 'var(--accent)', animation: 'pulse 1.2s ease-in-out infinite' }}>● running</span>}
         {done && <span style={{ marginLeft: 8, fontSize: 10, color: 'var(--success)' }}>✓ done</span>}
         <button type="button" onClick={onClose} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>×</button>
@@ -332,7 +332,7 @@ function TerminalPanel({ lines, done, onClose }: { lines: TermLine[]; done: bool
           );
           if (l.type === 'output') return <div key={i} style={{ color: '#94a3b8', marginLeft: 12 }}>{l.text}</div>;
           if (l.type === 'error') return <div key={i} style={{ color: 'var(--error)', marginTop: 4 }}>✗ {l.text}</div>;
-          if (l.type === 'done') return <div key={i} style={{ color: 'var(--success)', marginTop: 10, fontWeight: 700, fontSize: 13 }}>✓ {l.message}</div>;
+          if (l.type === 'done') return <div key={i} style={{ color: 'var(--success)', marginTop: 10, fontWeight: 500, fontSize: 13 }}>✓ {l.message}</div>;
           return <div key={i} style={{ color: 'var(--text-secondary)' }}>{l.text}</div>;
         })}
         <div ref={bottomRef} />
@@ -349,7 +349,7 @@ function CredentialModal({ cloud, onSubmit, onClose }: { cloud: string; onSubmit
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
       <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '24px', width: 440, display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <h3 style={{ margin: 0, fontSize: 15, color: 'var(--text-primary)', fontWeight: 700 }}>Cloud Credentials</h3>
+        <h3 style={{ margin: 0, fontSize: 15, color: 'var(--text-primary)', fontWeight: 500 }}>Cloud Credentials</h3>
         <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>Credentials are used only for this session and never stored.</p>
         {fields.map(f => (
           <div key={f.key} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -412,7 +412,7 @@ function HistorySidebar({
       {/* Header */}
       <div style={{ padding: '4px 12px 6px', display: 'flex', alignItems: 'center', gap: 5 }}>
         <Clock size={11} style={{ color: 'var(--text-muted)' }} />
-        <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>History</span>
+        <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>History</span>
       </div>
 
       {/* Session list */}
@@ -430,7 +430,7 @@ function HistorySidebar({
         )}
         {groups.map(group => (
           <div key={group.label}>
-            <div style={{ padding: '8px 12px 3px', fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <div style={{ padding: '8px 12px 3px', fontSize: 9.5, fontWeight: 500, color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               {group.label}
             </div>
             {group.items.map(s => {
@@ -755,7 +755,7 @@ export function GenerateMode() {
                   );
                 })()}
                 <button type="button" onClick={() => navigate('/app/pipeline')}
-                  style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 5, padding: '3px 8px', background: 'rgba(99,102,241,0.1)', border: '1px solid var(--accent)', borderRadius: 4, color: 'var(--accent)', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 5, padding: '3px 8px', background: 'var(--accent-subtle)', border: '1px solid var(--accent)', borderRadius: 4, color: 'var(--accent)', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', flexShrink: 0 }}>
                   <Rocket size={10} /> Add to Pipeline
                 </button>
               </div>

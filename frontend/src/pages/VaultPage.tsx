@@ -67,10 +67,10 @@ function AddModal({ onClose, onSaved }: AddModalProps) {
   }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
       <div style={{ background: V.surface, border: `1px solid ${V.border}`, borderRadius: 12, padding: '1.5rem', width: 480, maxWidth: '95vw' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-          <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: V.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 500, color: V.text, display: 'flex', alignItems: 'center', gap: 8 }}>
             <KeyRound size={16} style={{ color: V.accent }} /> New Secret
           </h3>
           <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', color: V.muted, cursor: 'pointer', padding: 4 }}>
@@ -203,7 +203,7 @@ function SecretRow({ secret, onDelete }: { secret: Secret; onDelete: (id: string
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '0.75rem 1rem', background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10, transition: 'border-color 0.15s' }}>
       {/* Type badge */}
-      <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '2px 8px', borderRadius: 4, background: `${color}18`, color, border: `1px solid ${color}30`, whiteSpace: 'nowrap', flexShrink: 0 }}>
+      <span style={{ fontSize: '0.7rem', fontWeight: 500, padding: '2px 8px', borderRadius: 4, background: `${color}18`, color, border: `1px solid ${color}30`, whiteSpace: 'nowrap', flexShrink: 0 }}>
         {typeLabel(secret.secret_type)}
       </span>
 
@@ -319,7 +319,7 @@ export default function VaultPage() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.75rem', gap: 12 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: V.text, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 500, color: V.text, display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--badge-bg)', border: '1px solid var(--border-focus)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <KeyRound size={16} style={{ color: V.accent }} />
             </div>

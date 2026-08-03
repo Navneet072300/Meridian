@@ -190,7 +190,7 @@ export default function HelpPage() {
             <HelpCircle size={18} />
           </div>
           <div>
-            <h1 style={{ margin: 0, color: V.text, fontWeight: 700, fontSize: '1.35rem' }}>Help Center</h1>
+            <h1 style={{ margin: 0, color: V.text, fontWeight: 500, fontSize: '1.35rem' }}>Help Center</h1>
             <p style={{ margin: 0, color: V.muted, fontSize: '0.8rem' }}>Guides, shortcuts, troubleshooting, and support</p>
           </div>
         </div>
@@ -309,8 +309,8 @@ export default function HelpPage() {
             {CHANGELOG.map(({ version, date, notes }, i) => (
               <div key={version} style={{ background: V.surface, border: `1px solid ${i === 0 ? V.accent + '44' : V.border}`, borderRadius: 10, padding: '0.875rem 1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.5rem' }}>
-                  <span style={{ color: i === 0 ? V.accent : V.text, fontWeight: 700, fontSize: '0.875rem', fontFamily: 'monospace' }}>{version}</span>
-                  {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: V.accent, background: 'var(--badge-bg)', borderRadius: 4, padding: '1px 6px' }}>LATEST</span>}
+                  <span style={{ color: i === 0 ? V.accent : V.text, fontWeight: 500, fontSize: '0.875rem', fontFamily: 'monospace' }}>{version}</span>
+                  {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 500, color: V.accent, background: 'var(--badge-bg)', borderRadius: 4, padding: '1px 6px' }}>LATEST</span>}
                   <span style={{ color: V.muted, fontSize: '0.75rem', marginLeft: 'auto' }}>{date}</span>
                 </div>
                 <ul style={{ margin: 0, paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: 3 }}>

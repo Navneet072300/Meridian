@@ -556,10 +556,10 @@ function ConnectedRow({
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
           <span style={{ fontSize: '0.9rem', fontWeight: 600, color: V.text }}>{entry.name}</span>
-          <span style={{ fontSize: '0.68rem', color: V.green, background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.2)', padding: '1px 7px', borderRadius: 100, fontWeight: 700 }}>● Connected</span>
+          <span style={{ fontSize: '0.68rem', color: V.green, background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.2)', padding: '1px 7px', borderRadius: 100, fontWeight: 500 }}>● Connected</span>
           <span style={{ fontSize: '0.68rem', color: V.muted, background: V.bg, border: `1px solid ${V.border}`, padding: '1px 7px', borderRadius: 100 }}>{catLabel}</span>
           {warning && (
-            <span style={{ fontSize: '0.68rem', color: '#e6a817', background: 'rgba(230,168,23,0.12)', border: '1px solid rgba(230,168,23,0.3)', padding: '1px 7px', borderRadius: 100, fontWeight: 700 }}>
+            <span style={{ fontSize: '0.68rem', color: '#e6a817', background: 'rgba(230,168,23,0.12)', border: '1px solid rgba(230,168,23,0.3)', padding: '1px 7px', borderRadius: 100, fontWeight: 500 }}>
               ⚠ {warning}
             </span>
           )}
@@ -597,7 +597,7 @@ function CatalogCard({ entry, isConnected, onAdd }: { entry: CatalogEntry; isCon
         <div style={{ fontSize: '0.75rem', color: V.muted }}>{entry.description}</div>
       </div>
       {isConnected ? (
-        <span style={{ fontSize: '0.72rem', color: V.green, background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.2)', padding: '3px 10px', borderRadius: 100, fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}>
+        <span style={{ fontSize: '0.72rem', color: V.green, background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.2)', padding: '3px 10px', borderRadius: 100, fontWeight: 500, whiteSpace: 'nowrap', flexShrink: 0 }}>
           ● Connected
         </span>
       ) : (
@@ -747,7 +747,7 @@ export default function PlatformsPage() {
 
       {/* Header */}
       <div style={{ marginBottom: '1.5rem' }}>
-        <h1 style={{ margin: '0 0 4px', fontSize: '1.35rem', fontWeight: 700, color: V.text }}>Integrations</h1>
+        <h1 style={{ margin: '0 0 4px', fontSize: '1.35rem', fontWeight: 500, color: V.text }}>Integrations</h1>
         <p style={{ margin: 0, color: V.muted, fontSize: '0.85rem' }}>Search and connect external services to Meridian.</p>
       </div>
 
@@ -813,7 +813,7 @@ export default function PlatformsPage() {
           {/* Connected singletons (GitHub, GitLab, Cloudflare, etc.) */}
           {connectedSingletons.length > 0 && (
             <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', color: V.muted, textTransform: 'uppercase', marginBottom: '0.625rem' }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', color: V.muted, textTransform: 'uppercase', marginBottom: '0.625rem' }}>
                 Connected — {connectedSingletons.length + (clusters.length > 0 ? clusters.length : 0)}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -835,7 +835,7 @@ export default function PlatformsPage() {
           {clusters.length > 0 && (
             <div>
               {connectedSingletons.length === 0 && (
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', color: V.muted, textTransform: 'uppercase', marginBottom: '0.625rem' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.1em', color: V.muted, textTransform: 'uppercase', marginBottom: '0.625rem' }}>
                   Connected — {clusters.length}
                 </div>
               )}
@@ -851,7 +851,7 @@ export default function PlatformsPage() {
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
                           <span style={{ fontSize: '0.9rem', fontWeight: 600, color: V.text }}>{c.name}</span>
-                          <span style={{ fontSize: '0.68rem', color: badge.color, background: badge.bg, border: `1px solid ${badge.border}`, padding: '1px 7px', borderRadius: 100, fontWeight: 700 }}>
+                          <span style={{ fontSize: '0.68rem', color: badge.color, background: badge.bg, border: `1px solid ${badge.border}`, padding: '1px 7px', borderRadius: 100, fontWeight: 500 }}>
                             {badge.label}
                           </span>
                           <span style={{ fontSize: '0.68rem', color: V.muted, background: V.bg, border: `1px solid ${V.border}`, padding: '1px 7px', borderRadius: 100 }}>{c.environment}</span>

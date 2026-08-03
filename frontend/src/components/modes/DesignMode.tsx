@@ -73,7 +73,7 @@ function ContainerNode({ data }: { data: { label: string; color: string; textCol
       <span
         style={{
           fontSize: 11,
-          fontWeight: 700,
+          fontWeight: 500,
           color: data.textColor,
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
@@ -111,9 +111,9 @@ const NODE_COLORS: Record<string, { bg: string; border: string; text: string }> 
   gateway:      { bg: 'rgba(245,158,11,0.12)',  border: '#f59e0b', text: '#f59e0b' },
   queue:        { bg: 'rgba(6,182,212,0.12)',   border: '#06b6d4', text: '#06b6d4' },
   monitoring:   { bg: 'rgba(236,72,153,0.12)',  border: '#ec4899', text: '#ec4899' },
-  dns:          { bg: 'rgba(99,102,241,0.12)',  border: '#6366f1', text: '#6366f1' },
+  dns:          { bg: 'var(--accent-subtle)',  border: '#6366f1', text: '#6366f1' },
   firewall:     { bg: 'rgba(251,146,60,0.12)',  border: '#fb923c', text: '#fb923c' },
-  default:      { bg: 'rgba(99,102,241,0.12)',  border: '#6366f1', text: '#6366f1' },
+  default:      { bg: 'var(--accent-subtle)',  border: '#6366f1', text: '#6366f1' },
 };
 
 const LEGEND_TYPES: { type: string; label: string }[] = [
@@ -162,7 +162,7 @@ function buildNodes(nodes: ArchitectureData['diagram_nodes']): Node[] {
       data: {
         label: (
           <div style={{ textAlign: 'center', padding: '4px 2px' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: c.text, lineHeight: 1.3 }}>
+            <div style={{ fontSize: '11px', fontWeight: 500, color: c.text, lineHeight: 1.3 }}>
               {n.label}
             </div>
             {n.costPerMonth > 0 && (
@@ -288,7 +288,7 @@ function ExplanationPanel({ text }: { text: string }) {
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 6, background: `${m.color}18`, color: m.color, flexShrink: 0 }}>
                   {m.icon}
                 </span>
-                <span style={{ fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: m.color }}>
+                <span style={{ fontSize: '10.5px', fontWeight: 500, letterSpacing: '0.07em', textTransform: 'uppercase', color: m.color }}>
                   {sec.title}
                 </span>
               </div>
@@ -309,14 +309,14 @@ function CostPanel({ rows }: { rows: ArchitectureData['cost_breakdown'] }) {
     <div style={{ overflowY: 'auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-surface)', position: 'sticky', top: 0, zIndex: 1 }}>
         <DollarSign size={13} style={{ color: '#22c55e' }} />
-        <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#22c55e' }}>Cost Breakdown</span>
-        <span style={{ marginLeft: 'auto', fontSize: '13px', fontWeight: 700, color: '#22c55e' }}>${total.toLocaleString()}/mo</span>
+        <span style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#22c55e' }}>Cost Breakdown</span>
+        <span style={{ marginLeft: 'auto', fontSize: '13px', fontWeight: 500, color: '#22c55e' }}>${total.toLocaleString()}/mo</span>
       </div>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
             {['Component', 'Monthly', 'Notes'].map((h) => (
-              <th key={h} style={{ padding: '7px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: '1px solid var(--border)', background: 'var(--bg-base)' }}>{h}</th>
+              <th key={h} style={{ padding: '7px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: '1px solid var(--border)', background: 'var(--bg-base)' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -324,15 +324,15 @@ function CostPanel({ rows }: { rows: ArchitectureData['cost_breakdown'] }) {
           {rows.map((row, i) => (
             <tr key={i} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.1s' }} onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-hover)')} onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
               <td style={{ padding: '8px 12px', fontSize: '12.5px', color: 'var(--text-primary)', fontWeight: 500 }}>{row.service}</td>
-              <td style={{ padding: '8px 12px', fontSize: '12.5px', fontWeight: 700, whiteSpace: 'nowrap', color: row.monthly === 0 ? 'var(--text-muted)' : row.monthly > 500 ? '#f97316' : '#22c55e' }}>
+              <td style={{ padding: '8px 12px', fontSize: '12.5px', fontWeight: 500, whiteSpace: 'nowrap', color: row.monthly === 0 ? 'var(--text-muted)' : row.monthly > 500 ? '#f97316' : '#22c55e' }}>
                 {row.monthly === 0 ? 'Variable' : `$${row.monthly.toLocaleString()}`}
               </td>
               <td style={{ padding: '8px 12px', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{row.description}</td>
             </tr>
           ))}
           <tr style={{ background: 'var(--bg-surface)', borderTop: '2px solid var(--border)' }}>
-            <td style={{ padding: '10px 12px', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Total estimate</td>
-            <td style={{ padding: '10px 12px', fontSize: '13px', fontWeight: 800, color: '#22c55e' }}>${total.toLocaleString()}/mo</td>
+            <td style={{ padding: '10px 12px', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>Total estimate</td>
+            <td style={{ padding: '10px 12px', fontSize: '13px', fontWeight: 500, color: '#22c55e' }}>${total.toLocaleString()}/mo</td>
             <td style={{ padding: '10px 12px', fontSize: '11px', color: 'var(--text-muted)' }}>Indicative. Actual billing depends on region, tier, and usage.</td>
           </tr>
         </tbody>
@@ -401,7 +401,7 @@ function DiagramLegend({ nodes }: { nodes: ArchitectureData['diagram_nodes'] }) 
   if (visible.length === 0) return null;
   return (
     <div style={{ position: 'absolute', bottom: 48, left: 12, zIndex: 5, background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: 5, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-      <p style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>Legend</p>
+      <p style={{ fontSize: 9, fontWeight: 500, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>Legend</p>
       {visible.map((t) => {
         const c = NODE_COLORS[t.type] ?? NODE_COLORS.default;
         return (
@@ -424,10 +424,10 @@ function CloudPickerScreen({ onSelect }: { onSelect: (id: string) => void }) {
       <div style={{ width: '100%', maxWidth: 700 }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: 16, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)', marginBottom: 18 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: 16, background: 'var(--accent-subtle)', border: '1px solid var(--border)', marginBottom: 18 }}>
             <Compass size={26} style={{ color: 'var(--accent)' }} />
           </div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px 0', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontSize: 22, fontWeight: 500, color: 'var(--text-primary)', margin: '0 0 8px 0', letterSpacing: '-0.01em' }}>
             Choose your infrastructure type
           </h2>
           <p style={{ fontSize: 13.5, color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
@@ -531,7 +531,7 @@ function DesignInputScreen({
 
       {/* Header */}
       <div style={{ textAlign: 'center', maxWidth: 560 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px 0', letterSpacing: '-0.01em' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 500, color: 'var(--text-primary)', margin: '0 0 8px 0', letterSpacing: '-0.01em' }}>
           Describe your architecture
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7, margin: 0 }}>
@@ -659,11 +659,11 @@ export function DesignMode() {
 
       {/* ── Page header ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 20px', height: 50, borderBottom: '1px solid var(--border)', background: 'var(--bg-surface)', flexShrink: 0 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--accent-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Compass size={14} style={{ color: 'var(--accent)' }} />
         </div>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Architecture Designer</div>
+          <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>Architecture Designer</div>
           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Production-ready diagrams with cost estimates</div>
         </div>
         {(hasData || cloudProvider) && (
@@ -735,7 +735,7 @@ export function DesignMode() {
               <div style={{ flex: '0 0 60%', overflowY: 'auto', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', background: 'var(--bg-surface)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, zIndex: 1 }}>
                   <Layers size={13} style={{ color: 'var(--accent)' }} />
-                  <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>Architecture Analysis</span>
+                  <span style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>Architecture Analysis</span>
                 </div>
                 <ExplanationPanel text={architectureData.architecture_explanation} />
               </div>

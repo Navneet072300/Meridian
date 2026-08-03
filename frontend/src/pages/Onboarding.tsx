@@ -82,7 +82,7 @@ function SelectionGroup({
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px',
                 padding: '6px 12px',
-                background: active ? 'rgba(99,102,241,0.12)' : 'var(--bg-surface)',
+                background: active ? 'var(--accent-subtle)' : 'var(--bg-surface)',
                 border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
                 borderRadius: '6px',
                 color: active ? 'var(--accent)' : 'var(--text-secondary)',
@@ -374,8 +374,8 @@ export function Onboarding() {
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '36px' }}>
-        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff' }}>M</div>
-        <span style={{ fontWeight: 800, fontSize: '18px', letterSpacing: '-0.02em' }}>Meridian Setup</span>
+        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 500, color: '#fff' }}>M</div>
+        <span style={{ fontWeight: 500, fontSize: '18px', letterSpacing: '-0.02em' }}>Meridian Setup</span>
       </div>
 
       {/* Step indicator */}
@@ -393,7 +393,7 @@ export function Onboarding() {
                     background: done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--bg-hover)',
                     border: `2px solid ${done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--border)'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '12px', fontWeight: 700, color: done || active ? '#fff' : 'var(--text-muted)',
+                    fontSize: '12px', fontWeight: 500, color: done || active ? '#fff' : 'var(--text-muted)',
                   }}
                 >
                   {done ? '✓' : num}
@@ -420,7 +420,7 @@ export function Onboarding() {
         <div style={{ padding: '28px', maxHeight: '60vh', overflowY: 'auto' }}>
           {step === 1 && (
             <>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '6px' }}>What are you working with?</h2>
+              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>What are you working with?</h2>
               <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Select everything in your stack — Meridian will tailor its workflows accordingly.</p>
               {(Object.entries(PLATFORMS) as [SelectionKey, typeof PLATFORMS.cloud][]).map(([key, items]) => (
                 <SelectionGroup key={key} title={key.toUpperCase()} items={items} selected={selections[key]} onToggle={(id) => toggleSelection(key, id)} />
@@ -430,7 +430,7 @@ export function Onboarding() {
 
           {step === 2 && (
             <>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '6px' }}>Connect your clusters</h2>
+              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>Connect your clusters</h2>
               <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '20px' }}>Add at least one Kubernetes cluster. You can add more later in Settings.</p>
               {clusters.map((c, i) => (
                 <ClusterCard key={i} cluster={c} index={i} onChange={(updated) => setClusters((prev) => prev.map((x, j) => j === i ? updated : x))} onRemove={() => setClusters((prev) => prev.filter((_, j) => j !== i))} />
@@ -446,7 +446,7 @@ export function Onboarding() {
 
           {step === 3 && (
             <>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '6px' }}>Connect your platforms</h2>
+              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>Connect your platforms</h2>
               <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '20px' }}>Enter credentials for the tools you selected. Stubbed integrations are pre-configured.</p>
               {selections.cicd.includes('github-actions') && (
                 <GitHubCredentials value={github} onChange={setGithub} />
@@ -455,7 +455,7 @@ export function Onboarding() {
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px', marginBottom: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontWeight: 600, fontSize: '13px' }}>🔐 HashiCorp Vault</span>
-                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
+                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'var(--warning-bg)', border: '1px solid var(--warning)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
                   </div>
                   <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>Vault integration is stubbed for demo. Real Vault connection coming soon.</p>
                 </div>
@@ -464,7 +464,7 @@ export function Onboarding() {
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px', marginBottom: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontWeight: 600, fontSize: '13px' }}>🌩️ Cloudflare DNS</span>
-                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
+                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'var(--warning-bg)', border: '1px solid var(--warning)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
                   </div>
                   <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>Cloudflare DNS configuration is stubbed for demo. Real integration coming soon.</p>
                 </div>
@@ -477,7 +477,7 @@ export function Onboarding() {
 
           {step === 4 && (
             <>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '16px' }}>You're all set! 🎉</h2>
+              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '16px' }}>You're all set! 🎉</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
                 {clusters.filter((c) => c.name).map((c) => (
                   <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '6px' }}>

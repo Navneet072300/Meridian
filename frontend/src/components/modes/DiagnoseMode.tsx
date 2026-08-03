@@ -315,7 +315,7 @@ export function DiagnoseMode() {
   const tabLabel = (t: Tab) => {
     if (t === 'errors') {
       const n = criticalPods.length + warningPods.length;
-      return <>Pod Errors{n > 0 && <span style={{ marginLeft: 5, background: criticalPods.length ? 'var(--error)' : 'var(--warning)', color: '#fff', borderRadius: 100, padding: '0 5px', fontSize: 10, fontWeight: 700 }}>{n}</span>}</>;
+      return <>Pod Errors{n > 0 && <span style={{ marginLeft: 5, background: criticalPods.length ? 'var(--error)' : 'var(--warning)', color: '#fff', borderRadius: 100, padding: '0 5px', fontSize: 10, fontWeight: 500 }}>{n}</span>}</>;
     }
     return { deployments: 'Deployments', describe: 'Describe', logs: 'Logs', resolve: 'Resolve' }[t];
   };
@@ -340,7 +340,7 @@ export function DiagnoseMode() {
     <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+        <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>
           {criticalPods.length} critical · {warningPods.length} warning · {healthyPods.length} healthy
         </span>
         <button type="button" onClick={fetchResources}
@@ -421,7 +421,7 @@ export function DiagnoseMode() {
             const isSel = selectedDeploy === dep.name;
             return (
               <div key={dep.name} onClick={() => { setSelectedDeploy(dep.name); fetchDeployOut(dep.name); }}
-                style={{ padding: '10px 14px', cursor: 'pointer', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, background: isSel ? 'rgba(99,102,241,0.1)' : 'transparent', borderLeft: `3px solid ${isSel ? 'var(--accent)' : 'transparent'}` }}>
+                style={{ padding: '10px 14px', cursor: 'pointer', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, background: isSel ? 'var(--accent-subtle)' : 'transparent', borderLeft: `3px solid ${isSel ? 'var(--accent)' : 'transparent'}` }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: depColor(dep.ready), flexShrink: 0 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{dep.name}</p>
@@ -442,7 +442,7 @@ export function DiagnoseMode() {
         ) : (
           <>
             <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-              <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>{selectedDeploy}</span>
+              <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>{selectedDeploy}</span>
               {loadingDeployOut && <Loader2 size={12} style={{ animation: 'spin 1s linear infinite', color: 'var(--accent)' }} />}
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
                 <CopyBtn text={deployOut} />
@@ -593,7 +593,7 @@ export function DiagnoseMode() {
             {headerData && (
               <div style={{ background: SEV_BG[headerData.severity] || 'var(--bg-surface)', border: `1px solid ${SEV_BORDER[headerData.severity] || 'var(--border)'}`, borderRadius: 10, padding: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <span style={{ padding: '3px 10px', borderRadius: 100, background: SEV_BG[headerData.severity], border: `1px solid ${SEV_COLOR[headerData.severity]}`, color: SEV_COLOR[headerData.severity], fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <span style={{ padding: '3px 10px', borderRadius: 100, background: SEV_BG[headerData.severity], border: `1px solid ${SEV_COLOR[headerData.severity]}`, color: SEV_COLOR[headerData.severity], fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     {headerData.severity}
                   </span>
                   {analyzing && <span style={{ fontSize: 11, color: 'var(--accent)' }}>● Analyzing…</span>}
@@ -664,7 +664,7 @@ export function DiagnoseMode() {
                   <Terminal size={11} />
                   Activity
                   {activities.length > 0 && (
-                    <span style={{ background: runningCmd ? 'var(--warning)' : 'var(--accent)', color: '#fff', borderRadius: 100, fontSize: 9, fontWeight: 700, padding: '1px 5px', lineHeight: 1.4 }}>
+                    <span style={{ background: runningCmd ? 'var(--warning)' : 'var(--accent)', color: '#fff', borderRadius: 100, fontSize: 9, fontWeight: 500, padding: '1px 5px', lineHeight: 1.4 }}>
                       {activities.length}
                     </span>
                   )}
@@ -698,7 +698,7 @@ export function DiagnoseMode() {
                 {activities.map(a => (
                   <div key={a.id} style={{ marginBottom: 6 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-                      <span style={{ fontSize: 10, marginTop: 1, flexShrink: 0, fontWeight: 700, color: a.type === 'ok' ? 'var(--success)' : a.type === 'err' ? 'var(--error)' : a.type === 'run' ? 'var(--warning)' : a.type === 'ai' ? 'var(--accent)' : 'var(--text-muted)' }}>
+                      <span style={{ fontSize: 10, marginTop: 1, flexShrink: 0, fontWeight: 500, color: a.type === 'ok' ? 'var(--success)' : a.type === 'err' ? 'var(--error)' : a.type === 'run' ? 'var(--warning)' : a.type === 'ai' ? 'var(--accent)' : 'var(--text-muted)' }}>
                         {a.type === 'ok' ? '✓' : a.type === 'err' ? '✗' : a.type === 'run' ? '▶' : a.type === 'ai' ? '◆' : '●'}
                       </span>
                       <p style={{ fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.5, wordBreak: 'break-word', margin: 0 }}>{a.text}</p>
@@ -806,7 +806,7 @@ function IssueRow({ pod, onAnalyze, onLogs, onDescribe }: {
     <div style={{ border: `1px solid ${borderColor}`, borderRadius: 8, padding: '12px 14px', background: isCrit ? 'rgba(248,81,73,0.05)' : 'rgba(240,180,41,0.05)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
       <div style={{ width: 8, height: 8, borderRadius: '50%', background: isCrit ? 'var(--error)' : 'var(--warning)', flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 180 }}>
-        <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace', wordBreak: 'break-all' }}>{pod.name}</p>
+        <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace', wordBreak: 'break-all' }}>{pod.name}</p>
         <div style={{ display: 'flex', gap: 8, marginTop: 3, alignItems: 'center' }}>
           <span style={{ fontSize: 11, color: isCrit ? 'var(--error)' : 'var(--warning)', fontWeight: 600 }}>{pod.status}</span>
           {pod.restarts > 0 && <span style={{ fontSize: 10, background: 'rgba(248,81,73,0.15)', color: 'var(--error)', padding: '1px 5px', borderRadius: 3 }}>{pod.restarts} restarts</span>}
@@ -822,7 +822,7 @@ function IssueRow({ pod, onAnalyze, onLogs, onDescribe }: {
           Describe
         </button>
         <button type="button" onClick={onAnalyze}
-          style={{ padding: '4px 12px', background: 'var(--accent)', border: 'none', borderRadius: 5, color: '#fff', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+          style={{ padding: '4px 12px', background: 'var(--accent)', border: 'none', borderRadius: 5, color: '#fff', fontSize: 11, fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
           <Zap size={10} /> Analyze →
         </button>
       </div>
@@ -862,7 +862,7 @@ function PRModal({ sessionId, fixSteps, onClose, onCreated }: {
       <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, width: 540, maxHeight: '85vh', overflow: 'auto', padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <GitBranch size={14} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Raise Pull Request</span>
+          <span style={{ fontWeight: 500, fontSize: 14, color: 'var(--text-primary)' }}>Raise Pull Request</span>
           <button type="button" onClick={onClose} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 18 }}>×</button>
         </div>
         {fixSteps.length > 0 && (

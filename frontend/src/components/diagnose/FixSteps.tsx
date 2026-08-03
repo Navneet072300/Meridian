@@ -50,7 +50,7 @@ function FixStepCard({ step, done, onDone, onRunCommand }: {
 
       {/* Step header */}
       <div style={{ padding: '10px 14px', background: 'var(--bg-surface)', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div style={{ width: 22, height: 22, borderRadius: '50%', background: done ? 'var(--success)' : 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, fontWeight: 700, color: '#fff' }}>
+        <div style={{ width: 22, height: 22, borderRadius: '50%', background: done ? 'var(--success)' : 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, fontWeight: 500, color: '#fff' }}>
           {done ? '✓' : step.step}
         </div>
         <span style={{ fontSize: 13, fontWeight: 600, color: done ? 'var(--text-muted)' : 'var(--text-primary)', textDecoration: done ? 'line-through' : 'none' }}>
@@ -65,14 +65,14 @@ function FixStepCard({ step, done, onDone, onRunCommand }: {
 
           {step.expected_output && (
             <div style={{ marginTop: 6, padding: '5px 9px', background: 'rgba(87,171,90,0.07)', borderRadius: 5 }}>
-              <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 700 }}>Expected: </span>
+              <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 500 }}>Expected: </span>
               <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{step.expected_output}</span>
             </div>
           )}
 
           {step.if_different && (
             <div style={{ marginTop: 4, padding: '5px 9px', background: 'rgba(240,180,41,0.07)', borderRadius: 5 }}>
-              <span style={{ fontSize: 10, color: 'var(--warning)', fontWeight: 700 }}>If different: </span>
+              <span style={{ fontSize: 10, color: 'var(--warning)', fontWeight: 500 }}>If different: </span>
               <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{step.if_different}</span>
             </div>
           )}
@@ -135,7 +135,7 @@ export function FixSteps({
       {/* Where to start */}
       {recommendedOrder && (
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, padding: 16 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
             <BookOpen size={12} style={{ color: 'var(--accent)' }} /> Where to Start
           </p>
           <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>{recommendedOrder}</p>
@@ -147,7 +147,7 @@ export function FixSteps({
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
           <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <CheckCircle size={13} style={{ color: 'var(--success)' }} />
-            <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>Fix Steps</span>
+            <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>Fix Steps</span>
             <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--text-muted)' }}>
               {completedSteps.size}/{steps.length} done
             </span>
@@ -171,7 +171,7 @@ export function FixSteps({
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
           <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Shield size={13} style={{ color: 'var(--accent)' }} />
-            <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>How to Prevent This</span>
+            <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>How to Prevent This</span>
           </div>
           <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {prevention.map((item, i) => (

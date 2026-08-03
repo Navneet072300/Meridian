@@ -42,7 +42,7 @@ function PreviewPanel({ task, onClose }: PreviewPanel) {
         borderLeft: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column',
         zIndex: 200,
-        boxShadow: '-8px 0 32px rgba(0,0,0,0.4)',
+        boxShadow: 'var(--shadow-lg)',
       }}
     >
       <div
@@ -131,7 +131,7 @@ function TaskCard({ task, index, onPreview, mode, onRun }: TaskCardProps) {
       style={{
         border: `1px solid ${borderColor}`,
         borderRadius: '8px',
-        background: task.status === 'running' ? 'rgba(99,102,241,0.03)' : 'var(--bg-surface)',
+        background: 'var(--bg-elevated)',
         overflow: 'hidden',
         opacity: task.status === 'skipped' ? 0.6 : 1,
         transition: 'border-color 0.2s',
@@ -170,9 +170,9 @@ function TaskCard({ task, index, onPreview, mode, onRun }: TaskCardProps) {
           <span
             title="Real integration coming soon"
             style={{
-              fontSize: '9px', fontWeight: 700, letterSpacing: '0.05em',
-              color: 'var(--warning)', background: 'rgba(245,158,11,0.1)',
-              border: '1px solid rgba(245,158,11,0.3)',
+              fontSize: '9px', fontWeight: 500, letterSpacing: '0.05em',
+              color: 'var(--warning)', background: 'var(--warning-bg)',
+              border: '1px solid var(--warning)',
               padding: '2px 5px', borderRadius: '3px', cursor: 'help',
               whiteSpace: 'nowrap',
             }}
@@ -241,7 +241,7 @@ function TaskCard({ task, index, onPreview, mode, onRun }: TaskCardProps) {
               <div
                 key={i}
                 style={{
-                  color: isError ? 'var(--error)' : isWarn ? 'var(--warning)' : isOk ? 'var(--success)' : '#8b8b9e',
+                  color: isError ? 'var(--error)' : isWarn ? 'var(--warning)' : isOk ? 'var(--success)' : 'var(--text-muted)',
                 }}
               >
                 {line || ' '}
@@ -259,7 +259,7 @@ function TaskCard({ task, index, onPreview, mode, onRun }: TaskCardProps) {
         <div
           style={{
             borderTop: '1px solid var(--error)',
-            background: 'rgba(239,68,68,0.05)',
+            background: 'var(--error-bg)',
             padding: '12px 14px',
           }}
         >

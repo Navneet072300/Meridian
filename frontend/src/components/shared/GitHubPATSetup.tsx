@@ -58,7 +58,7 @@ function SetupGuide({ title, onSaved }: { title: string; onSaved: (t: string) =>
 
   return (
     <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, padding: 20 }}>
-      <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 8, color: 'var(--text-primary)' }}>{title}</p>
+      <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 8, color: 'var(--text-primary)' }}>{title}</p>
       <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16, lineHeight: 1.6 }}>
         Meridian needs access to your GitHub repositories to read code and set up automatic deploys.
       </p>
@@ -154,7 +154,7 @@ export function GitHubPATSetup({ onTokenSaved, existingToken, daysUntilExpiry, c
       <div style={{ background: 'var(--bg-surface)', border: `1px solid ${expiringSoon ? 'var(--warning)' : 'var(--border)'}`, borderRadius: 10, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>GitHub</span>
+            <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>GitHub</span>
             <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--success)', background: 'rgba(34,197,94,0.1)', padding: '2px 7px', borderRadius: 100 }}>
               ● Connected
             </span>

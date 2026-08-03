@@ -104,7 +104,7 @@ export function CodeBlock({
           )}
           <span
             style={{
-              fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em',
+              fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em',
               color: 'var(--accent-text)', background: 'var(--badge-bg)',
               border: '1px solid var(--border)',
               padding: '2px 7px', borderRadius: '4px', fontFamily: 'var(--font-mono)',

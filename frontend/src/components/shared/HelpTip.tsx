@@ -118,7 +118,7 @@ export function HelpTip({ tip, size = 13 }: HelpTipProps) {
             width: 8, height: 8, background: 'var(--bg-surface)', border: '1px solid var(--accent)',
             borderTop: 'none', borderLeft: 'none',
           }} />
-          <p style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent)', margin: '0 0 6px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 500, color: 'var(--accent)', margin: '0 0 6px' }}>
             {content.title}
           </p>
           <p style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>

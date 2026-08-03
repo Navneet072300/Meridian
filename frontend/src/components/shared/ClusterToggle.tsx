@@ -19,7 +19,7 @@ function EnvBadge({ env }: { env: string }) {
 
   return (
     <span style={{
-      fontSize: '9px', fontWeight: 700, letterSpacing: '0.07em',
+      fontSize: '9px', fontWeight: 500, letterSpacing: '0.07em',
       color, background: bg, border: '1px solid var(--border)',
       padding: '1px 6px', borderRadius: 4, textTransform: 'uppercase',
     }}>
@@ -47,7 +47,7 @@ function ClusterOption({ cluster, active, onClick }: { cluster: ClusterConfig; a
       <HealthDot name={cluster.name} />
       <span style={{ flex: 1 }}>{cluster.name}</span>
       {cluster.token_expired && (
-        <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--error)', background: 'var(--error-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
+        <span style={{ fontSize: '9px', fontWeight: 500, letterSpacing: '0.06em', color: 'var(--error)', background: 'var(--error-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
           EXPIRED
         </span>
       )}
@@ -133,7 +133,7 @@ export function ClusterToggle({ onProdWarning }: Props) {
         <span>{activeCfg?.name ?? 'Select cluster'}</span>
         {activeCfg && <EnvBadge env={activeCfg.environment} />}
         {activeCfg?.token_expired && (
-          <span style={{ fontSize: '9px', fontWeight: 700, color: 'var(--error)', background: 'var(--error-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 3, letterSpacing: '0.05em' }}>
+          <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--error)', background: 'var(--error-bg)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 3, letterSpacing: '0.05em' }}>
             EXPIRED
           </span>
         )}
@@ -171,7 +171,7 @@ export function ClusterToggle({ onProdWarning }: Props) {
             </div>
           ) : (
             <>
-              <div style={{ padding: '8px 12px 4px', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+              <div style={{ padding: '8px 12px 4px', fontSize: '10px', fontWeight: 500, letterSpacing: '0.08em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
                 Clusters
               </div>
               {clusters.map(c => (

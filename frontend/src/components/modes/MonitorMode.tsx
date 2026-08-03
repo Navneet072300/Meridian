@@ -24,7 +24,7 @@ const C = {
   muted:   'var(--text-secondary)',
   dim:     'var(--text-muted)',
   dead:    'var(--text-muted)',
-  accent:  '#6366f1',
+  accent:  'var(--info)',
   success: '#10b981',
   warning: '#f59e0b',
   error:   '#ef4444',
@@ -146,8 +146,8 @@ function IssuesPanel({ incidents, summary }: { incidents: Incident[]; summary?: 
           { label: 'Resolved Today', value: summary?.resolved_today ?? 0, color: C.success  },
         ].map((card) => (
           <div key={card.label} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 14px' }}>
-            <p style={{ fontSize: 10, color: C.dim, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{card.label}</p>
-            <p style={{ fontSize: 26, fontWeight: 700, color: card.color, lineHeight: 1, fontFamily: 'monospace' }}>{card.value}</p>
+            <p style={{ fontSize: 10, color: C.dim, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{card.label}</p>
+            <p style={{ fontSize: 26, fontWeight: 500, color: card.color, lineHeight: 1, fontFamily: 'monospace' }}>{card.value}</p>
           </div>
         ))}
       </div>
@@ -157,7 +157,7 @@ function IssuesPanel({ incidents, summary }: { incidents: Incident[]; summary?: 
           const col = SEV_COLOR_MAP[sev];
           const active = sevFilter === sev;
           return (
-            <button key={sev} type="button" onClick={() => setSevFilter(sev)} style={{ padding: '4px 12px', borderRadius: 100, border: `1px solid ${active ? col : `${col}55`}`, background: active ? `${col}22` : `${col}0d`, color: active ? col : `${col}99`, fontSize: 10, fontWeight: 700, cursor: 'pointer', textTransform: 'capitalize', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <button key={sev} type="button" onClick={() => setSevFilter(sev)} style={{ padding: '4px 12px', borderRadius: 100, border: `1px solid ${active ? col : `${col}55`}`, background: active ? `${col}22` : `${col}0d`, color: active ? col : `${col}99`, fontSize: 10, fontWeight: 500, cursor: 'pointer', textTransform: 'capitalize', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               {sev === 'all' ? 'All' : <>{SEV_ICON_MAP[sev]} {sev}</>}
             </button>
           );
@@ -179,21 +179,21 @@ function IssuesPanel({ incidents, summary }: { incidents: Incident[]; summary?: 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 {inc.issue_type?.startsWith('Anomaly:') ? (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 10, fontWeight: 700, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', padding: '2px 7px', borderRadius: 100, border: '1px solid rgba(245,158,11,0.35)', letterSpacing: '0.04em' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 10, fontWeight: 500, color: '#f59e0b', background: 'rgba(245,158,11,0.12)', padding: '2px 7px', borderRadius: 100, border: '1px solid rgba(245,158,11,0.35)', letterSpacing: '0.04em' }}>
                     ~ Anomaly
                   </span>
                 ) : (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 10, fontWeight: 700, color: col, background: `${col}15`, padding: '2px 7px', borderRadius: 100, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 10, fontWeight: 500, color: col, background: `${col}15`, padding: '2px 7px', borderRadius: 100, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     {SEV_ICON_MAP[inc.severity]} {inc.severity}
                   </span>
                 )}
-                {inc.status === 'acknowledged' && <span style={{ fontSize: 9, color: C.warning, fontWeight: 700 }}>ACK</span>}
-                {inc.status === 'fixing' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 9, color: C.accent, fontWeight: 700 }}><Wrench size={9} /> FIXING</span>}
+                {inc.status === 'acknowledged' && <span style={{ fontSize: 9, color: C.warning, fontWeight: 500 }}>ACK</span>}
+                {inc.status === 'fixing' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 9, color: C.accent, fontWeight: 500 }}><Wrench size={9} /> FIXING</span>}
                 <span style={{ fontSize: 10, color: C.dim }}>{timeAgo(inc.detected_at)}</span>
               </div>
               <span style={{ fontSize: 10, color: C.dim, fontFamily: 'monospace' }}>{inc.cluster_name}</span>
             </div>
-            <p style={{ fontSize: 13, fontWeight: 700, color: C.primary, marginBottom: 2 }}>{inc.title}</p>
+            <p style={{ fontSize: 13, fontWeight: 500, color: C.primary, marginBottom: 2 }}>{inc.title}</p>
             <p style={{ fontSize: 11, color: C.muted, marginBottom: 10, fontFamily: 'monospace' }}>{inc.namespace && `${inc.namespace} / `}{inc.resource_name}</p>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <button type="button" onClick={() => navigate('/app/diagnose', { state: { namespace: inc.namespace ?? 'default', resourceName: inc.resource_name, resourceType: inc.resource_type } })} style={{ padding: '4px 10px', background: C.accent, border: 'none', borderRadius: 4, color: '#fff', fontSize: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}>
@@ -219,7 +219,7 @@ function IssuesPanel({ incidents, summary }: { incidents: Incident[]; summary?: 
                 )}
               </div>
               {inc.issue_type?.startsWith('Anomaly:') ? (
-                <button type="button" onClick={() => handleSnooze(inc.id, 120)} style={{ padding: '4px 10px', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.35)', borderRadius: 4, color: '#f59e0b', fontSize: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3, marginLeft: 'auto' }}>
+                <button type="button" onClick={() => handleSnooze(inc.id, 120)} style={{ padding: '4px 10px', background: 'var(--warning-bg)', border: '1px solid rgba(245,158,11,0.35)', borderRadius: 4, color: '#f59e0b', fontSize: 10, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3, marginLeft: 'auto' }}>
                   <BellOff size={10} /> Dismiss (2h)
                 </button>
               ) : (
@@ -252,7 +252,7 @@ function ClusterOverviewPanel() {
       <div style={{ padding: '9px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <Server size={12} color={C.muted} />
-          <span style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>Cluster Overview</span>
+          <span style={{ fontSize: 11, fontWeight: 500, color: C.primary }}>Cluster Overview</span>
           <span style={{ fontSize: 10, color: C.dim, fontFamily: 'monospace' }}>{activeCluster}</span>
         </div>
         <button type="button" title="Refresh" onClick={() => refetch()} style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', padding: 3 }}>
@@ -277,20 +277,20 @@ function ClusterOverviewPanel() {
               { label: 'Running',     value: String(overview.pod_counts?.running ?? '—'), color: C.success },
             ].map((stat) => (
               <div key={stat.label} style={{ background: C.bg, borderRadius: 6, padding: '9px 11px' }}>
-                <p style={{ fontSize: 9, color: C.dim, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{stat.label}</p>
-                <p style={{ fontSize: 20, fontWeight: 700, color: stat.color ?? C.primary, fontFamily: 'monospace' }}>{stat.value}</p>
+                <p style={{ fontSize: 9, color: C.dim, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>{stat.label}</p>
+                <p style={{ fontSize: 20, fontWeight: 500, color: stat.color ?? C.primary, fontFamily: 'monospace' }}>{stat.value}</p>
               </div>
             ))}
           </div>
 
           {overview.nodes && overview.nodes.length > 0 && (
             <div>
-              <p style={{ fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 7 }}>Nodes</p>
+              <p style={{ fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 7 }}>Nodes</p>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
                 <thead>
                   <tr style={{ background: C.bg }}>
                     {['Name', 'Status', 'Roles', 'Version', 'Age', 'CPU', 'Memory'].map((h) => (
-                      <th key={h} style={{ padding: '5px 9px', textAlign: 'left', fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}`, whiteSpace: 'nowrap' }}>{h}</th>
+                      <th key={h} style={{ padding: '5px 9px', textAlign: 'left', fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}`, whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -305,7 +305,7 @@ function ClusterOverviewPanel() {
                       <tr key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
                         <td style={{ padding: '7px 9px', fontFamily: 'monospace', color: C.primary, fontWeight: 500, fontSize: 11 }}>{node.name}</td>
                         <td style={{ padding: '7px 9px' }}>
-                          <span style={{ padding: '2px 5px', borderRadius: 3, fontSize: 9, fontWeight: 700, background: node.status === 'Ready' ? `${C.success}14` : `${C.error}14`, color: node.status === 'Ready' ? C.success : C.error }}>{node.status}</span>
+                          <span style={{ padding: '2px 5px', borderRadius: 3, fontSize: 9, fontWeight: 500, background: node.status === 'Ready' ? `${C.success}14` : `${C.error}14`, color: node.status === 'Ready' ? C.success : C.error }}>{node.status}</span>
                         </td>
                         <td style={{ padding: '7px 9px', color: C.muted }}>{Array.isArray(node.roles) ? node.roles.join(',') : node.roles}</td>
                         <td style={{ padding: '7px 9px', color: C.dim, fontFamily: 'monospace' }}>{node.version}</td>
@@ -342,7 +342,7 @@ function ClusterOverviewPanel() {
 
           {overview.warning_events && overview.warning_events.length > 0 && (
             <div>
-              <p style={{ fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 }}>Warning Events</p>
+              <p style={{ fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 }}>Warning Events</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {overview.warning_events.slice(0, 5).map((ev, i) => (
                   <div key={i} style={{ display: 'flex', gap: 7, padding: '4px 8px', background: `${C.warning}0a`, border: `1px solid ${C.warning}33`, borderRadius: 4, fontSize: 11 }}>
@@ -395,14 +395,14 @@ function ResourceExplorerPanel() {
   ];
 
   const TH = ({ children }: { children: React.ReactNode | string | number }) => (
-    <th style={{ padding: '5px 10px', textAlign: 'left', fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}`, whiteSpace: 'nowrap', background: C.bg }}>{children}</th>
+    <th style={{ padding: '5px 10px', textAlign: 'left', fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}`, whiteSpace: 'nowrap', background: C.bg }}>{children}</th>
   );
   const TD = ({ children, mono, color }: { children: React.ReactNode; mono?: boolean; color?: string }) => (
     <td style={{ padding: '7px 10px', fontSize: 11, color: color ?? C.muted, fontFamily: mono ? 'monospace' : undefined, borderBottom: `1px solid ${C.border}` }}>{children}</td>
   );
   const statusBadge = (s: string) => {
     const color = STATUS_COLOR[s] ?? C.muted;
-    return <span style={{ padding: '2px 5px', borderRadius: 3, fontSize: 9, fontWeight: 700, background: `${color}18`, color, border: `1px solid ${color}44` }}>{s}</span>;
+    return <span style={{ padding: '2px 5px', borderRadius: 3, fontSize: 9, fontWeight: 500, background: `${color}18`, color, border: `1px solid ${color}44` }}>{s}</span>;
   };
   const ageTd = (r: AnyResource) => <TD color={C.dim}>{String(r.age ?? '—')}</TD>;
 
@@ -470,7 +470,7 @@ function ResourceExplorerPanel() {
     <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: 'hidden' }}>
       <div style={{ padding: '9px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
         <Layers size={12} color={C.muted} />
-        <span style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>Resource Explorer</span>
+        <span style={{ fontSize: 11, fontWeight: 500, color: C.primary }}>Resource Explorer</span>
         <span style={{ fontSize: 10, color: C.dim, fontFamily: 'monospace' }}>{activeCluster}</span>
         <select value={namespace} onChange={(e) => setNamespace(e.target.value)} style={{ marginLeft: 'auto', background: C.bg, border: `1px solid ${C.border}`, borderRadius: 4, color: C.muted, fontSize: 10, padding: '2px 6px', cursor: 'pointer' }}>
           {namespaces.map((ns) => <option key={ns}>{ns}</option>)}
@@ -528,8 +528,8 @@ function MetricCard({ title, unit, series, color, empty }: { title: string; unit
   return (
     <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 14px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-        <span style={{ fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{title}</span>
-        {!empty && <span style={{ fontSize: 18, fontWeight: 700, color, fontFamily: 'monospace' }}>{latest.toFixed(2)}<span style={{ fontSize: 9, fontWeight: 400, color: C.muted, marginLeft: 3 }}>{unit}</span></span>}
+        <span style={{ fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{title}</span>
+        {!empty && <span style={{ fontSize: 18, fontWeight: 500, color, fontFamily: 'monospace' }}>{latest.toFixed(2)}<span style={{ fontSize: 9, fontWeight: 400, color: C.muted, marginLeft: 3 }}>{unit}</span></span>}
       </div>
       {empty ? (
         <div style={{ height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.dim, fontSize: 10 }}>No data — Prometheus not connected</div>
@@ -621,7 +621,7 @@ function MetricsTab() {
               <div style={{ width: 44, height: 44, borderRadius: 10, background: `${C.accent}14`, border: `1px solid ${C.accent}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}>
                 <Plug size={20} style={{ color: C.accent }} />
               </div>
-              <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: C.primary }}>No monitoring platform connected</p>
+              <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 500, color: C.primary }}>No monitoring platform connected</p>
               <p style={{ margin: '0 0 20px', fontSize: 11, color: C.muted, lineHeight: 1.7, maxWidth: 340, marginInline: 'auto' }}>
                 Connect Grafana, Datadog, Prometheus, or New Relic in Integrations to view live dashboards here. Raw Metrics below uses your cluster's metrics-server directly.
               </p>
@@ -638,7 +638,7 @@ function MetricsTab() {
                     {p.icon}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 12, fontWeight: 700, color: C.primary }}>{p.name}</p>
+                    <p style={{ margin: '0 0 2px', fontSize: 12, fontWeight: 500, color: C.primary }}>{p.name}</p>
                     <p style={{ margin: 0, fontSize: 10, color: C.dim, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.url}</p>
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
@@ -696,8 +696,8 @@ function MetricSummaryCard({ label, value, pct }: { label: string; value: string
   const bc = barColor(p);
   return (
     <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: '14px 16px' }}>
-      <p style={{ fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px' }}>{label}</p>
-      <p style={{ fontSize: 22, fontWeight: 700, fontFamily: 'monospace', color: C.primary, lineHeight: 1, margin: '0 0 10px' }}>{value}</p>
+      <p style={{ fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px' }}>{label}</p>
+      <p style={{ fontSize: 22, fontWeight: 500, fontFamily: 'monospace', color: C.primary, lineHeight: 1, margin: '0 0 10px' }}>{value}</p>
       {pct !== undefined && (
         <div style={{ height: 3, background: C.border, borderRadius: 2, overflow: 'hidden' }}>
           <div style={{ width: `${p}%`, height: '100%', background: bc, borderRadius: 2, transition: 'width 0.5s' }} />
@@ -743,7 +743,7 @@ function ServiceTablePanel() {
   return (
     <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: 'hidden' }}>
       <div style={{ padding: '9px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: '0.04em' }}>Services</span>
+        <span style={{ fontSize: 11, fontWeight: 500, color: C.primary, letterSpacing: '0.04em' }}>Services</span>
         <span style={{ fontSize: 10, color: C.dim, fontFamily: 'monospace' }}>{activeCluster}</span>
         <select value={namespace} onChange={(e) => setNamespace(e.target.value)} style={{ marginLeft: 'auto', background: C.bg, border: `1px solid ${C.border}`, borderRadius: 4, color: C.muted, fontSize: 10, padding: '2px 6px', cursor: 'pointer' }}>
           {namespaces.map((ns) => <option key={ns}>{ns}</option>)}
@@ -755,7 +755,7 @@ function ServiceTablePanel() {
         <thead>
           <tr style={{ background: C.bg }}>
             {[['Service', '2fr'], ['Status', '1fr'], ['Pods', '1fr'], ['CPU', '1fr'], ['Memory', '1fr'], ['Req/s', '1fr']].map(([h]) => (
-              <th key={h} style={{ padding: '7px 14px', textAlign: 'left', fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.08em', borderBottom: `1px solid ${C.border}` }}>{h}</th>
+              <th key={h} style={{ padding: '7px 14px', textAlign: 'left', fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.08em', borderBottom: `1px solid ${C.border}` }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -774,7 +774,7 @@ function ServiceTablePanel() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: STATUS_DOT[st], flexShrink: 0 }} />
                     <span style={{ fontSize: 11, color: C.muted }}>{STATUS_LABEL[st]}</span>
-                    {st === 'error' && <span style={{ fontSize: 9, background: C.badgeErr, color: C.error, padding: '1px 5px', borderRadius: 3, fontWeight: 700 }}>ERR</span>}
+                    {st === 'error' && <span style={{ fontSize: 9, background: C.badgeErr, color: C.error, padding: '1px 5px', borderRadius: 3, fontWeight: 500 }}>ERR</span>}
                   </div>
                 </td>
                 <td style={{ padding: '0 14px' }}>
@@ -846,10 +846,10 @@ function HealthTab() {
         ].map((card) => (
           <div key={card.label} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontSize: 9, color: C.dim, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{card.label}</span>
+              <span style={{ fontSize: 9, color: C.dim, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{card.label}</span>
               <span style={{ color: card.color, opacity: 0.6 }}>{card.icon}</span>
             </div>
-            <p style={{ fontSize: 22, fontWeight: 700, color: card.color, lineHeight: 1, fontFamily: 'monospace' }}>{card.value}</p>
+            <p style={{ fontSize: 22, fontWeight: 500, color: card.color, lineHeight: 1, fontFamily: 'monospace' }}>{card.value}</p>
             <p style={{ fontSize: 10, color: C.dim, marginTop: 4 }}>{card.sub}</p>
           </div>
         ))}
@@ -858,13 +858,13 @@ function HealthTab() {
       {/* Spend + drift */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 14 }}>
         <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: 18 }}>
-          <p style={{ fontWeight: 700, fontSize: 11, color: C.primary, marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spend by Service</p>
+          <p style={{ fontWeight: 500, fontSize: 11, color: C.primary, marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spend by Service</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {SPEND_DATA.map((item) => (
               <div key={item.service}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
                   <span style={{ fontSize: 11, color: C.muted }}>{item.service}</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: item.color, fontFamily: 'monospace' }}>${item.monthly}</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: item.color, fontFamily: 'monospace' }}>${item.monthly}</span>
                 </div>
                 <div style={{ height: 4, background: C.border, borderRadius: 2, overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${(item.monthly / maxSpend) * 100}%`, background: item.color, borderRadius: 2, transition: 'width 0.5s' }} />
@@ -877,18 +877,18 @@ function HealthTab() {
           <div style={{ background: `${C.error}08`, border: `1px solid ${C.error}44`, borderRadius: 8, padding: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 8 }}>
               <AlertTriangle size={13} color={C.error} />
-              <span style={{ fontWeight: 700, fontSize: 11, color: C.primary }}>Cost Anomaly</span>
+              <span style={{ fontWeight: 500, fontSize: 11, color: C.primary }}>Cost Anomaly</span>
             </div>
             <p style={{ fontSize: 11, color: C.muted, lineHeight: 1.6 }}>EC2 spend is <strong style={{ color: C.error }}>40% above forecast</strong> for the past 3 days.</p>
             <button type="button" style={{ marginTop: 10, padding: '4px 10px', background: 'transparent', border: `1px solid ${C.error}`, borderRadius: 4, color: C.error, fontSize: 10, cursor: 'pointer', fontWeight: 600 }}>Investigate</button>
           </div>
           <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: 14 }}>
-            <p style={{ fontWeight: 700, fontSize: 11, color: C.primary, marginBottom: 10 }}>Quick Wins</p>
+            <p style={{ fontWeight: 500, fontSize: 11, color: C.primary, marginBottom: 10 }}>Quick Wins</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {OPTIMIZATIONS.slice(0, 2).map((opt) => (
                 <div key={opt.title} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 11, color: C.muted }}>{opt.title}</span>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: C.success, background: `${C.success}12`, padding: '2px 6px', borderRadius: 3, whiteSpace: 'nowrap' }}>{opt.saving}</span>
+                  <span style={{ fontSize: 10, fontWeight: 500, color: C.success, background: `${C.success}12`, padding: '2px 6px', borderRadius: 3, whiteSpace: 'nowrap' }}>{opt.saving}</span>
                 </div>
               ))}
             </div>
@@ -899,9 +899,9 @@ function HealthTab() {
       {/* Infrastructure drift */}
       <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: 'hidden' }}>
         <div style={{ padding: '9px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontWeight: 700, fontSize: 11, color: C.primary }}>
+          <p style={{ fontWeight: 500, fontSize: 11, color: C.primary }}>
             Infrastructure Drift
-            <span style={{ marginLeft: 7, padding: '1px 7px', background: `${C.error}18`, border: `1px solid ${C.error}44`, borderRadius: 3, color: C.error, fontSize: 9, fontWeight: 700 }}>3 drifted</span>
+            <span style={{ marginLeft: 7, padding: '1px 7px', background: `${C.error}18`, border: `1px solid ${C.error}44`, borderRadius: 3, color: C.error, fontSize: 9, fontWeight: 500 }}>3 drifted</span>
           </p>
           <button type="button" style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: 4, color: C.muted, fontSize: 10, cursor: 'pointer' }}>
             <RefreshCw size={10} /> Scan Now
@@ -911,7 +911,7 @@ function HealthTab() {
           <thead>
             <tr style={{ background: C.bg }}>
               {['Resource', 'Type', 'Expected', 'Actual', 'Severity', 'Action'].map((h) => (
-                <th key={h} style={{ padding: '6px 12px', textAlign: 'left', fontSize: 9, fontWeight: 700, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}` }}>{h}</th>
+                <th key={h} style={{ padding: '6px 12px', textAlign: 'left', fontSize: 9, fontWeight: 500, color: C.dim, textTransform: 'uppercase', letterSpacing: '0.07em', borderBottom: `1px solid ${C.border}` }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -923,7 +923,7 @@ function HealthTab() {
                 <td style={{ padding: '9px 12px', fontSize: 11, color: C.success }}>{row.expected}</td>
                 <td style={{ padding: '9px 12px', fontSize: 11, color: C.error }}>{row.actual}</td>
                 <td style={{ padding: '9px 12px' }}>
-                  <span style={{ padding: '2px 6px', background: `${SEV_COLORS[row.severity]}18`, border: `1px solid ${SEV_COLORS[row.severity]}`, borderRadius: 3, color: SEV_COLORS[row.severity], fontSize: 9, fontWeight: 700, textTransform: 'uppercase' }}>
+                  <span style={{ padding: '2px 6px', background: `${SEV_COLORS[row.severity]}18`, border: `1px solid ${SEV_COLORS[row.severity]}`, borderRadius: 3, color: SEV_COLORS[row.severity], fontSize: 9, fontWeight: 500, textTransform: 'uppercase' }}>
                     {row.severity}
                   </span>
                 </td>
@@ -939,8 +939,8 @@ function HealthTab() {
       {/* Optimization suggestions */}
       <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, overflow: 'hidden' }}>
         <div style={{ padding: '9px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontWeight: 700, fontSize: 11, color: C.primary }}>Optimization Suggestions</p>
-          <span style={{ fontSize: 11, color: C.success, fontWeight: 700, fontFamily: 'monospace' }}>
+          <p style={{ fontWeight: 500, fontSize: 11, color: C.primary }}>Optimization Suggestions</p>
+          <span style={{ fontSize: 11, color: C.success, fontWeight: 500, fontFamily: 'monospace' }}>
             ${OPTIMIZATIONS.reduce((s, o) => s + parseInt(o.saving), 0)}/mo potential
           </span>
         </div>
@@ -950,7 +950,7 @@ function HealthTab() {
               <p style={{ fontSize: 12, fontWeight: 600, color: C.primary, marginBottom: 2 }}>{opt.title}</p>
               <p style={{ fontSize: 10, color: C.dim }}>{opt.desc}</p>
             </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: C.success, whiteSpace: 'nowrap', fontFamily: 'monospace' }}>{opt.saving}</span>
+            <span style={{ fontSize: 12, fontWeight: 500, color: C.success, whiteSpace: 'nowrap', fontFamily: 'monospace' }}>{opt.saving}</span>
             <button type="button" style={{ padding: '4px 10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: 4, color: C.muted, fontSize: 10, cursor: 'pointer', whiteSpace: 'nowrap' }}>Apply</button>
           </div>
         ))}
@@ -1000,7 +1000,7 @@ function NoHelmSteps({ token }: { token: string }) {
   );
   const Sh = ({ n, title }: { n: number; title: string }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 14, marginBottom: 6 }}>
-      <span style={{ width: 16, height: 16, borderRadius: '50%', background: `${C.accent}22`, border: `1px solid ${C.accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 700, color: C.accent, flexShrink: 0 }}>{n}</span>
+      <span style={{ width: 16, height: 16, borderRadius: '50%', background: `${C.accent}22`, border: `1px solid ${C.accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 500, color: C.accent, flexShrink: 0 }}>{n}</span>
       <span style={{ fontSize: 11, color: C.primary, fontWeight: 600 }}>{title}</span>
     </div>
   );
@@ -1101,7 +1101,7 @@ function AgentTab() {
         <div style={{ background: 'var(--warning-bg)', border: `1px solid ${C.warning}44`, borderRadius: 8, padding: '10px 14px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
           <AlertTriangle size={14} color={C.warning} style={{ marginTop: 1, flexShrink: 0 }} />
           <div>
-            <div style={{ fontSize: 11, color: C.warning, fontWeight: 700, marginBottom: 2 }}>Save this token — it will not be shown again.</div>
+            <div style={{ fontSize: 11, color: C.warning, fontWeight: 500, marginBottom: 2 }}>Save this token — it will not be shown again.</div>
             <div style={{ fontSize: 11, color: C.muted }}>After you navigate away, only the first 12 characters will be visible. Copy it now and store it securely.</div>
           </div>
         </div>
@@ -1223,7 +1223,7 @@ function AgentTab() {
               ['Rate limited', '1 heartbeat per 30 s · 1 metrics push per 60 s per token'],
               ['Namespace', 'Runs in meridian-system — isolated from your workloads']].map(([t, d]) => (
               <div key={t}>
-                <div style={{ fontSize: 10, color: C.accent, fontWeight: 700, marginBottom: 2 }}>{t}</div>
+                <div style={{ fontSize: 10, color: C.accent, fontWeight: 500, marginBottom: 2 }}>{t}</div>
                 <div style={{ fontSize: 10, color: C.muted }}>{d}</div>
               </div>
             ))}
@@ -1268,7 +1268,7 @@ function AgentTab() {
           <div style={{ flex: 1 }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             {status.installed ? <Wifi size={13} color={C.success} /> : <WifiOff size={13} color={offline ? C.warning : C.dim} />}
-            <span style={{ fontSize: 10, color: status.installed ? C.success : offline ? C.warning : C.dim, fontWeight: 700 }}>
+            <span style={{ fontSize: 10, color: status.installed ? C.success : offline ? C.warning : C.dim, fontWeight: 500 }}>
               {status.installed ? 'ONLINE' : offline ? 'OFFLINE' : 'NOT SEEN'}
             </span>
           </div>
@@ -1375,7 +1375,7 @@ export function MonitorMode() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginLeft: 6 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: C.success, animation: 'livePulse 2s ease-in-out infinite' }} />
-          <span style={{ fontSize: 9, color: C.dim, fontWeight: 700, letterSpacing: '0.08em' }}>LIVE</span>
+          <span style={{ fontSize: 9, color: C.dim, fontWeight: 500, letterSpacing: '0.08em' }}>LIVE</span>
         </div>
       </div>
 
@@ -1385,7 +1385,7 @@ export function MonitorMode() {
           <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ height: 32, padding: '0 14px', background: 'none', border: 'none', borderBottom: `2px solid ${activeTab === tab.id ? C.accent : 'transparent'}`, color: activeTab === tab.id ? C.primary : C.dim, fontSize: 11, fontWeight: activeTab === tab.id ? 600 : 400, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap' }}>
             {tab.icon}{tab.label}
             {tab.badge !== undefined && tab.badge > 0 && (
-              <span style={{ background: C.error, color: '#fff', borderRadius: 100, fontSize: 9, fontWeight: 700, padding: '1px 5px', minWidth: 14, textAlign: 'center' }}>{tab.badge}</span>
+              <span style={{ background: C.error, color: '#fff', borderRadius: 100, fontSize: 9, fontWeight: 500, padding: '1px 5px', minWidth: 14, textAlign: 'center' }}>{tab.badge}</span>
             )}
           </button>
         ))}

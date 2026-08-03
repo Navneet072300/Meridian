@@ -187,9 +187,9 @@ export default function SubscriptionPage() {
           <Sparkles size={12} color={V.accentLight} />
           <span style={{ fontSize: '0.78rem', color: V.accentLight, fontWeight: 600 }}>Simple, transparent pricing</span>
         </div>
-        <h1 style={{ margin: '0 0 0.625rem', fontWeight: 800, fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', lineHeight: 1.2 }}>
+        <h1 style={{ margin: '0 0 0.625rem', fontWeight: 500, fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', lineHeight: 1.2 }}>
           The right plan for your<br />
-          <span style={{ background: `linear-gradient(90deg, ${V.accent}, ${V.purple})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span style={{ color: 'var(--text-primary)' }}>
             infrastructure team
           </span>
         </h1>
@@ -204,7 +204,7 @@ export default function SubscriptionPage() {
               style={{ padding: '0.45rem 1.25rem', borderRadius: 9, border: 'none', background: billing === b ? V.accent : 'transparent', color: billing === b ? '#fff' : V.muted, cursor: 'pointer', fontSize: '0.85rem', fontWeight: billing === b ? 700 : 400, transition: 'all 0.2s' }}>
               {b.charAt(0).toUpperCase() + b.slice(1)}
               {b === 'annual' && billing !== 'annual' && (
-                <span style={{ marginLeft: 6, fontSize: '0.68rem', background: 'rgba(63,185,80,0.15)', color: V.green, borderRadius: 4, padding: '1px 5px', fontWeight: 700 }}>−20%</span>
+                <span style={{ marginLeft: 6, fontSize: '0.68rem', background: 'rgba(63,185,80,0.15)', color: V.green, borderRadius: 4, padding: '1px 5px', fontWeight: 500 }}>−20%</span>
               )}
             </button>
           ))}
@@ -227,7 +227,7 @@ export default function SubscriptionPage() {
               boxShadow: p.highlighted ? `0 0 28px ${planColors[p.id]}12` : 'none',
             }}>
               {p.badge && (
-                <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: p.highlighted ? planColors[p.id] : V.surface2, color: p.highlighted ? '#fff' : planColors[p.id], border: `1px solid ${planColors[p.id]}50`, borderRadius: 20, padding: '3px 12px', fontSize: '0.67rem', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: p.highlighted ? planColors[p.id] : V.surface2, color: p.highlighted ? '#fff' : planColors[p.id], border: `1px solid ${planColors[p.id]}50`, borderRadius: 20, padding: '3px 12px', fontSize: '0.67rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
                   {p.badge}
                 </div>
               )}
@@ -236,14 +236,14 @@ export default function SubscriptionPage() {
                 <div style={{ width: 30, height: 30, borderRadius: 7, background: `${planColors[p.id]}18`, border: `1px solid ${planColors[p.id]}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: planColors[p.id] }}>
                   {p.icon}
                 </div>
-                <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{p.name}</span>
+                <span style={{ fontWeight: 500, fontSize: '0.95rem' }}>{p.name}</span>
                 {isCurrent && (
-                  <span style={{ marginLeft: 'auto', fontSize: '0.6rem', fontWeight: 700, color: planColors[p.id], background: `${planColors[p.id]}18`, border: `1px solid ${planColors[p.id]}30`, borderRadius: 4, padding: '2px 6px' }}>ACTIVE</span>
+                  <span style={{ marginLeft: 'auto', fontSize: '0.6rem', fontWeight: 500, color: planColors[p.id], background: `${planColors[p.id]}18`, border: `1px solid ${planColors[p.id]}30`, borderRadius: 4, padding: '2px 6px' }}>ACTIVE</span>
                 )}
               </div>
 
               <div style={{ marginBottom: '1rem' }}>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, lineHeight: 1 }}>
+                <div style={{ fontSize: '1.7rem', fontWeight: 500, lineHeight: 1 }}>
                   {displayPrice(p)}
                   {p.id !== 'enterprise' && p.id !== 'free' && (
                     <span style={{ fontSize: '0.78rem', fontWeight: 400, color: V.muted }}>/mo</span>
@@ -278,7 +278,7 @@ export default function SubscriptionPage() {
                   border: isCurrent ? `1px solid ${planColors[p.id]}44` : 'none',
                   background: isCurrent ? 'transparent' : p.highlighted ? `linear-gradient(135deg, ${V.accent}, ${V.accentLight})` : planColors[p.id],
                   color: isCurrent ? planColors[p.id] : '#fff',
-                  cursor: isCurrent ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700,
+                  cursor: isCurrent ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 500,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                   opacity: isUpgrading ? 0.7 : 1,
                   boxShadow: p.highlighted && !isCurrent ? '0 3px 10px rgba(99, 102, 241, 0.22)' : 'none',
@@ -419,7 +419,7 @@ export default function SubscriptionPage() {
             <p style={{ margin: 0, fontSize: '0.8rem', color: V.muted }}>You're on the Free plan. Upgrade to Pro or Team to access all features.</p>
           </div>
           <button type="button" onClick={() => handleSelect(PLANS[1])}
-            style={{ padding: '0.5rem 1.25rem', background: V.accent, border: 'none', borderRadius: 8, color: '#fff', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
+            style={{ padding: '0.5rem 1.25rem', background: V.accent, border: 'none', borderRadius: 8, color: '#fff', fontSize: '0.82rem', fontWeight: 500, cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
             Upgrade to Pro <ChevronRight size={12} />
           </button>
         </div>
@@ -427,7 +427,7 @@ export default function SubscriptionPage() {
 
       {/* ── FAQ ── */}
       <div style={{ maxWidth: 660, margin: '0 auto 3rem' }}>
-        <h2 style={{ textAlign: 'center', fontWeight: 700, fontSize: '1.2rem', marginBottom: '1.5rem' }}>Frequently asked questions</h2>
+        <h2 style={{ textAlign: 'center', fontWeight: 500, fontSize: '1.2rem', marginBottom: '1.5rem' }}>Frequently asked questions</h2>
         {FAQS.map((faq) => (
           <FaqItem key={faq.q} q={faq.q} a={faq.a} />
         ))}
@@ -436,12 +436,12 @@ export default function SubscriptionPage() {
       {/* ── Enterprise CTA ── */}
       <div style={{ background: 'var(--badge-bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '2rem', textAlign: 'center' }}>
         <Building2 size={28} style={{ color: V.accent, marginBottom: 12 }} />
-        <h3 style={{ margin: '0 0 0.5rem', fontWeight: 700, fontSize: '1.1rem' }}>Need a custom solution?</h3>
+        <h3 style={{ margin: '0 0 0.5rem', fontWeight: 500, fontSize: '1.1rem' }}>Need a custom solution?</h3>
         <p style={{ margin: '0 0 1.25rem', color: V.muted, fontSize: '0.875rem', maxWidth: 480, marginInline: 'auto' }}>
           Enterprise plans include on-premise deployment, custom AI fine-tuning, SAML SSO, and dedicated support scoped to your exact infrastructure requirements.
         </p>
         <button type="button" onClick={() => window.open('mailto:sales@meridian.io?subject=Enterprise+Inquiry', '_blank')}
-          style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '0.65rem 1.75rem', color: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 700, boxShadow: '0 4px 14px rgba(99, 102, 241, 0.22)' }}>
+          style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '0.65rem 1.75rem', color: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500, boxShadow: '0 4px 14px rgba(99, 102, 241, 0.22)' }}>
           Talk to Sales
         </button>
       </div>

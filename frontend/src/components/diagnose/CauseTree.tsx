@@ -132,14 +132,14 @@ function CauseCard({ cause, status, onStatusChange, onRunCommand, sessionId }: {
 
           {cause.if_confirmed && (
             <div style={{ padding: '7px 10px', background: 'rgba(87,171,90,0.06)', borderRadius: 5, borderLeft: '2px solid var(--success)' }}>
-              <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 700 }}>If confirmed: </span>
+              <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 500 }}>If confirmed: </span>
               <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{cause.if_confirmed}</span>
             </div>
           )}
 
           {cause.if_ruled_out && (
             <div style={{ padding: '7px 10px', background: 'rgba(72,79,88,0.15)', borderRadius: 5, borderLeft: '2px solid #484f58' }}>
-              <span style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 700 }}>If ruled out: </span>
+              <span style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>If ruled out: </span>
               <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{cause.if_ruled_out}</span>
             </div>
           )}
@@ -177,7 +177,7 @@ export function CauseTree({ causes, causeStatuses, onStatusChange, onRunCommand,
     <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
       <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
         <AlertCircle size={13} style={{ color: 'var(--warning)' }} />
-        <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-primary)' }}>
+        <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>
           {analyzing ? 'Possible Causes — Investigating…' : `Possible Causes — ${causes.length} identified`}
         </span>
       </div>

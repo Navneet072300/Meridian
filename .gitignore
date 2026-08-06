@@ -6,20 +6,8 @@
 *.key
 *.cert
 
-# ── Python ────────────────────────────────────────────────────────────────────
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-venv/
-.venv/
-env/
-*.egg-info/
-dist/
-build/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+# ── Go ────────────────────────────────────────────────────────────────────────
+backend/meridian
 
 # ── Node / Frontend ───────────────────────────────────────────────────────────
 node_modules/
@@ -32,7 +20,7 @@ frontend/.vite/
 *.db
 *.sqlite3
 *.sqlite
-config/platforms.json
+backend/config/platforms.json
 
 # ── OS / Editor ───────────────────────────────────────────────────────────────
 .DS_Store

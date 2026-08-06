@@ -1,21 +1,26 @@
-FROM python:3.12-slim
+FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
-# Install kubectl
-RUN apt-get update && apt-get install -y curl && \
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
-    rm kubectl && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git ca-certificates
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY go.mod go.sum ./
+RUN go mod download
 
 COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o meridian .
+
+# ── Final image ──────────────────────────────────────────────────────────────
+FROM alpine:3.20
+
+RUN apk add --no-cache ca-certificates curl
+
+WORKDIR /app
+
+COPY --from=builder /app/meridian .
 
 RUN mkdir -p config
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./meridian"]

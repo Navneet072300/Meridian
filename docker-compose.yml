@@ -12,8 +12,7 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      # Override localhost refs from .env with Docker service names
-      - DATABASE_URL=postgresql+asyncpg://meridian:meridian@postgres:5432/meridian
+      - DATABASE_URL=postgresql://meridian:meridian@postgres:5432/meridian
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       postgres:

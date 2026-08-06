@@ -24,12 +24,19 @@ export const useProfileStore = create<ProfileState>()(
       email: 'navneetshahi345@gmail.com',
       avatar: null,
       plan: 'pro',
-      company: 'Meridian',
+      company: 'InfraPilot',
       role: 'DevOps Engineer',
 
       setProfile: (updates) => set((s) => ({ ...s, ...updates })),
       setAvatar: (dataUrl) => set({ avatar: dataUrl }),
     }),
-    { name: 'meridian-profile' }
+    {
+      name: 'infrapilot-profile',
+      merge: (persisted: unknown, current) => ({
+        ...current,
+        ...(persisted as object),
+        plan: 'pro',
+      }),
+    }
   )
 );

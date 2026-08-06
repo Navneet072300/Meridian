@@ -68,7 +68,7 @@ const FEATURE_CONTENT: Record<PlanFeature, FeatureContent> = {
   api_keys: {
     icon: <Key size={28} />,
     headline: 'Unlock API Access',
-    subtext: 'Integrate Meridian into your own tooling and scripts',
+    subtext: 'Integrate InfraPilot into your own tooling and scripts',
     benefits: [
       'Generate API keys with scoped permissions',
       'Call all generation endpoints programmatically',

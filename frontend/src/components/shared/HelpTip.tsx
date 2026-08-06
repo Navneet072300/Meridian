@@ -31,17 +31,17 @@ export const HELP_TIPS: Record<string, TipContent> = {
   },
   kubeconfig: {
     title: 'Server connection file',
-    body: "A file that contains everything Meridian needs to talk to your server — the address, a certificate, and a key. It's like a VPN config file but for your Kubernetes cluster.",
+    body: "A file that contains everything InfraPilot needs to talk to your server — the address, a certificate, and a key. It's like a VPN config file but for your Kubernetes cluster.",
     learnMore: 'How do I find this file?',
   },
   pat: {
     title: 'GitHub password for apps',
-    body: "A special password you create just for Meridian. It's safer than your real GitHub password because: you can delete it anytime, you can limit what it can access, and GitHub alerts you if it gets leaked.",
+    body: "A special password you create just for InfraPilot. It's safer than your real GitHub password because: you can delete it anytime, you can limit what it can access, and GitHub alerts you if it gets leaked.",
     learnMore: 'How to create one (2 min)',
   },
   bearerToken: {
     title: 'Server access key',
-    body: "A long string of letters and numbers that proves Meridian is allowed to talk to your server. Like a very long password that your server understands.",
+    body: "A long string of letters and numbers that proves InfraPilot is allowed to talk to your server. Like a very long password that your server understands.",
     learnMore: null,
   },
   helm: {

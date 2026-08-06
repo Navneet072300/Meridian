@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LandingPage } from './pages/LandingPage';
-import { Onboarding } from './pages/Onboarding';
 import { AppLayout } from './components/layout/AppLayout';
 import { DeployMode } from './components/modes/DeployMode';
 import { DeploymentsMode } from './components/modes/DeploymentsMode';
@@ -63,9 +62,7 @@ function ConfigLoader({ children }: { children: React.ReactNode }) {
         }
 
         const path = window.location.pathname;
-        if (!config.configured && path.startsWith('/app')) {
-          navigate('/onboarding', { replace: true });
-        }
+        // onboarding disabled — go straight to app
       } catch {
         // Backend not reachable — allow app to open anyway
       } finally {
@@ -169,8 +166,7 @@ export default function App() {
             <Route path="/login"  element={<RedirectIfAuthed><LoginPage /></RedirectIfAuthed>} />
             <Route path="/signup" element={<RedirectIfAuthed><SignupPage /></RedirectIfAuthed>} />
             <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/app/*" element={<RequireAuth><AppShell /></RequireAuth>} />
+<Route path="/app/*" element={<RequireAuth><AppShell /></RequireAuth>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ConfigLoader>

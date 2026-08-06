@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Bell, X, CheckCheck, Info, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useNotificationStore, type Notification, type NotifType } from '../../store/notificationStore';
 
 function timeAgo(d: Date) {
@@ -12,50 +11,55 @@ function timeAgo(d: Date) {
 }
 
 const TYPE_ICON: Record<NotifType, React.ReactNode> = {
-  info:    <Info size={15} className="text-blue-500" />,
-  success: <CheckCircle2 size={15} className="text-emerald-500" />,
-  warning: <AlertTriangle size={15} className="text-amber-500" />,
-  error:   <XCircle size={15} className="text-rose-500" />,
+  info:    <Info size={14} color="var(--accent-text)" />,
+  success: <CheckCircle2 size={14} color="var(--success)" />,
+  warning: <AlertTriangle size={14} color="var(--warning)" />,
+  error:   <XCircle size={14} color="var(--error)" />,
 };
 
 const TYPE_BORDER: Record<NotifType, string> = {
-  info:    'border-l-blue-500',
-  success: 'border-l-emerald-500',
-  warning: 'border-l-amber-500',
-  error:   'border-l-rose-500',
+  info:    'var(--accent)',
+  success: 'var(--success)',
+  warning: 'var(--warning)',
+  error:   'var(--error)',
 };
 
 function NotifRow({ n }: { n: Notification }) {
   const { markRead, deleteNotif } = useNotificationStore();
   return (
     <div
+      style={{
+        display: 'flex',
+        gap: '10px',
+        padding: '10px 14px',
+        background: n.read ? 'transparent' : 'var(--bg-hover)',
+        borderLeft: `3px solid ${n.read ? 'transparent' : TYPE_BORDER[n.type]}`,
+        cursor: n.read ? 'default' : 'pointer',
+        transition: 'all 0.15s ease',
+      }}
       onClick={() => !n.read && markRead(n.id)}
-      className={`flex items-start gap-3 p-3 transition-colors cursor-pointer border-l-2 ${
-        n.read ? 'border-l-transparent bg-transparent' : `${TYPE_BORDER[n.type]} bg-purple-500/5 dark:bg-purple-500/10`
-      }`}
     >
-      <div className="flex-shrink-0 mt-0.5">{TYPE_ICON[n.type]}</div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-2">
-          <span className={`text-xs ${n.read ? 'font-medium text-zinc-700 dark:text-zinc-300' : 'font-semibold text-zinc-900 dark:text-zinc-100'} truncate`}>
+      <div style={{ flexShrink: 0, marginTop: 2 }}>{TYPE_ICON[n.type]}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+          <span style={{ fontSize: '12px', fontWeight: n.read ? 400 : 600, color: n.read ? 'var(--text-secondary)' : 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {n.title}
           </span>
-          <span className="text-[10px] text-zinc-400 flex-shrink-0">{timeAgo(n.timestamp)}</span>
+          <span style={{ fontSize: '10px', color: 'var(--text-muted)', flexShrink: 0 }}>{timeAgo(n.timestamp)}</span>
         </div>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 line-clamp-2 leading-relaxed">
+        <p style={{ margin: '2px 0 0', fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {n.message}
         </p>
       </div>
       <button
         type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          deleteNotif(n.id);
-        }}
+        onClick={(e) => { e.stopPropagation(); deleteNotif(n.id); }}
         title="Delete"
-        className="text-zinc-400 hover:text-rose-500 p-1 transition-colors flex-shrink-0"
+        style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '2px', opacity: 0.7, marginTop: -2 }}
+        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--error)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
       >
-        <X size={13} />
+        <X size={12} />
       </button>
     </div>
   );
@@ -79,70 +83,80 @@ export function NotificationPanel({ open, onClose }: Props) {
     return () => document.removeEventListener('mousedown', handler);
   }, [open, onClose]);
 
+  if (!open) return null;
+
   const hasUnread = notifications.some((n) => !n.read);
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 8 }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute top-full right-0 mt-2 w-80 sm:w-96 rounded-2xl border border-white/10 dark:border-white/10 border-zinc-200 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl shadow-2xl z-50 overflow-hidden"
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between p-3.5 border-b border-zinc-200 dark:border-zinc-800">
-            <div className="flex items-center gap-2">
-              <Bell size={15} className="text-purple-600 dark:text-purple-400" />
-              <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Notifications</span>
-              {hasUnread && (
-                <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
-                  {notifications.filter((n) => !n.read).length} new
-                </span>
+    <div
+      ref={ref}
+      style={{
+        position: 'absolute',
+        top: 'calc(100% + 6px)',
+        right: 0,
+        width: 340,
+        background: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 12,
+        boxShadow: 'var(--shadow-lg)',
+        zIndex: 200,
+        overflow: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <Bell size={14} color="var(--text-primary)" />
+          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>Notifications</span>
+          {hasUnread && (
+            <span style={{ fontSize: '10px', fontWeight: 500, background: 'var(--error-bg)', color: 'var(--error)', border: '1px solid var(--border)', borderRadius: 8, padding: '1px 6px' }}>
+              {notifications.filter((n) => !n.read).length} new
+            </span>
+          )}
+        </div>
+        {hasUnread && (
+          <button
+            type="button"
+            onClick={markAllRead}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent-text)', fontSize: '11px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}
+          >
+            <CheckCheck size={12} /> Mark all read
+          </button>
+        )}
+      </div>
+
+      {/* List */}
+      <div style={{ maxHeight: 360, overflowY: 'auto' }}>
+        {notifications.length === 0 ? (
+          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px' }}>
+            No notifications
+          </div>
+        ) : (
+          notifications.map((n, i) => (
+            <div key={n.id}>
+              <NotifRow n={n} />
+              {i < notifications.length - 1 && (
+                <div style={{ height: '1px', background: 'var(--border)', margin: '0 14px' }} />
               )}
             </div>
-            {hasUnread && (
-              <button
-                type="button"
-                onClick={markAllRead}
-                className="text-xs font-medium text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1"
-              >
-                <CheckCheck size={13} /> Mark read
-              </button>
-            )}
-          </div>
+          ))
+        )}
+      </div>
 
-          {/* List */}
-          <div className="max-h-80 overflow-y-auto divide-y divide-zinc-100 dark:divide-zinc-800/60 scrollbar-thin">
-            {notifications.length === 0 ? (
-              <div className="p-8 text-center text-xs text-zinc-400">
-                No notifications right now
-              </div>
-            ) : (
-              notifications.map((n) => <NotifRow key={n.id} n={n} />)
-            )}
-          </div>
-
-          {notifications.length > 0 && (
-            <div className="p-2.5 border-t border-zinc-200 dark:border-zinc-800 text-center bg-zinc-50/50 dark:bg-zinc-950/40">
-              <button
-                type="button"
-                onClick={() =>
-                  useNotificationStore
-                    .getState()
-                    .notifications.forEach((n) => useNotificationStore.getState().deleteNotif(n.id))
-                }
-                className="text-xs font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                Clear all notifications
-              </button>
-            </div>
-          )}
-        </motion.div>
+      {notifications.length > 0 && (
+        <div style={{ padding: '8px 14px', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+          <button
+            type="button"
+            onClick={() => useNotificationStore.getState().notifications.forEach((n) => useNotificationStore.getState().deleteNotif(n.id))}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: '11px' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+          >
+            Clear all
+          </button>
+        </div>
       )}
-    </AnimatePresence>
+    </div>
   );
 }
 
@@ -153,11 +167,38 @@ export function NotificationBell({ onClick }: { onClick: () => void }) {
       type="button"
       title="Notifications"
       onClick={onClick}
-      className="relative p-2 rounded-xl bg-zinc-100/80 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-purple-500/40 transition-all"
+      style={{
+        background: 'var(--bg-base)', border: '1px solid var(--border)',
+        borderRadius: 8, color: 'var(--text-muted)', cursor: 'pointer',
+        padding: '6px', position: 'relative', display: 'flex', alignItems: 'center',
+        transition: 'all 0.15s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border-focus)';
+        e.currentTarget.style.color = 'var(--text-primary)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border)';
+        e.currentTarget.style.color = 'var(--text-muted)';
+      }}
     >
-      <Bell size={16} />
+      <Bell size={15} />
       {unread > 0 && (
-        <span className="absolute -top-1 -right-1 min-w-4 h-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[10px] font-bold flex items-center justify-center px-1 shadow-md shadow-rose-500/30">
+        <span style={{
+          position: 'absolute', top: -3, right: -3,
+          minWidth: 15, height: 15,
+          background: 'var(--error)',
+          borderRadius: 99,
+          fontSize: 9.5,
+          fontWeight: 500,
+          color: '#fff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0 4px',
+          lineHeight: 1,
+          boxShadow: '0 0 0 2px var(--bg-surface)',
+        }}>
           {unread > 9 ? '9+' : unread}
         </span>
       )}

@@ -1,8 +1,4 @@
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { AlertCircle, Rocket, ShieldCheck } from 'lucide-react';
-import { GlassCard, AuroraBackground } from '../components/shared/UIPrimitives';
 
 const ERROR_MESSAGES: Record<string, string> = {
   github_failed:    'GitHub sign-in failed. Please try again.',
@@ -35,75 +31,82 @@ export function LoginPage() {
   const error = errorCode ? (ERROR_MESSAGES[errorCode] ?? 'Sign-in failed. Please try again.') : '';
 
   return (
-    <AuroraBackground className="min-h-screen flex items-center justify-center p-6 bg-zinc-950 text-zinc-100 font-sans select-none">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md space-y-6 relative z-10"
-      >
-        <div className="text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white mx-auto shadow-xl shadow-purple-500/25 border border-white/20">
-            <Rocket size={26} />
+    <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <div className="animate-fade-in-up" style={{ width: '100%', maxWidth: 380 }}>
+        {/* Logo + wordmark */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 16,
+            background: 'var(--accent)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 18, fontWeight: 500, color: '#fff',
+            margin: '0 auto 16px',
+          }}>
+            M
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">
-            Welcome to InfraPilot
+          <h1 style={{ margin: '0 0 8px', color: 'var(--text-primary)', fontWeight: 500, fontSize: 22, letterSpacing: '-0.02em' }}>
+            Meri<span style={{ color: 'var(--accent)' }}>dian</span>
           </h1>
-          <p className="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed">
-            Sign in with your Git provider to connect repositories and start automated cloud deployments.
+          <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13.5, lineHeight: 1.6 }}>
+            Sign in with your Git provider to connect<br />repositories and deploy infrastructure.
           </p>
         </div>
 
-        <GlassCard glow className="p-8 space-y-6 border border-white/10 dark:border-white/10">
+        {/* Card */}
+        <div className="ip-card" style={{ padding: '28px 24px', boxShadow: 'var(--shadow-md)' }}>
           {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2"
-            >
-              <AlertCircle size={16} className="flex-shrink-0" />
-              <span>{error}</span>
-            </motion.div>
+            <div style={{ background: 'var(--error-bg)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', marginBottom: 20, color: 'var(--error)', fontSize: 12, lineHeight: 1.5 }}>
+              {error}
+            </div>
           )}
 
-          <motion.a
-            whileHover={{ scale: 1.015, y: -1 }}
-            whileTap={{ scale: 0.98 }}
+          {/* GitHub button */}
+          <a
             href="/api/auth/github"
-            className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-sm border border-zinc-700/80 shadow-lg transition-all"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+              padding: '12px 20px', borderRadius: 10,
+              background: '#24292f', border: '1px solid #444c56',
+              color: '#ffffff', fontSize: 14, fontWeight: 600, textDecoration: 'none',
+              width: '100%', boxSizing: 'border-box',
+              transition: 'all 0.15s ease',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            }}
           >
-            <GitHubLogo size={18} />
-            <span>Continue with GitHub</span>
-          </motion.a>
+            <GitHubLogo size={18} /> Continue with GitHub
+          </a>
 
-          <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-[1px] bg-zinc-800" />
-            <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">or</span>
-            <div className="flex-1 h-[1px] bg-zinc-800" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '16px 0' }}>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+            <span style={{ color: 'var(--text-muted)', fontSize: 11 }}>or</span>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
           </div>
 
-          <motion.a
-            whileHover={{ scale: 1.015, y: -1 }}
-            whileTap={{ scale: 0.98 }}
+          {/* GitLab button */}
+          <a
             href="/api/auth/gitlab"
-            className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-[#fc6d26] hover:bg-[#e24329] text-white font-semibold text-sm shadow-lg shadow-orange-500/20 border border-white/20 transition-all"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+              padding: '12px 20px', borderRadius: 10,
+              background: '#fc6d26', border: '1px solid #e24329',
+              color: '#ffffff', fontSize: 14, fontWeight: 600, textDecoration: 'none',
+              width: '100%', boxSizing: 'border-box',
+              transition: 'all 0.15s ease',
+              boxShadow: '0 2px 8px rgba(252,109,38,0.2)',
+            }}
           >
-            <GitLabLogo size={18} />
-            <span>Continue with GitLab</span>
-          </motion.a>
+            <GitLabLogo size={18} /> Continue with GitLab
+          </a>
 
-          <div className="pt-2 text-center">
-            <p className="text-[11px] text-zinc-500 leading-relaxed">
-              Requires <code className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded text-[10px]">read_user</code> & <code className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded text-[10px]">repo</code> scopes for automated pipeline management.
-            </p>
-          </div>
-        </GlassCard>
+          <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 11.5, margin: '20px 0 0', lineHeight: 1.6 }}>
+            Requests <code style={{ background: 'var(--bg-hover)', padding: '2px 5px', borderRadius: 4, color: 'var(--text-secondary)', fontSize: 10.5 }}>read_user</code> / <code style={{ background: 'var(--bg-hover)', padding: '2px 5px', borderRadius: 4, color: 'var(--text-secondary)', fontSize: 10.5 }}>repo</code> scopes.
+          </p>
+        </div>
 
-        <p className="text-center text-[11px] text-zinc-500 flex items-center justify-center gap-1">
-          <ShieldCheck size={13} className="text-purple-400" />
-          <span>Encrypted with AES-256 Vault Protection</span>
+        <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 11, marginTop: 20, lineHeight: 1.6 }}>
+          By continuing you agree to InfraPilot's terms of service.
         </p>
-      </motion.div>
-    </AuroraBackground>
+      </div>
+    </div>
   );
 }

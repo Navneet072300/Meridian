@@ -24,7 +24,7 @@ export const useProfileStore = create<ProfileState>()(
       email: 'navneetshahi345@gmail.com',
       avatar: null,
       plan: 'pro',
-      company: 'InfraPilot',
+      company: 'Meridian',
       role: 'DevOps Engineer',
 
       setProfile: (updates) => set((s) => ({ ...s, ...updates })),

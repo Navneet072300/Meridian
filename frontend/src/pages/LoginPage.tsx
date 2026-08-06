@@ -104,7 +104,7 @@ export function LoginPage() {
         </div>
 
         <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 11, marginTop: 20, lineHeight: 1.6 }}>
-          By continuing you agree to InfraPilot's terms of service.
+          By continuing you agree to Meridian'''s terms of service.
         </p>
       </div>
     </div>

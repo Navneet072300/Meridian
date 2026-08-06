@@ -60,11 +60,11 @@ function SetupGuide({ title, onSaved }: { title: string; onSaved: (t: string) =>
     <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, padding: 20 }}>
       <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 8, color: 'var(--text-primary)' }}>{title}</p>
       <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16, lineHeight: 1.6 }}>
-        InfraPilot needs access to your GitHub repositories to read code and set up automatic deploys.
+        Meridian needs access to your GitHub repositories to read code and set up automatic deploys.
       </p>
 
       <a
-        href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot"
+        href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian"
         target="_blank"
         rel="noopener noreferrer"
         style={{
@@ -86,7 +86,7 @@ function SetupGuide({ title, onSaved }: { title: string; onSaved: (t: string) =>
 
       {showSteps && (
         <ol style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 2, paddingLeft: 18, marginBottom: 16 }}>
-          <li>Note name: type <code style={{ color: 'var(--accent)' }}>InfraPilot</code></li>
+          <li>Note name: type <code style={{ color: 'var(--accent)' }}>Meridian</code></li>
           <li>Expiration: <strong style={{ color: 'var(--text-primary)' }}>90 days</strong></li>
           <li>Check these boxes: <strong style={{ color: 'var(--text-primary)' }}>repo</strong> and <strong style={{ color: 'var(--text-primary)' }}>workflow</strong> (nothing else needed)</li>
           <li>Click <strong style={{ color: 'var(--text-primary)' }}>Generate token</strong></li>

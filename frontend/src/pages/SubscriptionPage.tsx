@@ -194,7 +194,7 @@ export default function SubscriptionPage() {
           </span>
         </h1>
         <p style={{ margin: '0 auto 1.5rem', color: V.muted, fontSize: '0.9rem', maxWidth: 480 }}>
-          From solo engineers to enterprise platforms — InfraPilot scales with your workflow.
+          From solo engineers to enterprise platforms — Meridian scales with your workflow.
         </p>
 
         {/* Billing toggle */}

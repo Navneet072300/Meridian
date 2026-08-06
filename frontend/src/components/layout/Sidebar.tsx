@@ -248,7 +248,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
             </button>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}>
-              {/* InfraPilot logo mark */}
+              {/* Meridian logo mark */}
               <div style={{
                 width: 32, height: 32, borderRadius: '9px',
                 background: 'var(--accent)',

@@ -271,7 +271,7 @@ function GitHubCredentials({ value, onChange }: { value: { username: string; pat
       <p style={{ fontWeight: 600, fontSize: '13px', marginBottom: 4 }}>🐙 GitHub</p>
       {isBuilder && (
         <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.5 }}>
-          InfraPilot needs permission to read your code and set up automatic deploys.
+          Meridian needs permission to read your code and set up automatic deploys.
         </p>
       )}
       {!isBuilder && <div style={{ marginBottom: '12px' }} />}
@@ -375,7 +375,7 @@ export function Onboarding() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '36px' }}>
         <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 500, color: '#fff' }}>M</div>
-        <span style={{ fontWeight: 500, fontSize: '18px', letterSpacing: '-0.02em' }}>InfraPilot Setup</span>
+        <span style={{ fontWeight: 500, fontSize: '18px', letterSpacing: '-0.02em' }}>Meridian Setup</span>
       </div>
 
       {/* Step indicator */}
@@ -421,7 +421,7 @@ export function Onboarding() {
           {step === 1 && (
             <>
               <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>What are you working with?</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Select everything in your stack — InfraPilot will tailor its workflows accordingly.</p>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Select everything in your stack — Meridian will tailor its workflows accordingly.</p>
               {(Object.entries(PLATFORMS) as [SelectionKey, typeof PLATFORMS.cloud][]).map(([key, items]) => (
                 <SelectionGroup key={key} title={key.toUpperCase()} items={items} selected={selections[key]} onToggle={(id) => toggleSelection(key, id)} />
               ))}
@@ -537,7 +537,7 @@ export function Onboarding() {
                 boxShadow: '0 0 16px var(--accent-glow)',
               }}
             >
-              {saving ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Saving...</> : 'Launch InfraPilot →'}
+              {saving ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Saving...</> : 'Launch Meridian →'}
             </button>
           )}
         </div>

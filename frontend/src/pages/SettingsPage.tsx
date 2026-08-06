@@ -976,7 +976,7 @@ export function ConnectedPlatformsTab() {
           </div>
           {/* Generate PAT button — top right */}
           <a
-            href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot"
+            href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -1051,7 +1051,7 @@ export function ConnectedPlatformsTab() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot', '_blank')}
+                    onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian', '_blank')}
                     style={{ flexShrink: 0, padding: '4px 10px', background: expiryDays <= 0 ? V.red : V.yellow, border: 'none', borderRadius: 5, color: '#000', fontSize: '0.72rem', fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap' }}
                   >
                     Regenerate
@@ -1844,7 +1844,7 @@ const CHANNEL_META: Record<ChannelType, { label: string; color: string; icon: Re
     label: 'Custom Webhook', color: '#6366f1', icon: <Globe size={14} />,
     fields: [
       { key: 'url', label: 'Endpoint URL', placeholder: 'https://your-server.com/meridian-hook', guide: 'Your server must respond with 2xx. Payloads are JSON. Add a secret to verify signatures.' },
-      { key: 'secret', label: 'HMAC secret (optional)', placeholder: 'your-signing-secret', guide: 'InfraPilot signs each request with SHA-256 HMAC. Verify the X-InfraPilot-Signature header.' },
+      { key: 'secret', label: 'HMAC secret (optional)', placeholder: 'your-signing-secret', guide: 'Meridian signs each request with SHA-256 HMAC. Verify the X-Meridian-Signature header.' },
     ],
   },
 };

@@ -1213,7 +1213,7 @@ function AgentTab() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <Bot size={20} color={C.accent} />
             <div>
-              <div style={{ fontSize: 14, color: C.primary, fontWeight: 600 }}>Install InfraPilot Agent</div>
+              <div style={{ fontSize: 14, color: C.primary, fontWeight: 600 }}>Install Meridian Agent</div>
               <div style={{ fontSize: 11, color: C.muted }}>A lightweight Helm chart that sends heartbeats and metrics from <strong>{clusterName}</strong> to your workspace.</div>
             </div>
           </div>

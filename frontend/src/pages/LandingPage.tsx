@@ -223,7 +223,7 @@ export function LandingPage() {
               <polygon points="7,1 13,4.5 13,10.5 7,14 1,10.5 1,4.5" stroke="white" strokeWidth="1.5" fill="none" />
             </svg>
           </div>
-          <span style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>InfraPilot</span>
+          <span style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>Meridian</span>
         </div>
 
         {/* Center: Nav links */}
@@ -265,7 +265,7 @@ export function LandingPage() {
 
         {/* Subheadline */}
         <p style={{ fontSize: 17, color: 'var(--text-secondary)', maxWidth: 460, margin: '20px auto 0', lineHeight: 1.7 }}>
-          InfraPilot turns any Git repository into a fully deployed, self-healing cloud application — in minutes, not hours.
+          Meridian turns any Git repository into a fully deployed, self-healing cloud application — in minutes, not hours.
         </p>
 
         {/* CTAs */}
@@ -305,7 +305,7 @@ export function LandingPage() {
       <section style={{ padding: '96px 48px' }}>
         <div style={{ maxWidth: 1040, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 10 }}>What InfraPilot does</div>
+            <div style={{ fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 10 }}>What Meridian does</div>
             <h2 style={{ fontSize: 36, fontWeight: 500, letterSpacing: '-1px', lineHeight: 1.1, marginBottom: 12 }}>Everything after git push</h2>
             <p style={{ fontSize: 16, color: 'var(--text-secondary)', maxWidth: 480, lineHeight: 1.7 }}>
               One workspace for deploy, diagnose, generate, monitor, and secrets — all cluster-aware, all AI-native.
@@ -396,13 +396,13 @@ export function LandingPage() {
 
       {/* ── Footer ── */}
       <footer style={{ padding: '40px 48px', borderTop: '1px solid var(--border)', background: 'var(--bg-base)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 14, fontWeight: 500 }}>InfraPilot</span>
+        <span style={{ fontSize: 14, fontWeight: 500 }}>Meridian</span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Docs', 'Changelog', 'Privacy', 'Terms'].map((l) => (
             <a key={l} href="#" style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
-        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>© 2026 InfraPilot</span>
+        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>© 2026 Meridian</span>
       </footer>
 
     </div>

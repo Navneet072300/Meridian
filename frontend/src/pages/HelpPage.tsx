@@ -25,14 +25,14 @@ const QUICK_START = [
     icon: <Zap size={20} />,
     color: '#f78166',
     title: 'Deploy Your First App',
-    desc: 'Open Deploy, enter your repo URL and target namespace. InfraPilot generates the CI/CD manifests and deploys automatically.',
+    desc: 'Open Deploy, enter your repo URL and target namespace. Meridian generates the CI/CD manifests and deploys automatically.',
     route: '/app/deploy',
   },
   {
     icon: <Terminal size={20} />,
     color: V.accent,
     title: 'Generate Kubernetes YAML',
-    desc: 'Use Generate mode to describe what you need in plain English — InfraPilot writes production-ready YAML scoped to your cluster.',
+    desc: 'Use Generate mode to describe what you need in plain English — Meridian writes production-ready YAML scoped to your cluster.',
     route: '/app/generate',
   },
 ];
@@ -99,9 +99,9 @@ const MODES = [
 
 const FAQS = [
   { q: 'How do I connect my Kubernetes cluster?', a: 'Go to Integrations (sidebar) → Add Kubernetes Cluster. Enter the cluster name, environment, API server URL, and a bearer token with at least read access to pods and deployments. Hit Connect — the cluster becomes active immediately.' },
-  { q: 'Cluster shows red / connection failed', a: 'Click Edit on the cluster in Integrations and paste a fresh bearer token. The token needs read access to pods, deployments, and nodes. Check that the API server URL is reachable from InfraPilot.' },
+  { q: 'Cluster shows red / connection failed', a: 'Click Edit on the cluster in Integrations and paste a fresh bearer token. The token needs read access to pods, deployments, and nodes. Check that the API server URL is reachable from Meridian.' },
   { q: 'AI generation is slow or times out', a: 'Streaming can take 15–60 seconds for complex prompts. If it consistently times out, check that your Anthropic API key is valid and has quota remaining. Shorter, more focused prompts tend to be faster.' },
-  { q: 'Pods are not loading in Resources or Diagnose', a: 'The connected service account needs read access to pods in the namespace. If you see a 403, check the RBAC binding. InfraPilot uses: get, list, watch on pods, services, deployments, nodes, events.' },
+  { q: 'Pods are not loading in Resources or Diagnose', a: 'The connected service account needs read access to pods in the namespace. If you see a 403, check the RBAC binding. Meridian uses: get, list, watch on pods, services, deployments, nodes, events.' },
   { q: 'How do I invite teammates?', a: 'Team plan required. Go to Settings → Team, enter the email address, choose a role (Admin, Member, or Viewer), and send the invite. They\'ll receive an email with a sign-up link that joins your workspace automatically.' },
   { q: 'Can I use my own AI model?', a: 'Yes — Pro plan and above. Go to Settings → AI Model and enter your Ollama, vLLM, or compatible OpenAI-format endpoint URL. All generation requests will route through your own model.' },
   { q: 'Where can I download the generated YAML?', a: 'Every code block in Generate and Deploy modes has a Copy button. For full pipeline manifests, use the Download button in the Deploy summary step to get a ZIP of all generated files.' },
@@ -345,7 +345,7 @@ export default function HelpPage() {
       {/* Footer */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.875rem 1rem', background: V.surface, border: `1px solid ${V.border}`, borderRadius: 10 }}>
         <div style={{ color: V.muted, fontSize: '0.8rem' }}>
-          InfraPilot <strong style={{ color: V.text }}>v2.2.0</strong> · FastAPI · React · Anthropic Claude
+          Meridian <strong style={{ color: V.text }}>v2.2.0</strong> · FastAPI · React · Anthropic Claude
         </div>
         <a href="mailto:support@meridian.io" rel="noreferrer"
           style={{ display: 'flex', alignItems: 'center', gap: 4, color: V.accent, fontSize: '0.8rem', textDecoration: 'none' }}>

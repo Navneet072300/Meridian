@@ -144,7 +144,7 @@ export function UserMenu() {
           <div style={{ borderTop: '1px solid var(--border)', marginTop: 4, paddingTop: 4 }}>
             {showLogout ? (
               <div style={{ padding: '6px 10px' }}>
-                <p style={{ margin: '0 0 8px', color: 'var(--text-muted)', fontSize: 12 }}>Sign out of InfraPilot?</p>
+                <p style={{ margin: '0 0 8px', color: 'var(--text-muted)', fontSize: 12 }}>Sign out of Meridian?</p>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button
                     type="button"

@@ -321,7 +321,7 @@ function AddModal({ entry, onClose, onSaved }: { entry: CatalogEntry; onClose: (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: V.bg, border: `1px solid ${V.border}`, borderRadius: 8, padding: '8px 12px' }}>
                   <span style={{ fontSize: '0.75rem', color: V.muted }}>Need to create a token first?</span>
                   <a
-                    href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=InfraPilot"
+                    href="https://github.com/settings/tokens/new?scopes=repo,workflow,write:packages&description=Meridian"
                     target="_blank" rel="noreferrer"
                     style={{ padding: '4px 12px', background: '#24292f', borderRadius: 6, color: '#fff', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
                     <GitBranch size={11} /> Create PAT →
@@ -748,7 +748,7 @@ export default function PlatformsPage() {
       {/* Header */}
       <div style={{ marginBottom: '1.5rem' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '1.35rem', fontWeight: 500, color: V.text }}>Integrations</h1>
-        <p style={{ margin: 0, color: V.muted, fontSize: '0.85rem' }}>Search and connect external services to InfraPilot.</p>
+        <p style={{ margin: 0, color: V.muted, fontSize: '0.85rem' }}>Search and connect external services to Meridian.</p>
       </div>
 
       {/* Search bar */}

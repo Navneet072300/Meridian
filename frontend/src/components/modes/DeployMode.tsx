@@ -427,7 +427,7 @@ export function DeployMode() {
       }
       if (composeContent) files.push({ path: 'docker-compose.yml', content: composeContent });
 
-      const r = await fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch: scanResult.default_branch, files, message: 'ci: add Dockerfiles and docker-compose.yml via InfraPilot' }) });
+      const r = await fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch: scanResult.default_branch, files, message: 'ci: add Dockerfiles and docker-compose.yml via Meridian' }) });
       const data = await r.json();
       if (!r.ok) throw new Error(data.detail ?? 'Commit failed');
       setContainersCommitted(true);
@@ -481,7 +481,7 @@ export function DeployMode() {
       const targets = [...branchSet];
 
       await Promise.all(targets.map(branch =>
-        fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch, files, message: `ci: add ${choices.ciTool}+${choices.cdTool}+${choices.configTool} pipeline via InfraPilot` }) })
+        fetch('/api/deploy/commit', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ repo_full_name: selectedRepo.full_name, branch, files, message: `ci: add ${choices.ciTool}+${choices.cdTool}+${choices.configTool} pipeline via Meridian` }) })
           .then(async r => { if (!r.ok) throw new Error((await r.json()).detail ?? 'Commit failed'); })
       ));
 
@@ -1534,7 +1534,7 @@ export function DeployMode() {
           <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 14, width: '100%', maxWidth: 560, padding: 24, boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
             <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 500 }}>Where are you deploying?</h3>
             <p style={{ margin: '0 0 18px', fontSize: 13, color: 'var(--text-muted)' }}>
-              InfraPilot will monitor your CI runs, stream logs, and suggest fixes automatically.
+              Meridian will monitor your CI runs, stream logs, and suggest fixes automatically.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
               {DEPLOY_TARGETS.map(t => (

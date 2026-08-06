@@ -327,7 +327,7 @@ export function DeploymentsMode() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           files: analysis.files.map(f => ({ path: f.path, content: f.content })),
-          message: `fix: ${analysis.fix_summary || 'apply InfraPilot AI suggestion'}`,
+          message: `fix: ${analysis.fix_summary || 'apply Meridian AI suggestion'}`,
           branch: selectedRun?.head_branch || selected.branch,
         }),
       });

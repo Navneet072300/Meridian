@@ -80,9 +80,9 @@ export function UserTypeScreen({ onDone }: Props) {
   }
 
   return (
-    <AuroraBackground className="fixed inset-0 z-[9999] bg-zinc-950 flex items-center justify-center p-6 text-zinc-100 font-sans select-none">
+    <AuroraBackground className="fixed inset-0 z-[9999] bg-black flex items-center justify-center p-6 text-zinc-100 font-sans select-none">
       <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 15 }}
+        initial={{ opacity: 0, scale: 0.96, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         className="w-full max-w-md space-y-6 relative z-10"
       >
@@ -97,8 +97,8 @@ export function UserTypeScreen({ onDone }: Props) {
         </div>
 
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white mx-auto shadow-lg shadow-purple-500/25">
-            <Rocket size={24} />
+          <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-700 flex items-center justify-center text-white mx-auto shadow-sm">
+            <Rocket size={20} />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">How do you usually work?</h2>
           <p className="text-xs text-zinc-400">This helps InfraPilot tune terminology and AI assistance.</p>
@@ -111,18 +111,18 @@ export function UserTypeScreen({ onDone }: Props) {
               <GlassCard
                 key={c.level}
                 onClick={() => setSelected(c.level)}
-                className={`p-4 cursor-pointer flex items-start gap-4 ${
-                  active ? 'border-purple-500 bg-purple-500/15 shadow-md' : ''
+                className={`p-4 cursor-pointer flex items-start gap-4 border transition-all ${
+                  active ? 'border-zinc-700 bg-zinc-900/90 shadow-md' : 'border-zinc-800 bg-zinc-950/60'
                 }`}
               >
                 <span className="text-2xl">{c.icon}</span>
                 <div className="flex-1">
-                  <h3 className={`text-sm font-bold ${active ? 'text-purple-300' : 'text-white'}`}>{c.title}</h3>
+                  <h3 className={`text-sm font-bold ${active ? 'text-white' : 'text-zinc-300'}`}>{c.title}</h3>
                   {c.lines.map((line, idx) => (
                     <p key={idx} className="text-xs text-zinc-400 leading-relaxed">{line}</p>
                   ))}
                 </div>
-                {active && <CheckCircle2 size={18} className="text-purple-400 mt-1" />}
+                {active && <CheckCircle2 size={18} className="text-violet-400 mt-1" />}
               </GlassCard>
             );
           })}
@@ -133,7 +133,7 @@ export function UserTypeScreen({ onDone }: Props) {
           isLoading={saving}
           onClick={confirm}
           variant="primary"
-          className="w-full py-3"
+          className="w-full py-2.5"
           icon={<ArrowRight size={16} />}
         >
           Continue to InfraPilot

@@ -19,8 +19,8 @@ export function GlassCard({
     <motion.div
       onClick={onClick}
       whileHover={hoverEffect ? { y: -2, transition: { duration: 0.2 } } : undefined}
-      className={`rounded-2xl border border-white/10 dark:border-white/10 border-zinc-200/80 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/20 ${
-        glow ? 'relative overflow-hidden before:absolute before:inset-0 before:-z-10 before:p-[1px] before:bg-gradient-to-r before:from-purple-500/30 before:to-indigo-500/30 before:rounded-2xl' : ''
+      className={`rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/50 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/40 ${
+        glow ? 'border-violet-500/40 shadow-violet-500/10' : ''
       } ${className}`}
     >
       {children}
@@ -55,24 +55,24 @@ export function PremiumButton({
 
   const variantClasses = {
     primary:
-      'bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-lg shadow-purple-500/20 border border-white/20',
+      'bg-white text-zinc-950 hover:bg-zinc-200 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100 font-semibold shadow-sm border border-white/20',
     secondary:
-      'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 shadow-md',
+      'bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700/60 shadow-sm',
     outline:
-      'border border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100',
+      'border border-zinc-300 dark:border-zinc-800 bg-white/40 dark:bg-zinc-900/40 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100',
     danger:
-      'bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-500/20',
+      'bg-rose-600 hover:bg-rose-500 text-white shadow-sm border border-rose-500/30',
     ghost:
-      'bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300',
+      'bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300',
   };
 
   return (
     <motion.button
-      whileHover={!disabled && !isLoading ? { scale: 1.02 } : undefined}
+      whileHover={!disabled && !isLoading ? { scale: 1.015 } : undefined}
       whileTap={!disabled && !isLoading ? { scale: 0.97 } : undefined}
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={`btn-premium flex items-center justify-center font-medium transition-all ${sizeClasses[size]} ${variantClasses[variant]} ${
+      className={`inline-flex items-center justify-center font-medium transition-all ${sizeClasses[size]} ${variantClasses[variant]} ${
         disabled || isLoading ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
       } ${className}`}
     >
@@ -102,7 +102,7 @@ export function PremiumInput({
   return (
     <div className="space-y-1.5 w-full">
       {label && (
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+        <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           {label}
         </label>
       )}
@@ -115,7 +115,7 @@ export function PremiumInput({
         <input
           className={`w-full h-10 ${
             icon ? 'pl-9' : 'pl-3.5'
-          } pr-3.5 text-sm rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all ${className}`}
+          } pr-3.5 text-sm rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all ${className}`}
           {...props}
         />
       </div>
@@ -134,20 +134,20 @@ export function PremiumBadge({
   pulse?: boolean;
 }) {
   const styles: Record<string, string> = {
-    purple: 'bg-purple-500/15 border-purple-500/30 text-purple-600 dark:text-purple-300',
-    blue: 'bg-blue-500/15 border-blue-500/30 text-blue-600 dark:text-blue-300',
-    emerald: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-600 dark:text-emerald-300',
-    success: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-600 dark:text-emerald-300',
-    amber: 'bg-amber-500/15 border-amber-500/30 text-amber-600 dark:text-amber-300',
-    warning: 'bg-amber-500/15 border-amber-500/30 text-amber-600 dark:text-amber-300',
-    rose: 'bg-rose-500/15 border-rose-500/30 text-rose-600 dark:text-rose-300',
-    error: 'bg-rose-500/15 border-rose-500/30 text-rose-600 dark:text-rose-300',
-    info: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-600 dark:text-cyan-300',
+    purple: 'bg-violet-500/10 border-violet-500/20 text-violet-600 dark:text-violet-300',
+    blue: 'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-300',
+    emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+    success: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+    amber: 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-300',
+    warning: 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-300',
+    rose: 'bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-400',
+    error: 'bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-400',
+    info: 'bg-sky-500/10 border-sky-500/20 text-sky-600 dark:text-sky-300',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${
         styles[variant] || styles.purple
       }`}
     >
@@ -163,7 +163,7 @@ export function SkeletonLoader({ height = '20px', className = '' }: { height?: s
   return (
     <div
       style={{ height }}
-      className={`w-full rounded-xl bg-gradient-to-r from-zinc-200 via-zinc-300 to-zinc-200 dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800 animate-pulse ${className}`}
+      className={`w-full rounded-xl bg-gradient-to-r from-zinc-200 via-zinc-300 to-zinc-200 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 animate-pulse ${className}`}
     />
   );
 }
@@ -181,7 +181,7 @@ export function EmptyState({
 }) {
   return (
     <GlassCard hoverEffect={false} className="p-12 text-center flex flex-col items-center justify-center space-y-3">
-      <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-500 flex items-center justify-center">
+      <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-400 flex items-center justify-center">
         {icon || <Sparkles size={24} />}
       </div>
       <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">{title}</h3>
@@ -200,7 +200,7 @@ export function Spotlight({
 }) {
   return (
     <svg
-      className={`pointer-events-none absolute z-10 h-[169%] w-[138%] lg:w-[84%] opacity-40 animate-spotlight ${className}`}
+      className={`pointer-events-none absolute z-0 h-[120%] w-[100%] opacity-20 animate-spotlight ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 3787 2842"
       fill="none"
@@ -213,7 +213,7 @@ export function Spotlight({
           ry="273.501"
           transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
           fill={fill}
-          fillOpacity="0.21"
+          fillOpacity="0.15"
         />
       </g>
       <defs>
@@ -243,9 +243,10 @@ export function AuroraBackground({
   className?: string;
 }) {
   return (
-    <div className={`relative flex flex-col items-center justify-center bg-zinc-950 text-slate-950 transition-bg ${className}`}>
+    <div className={`relative flex flex-col items-center justify-center bg-zinc-950 text-zinc-100 transition-colors ${className}`}>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="aurora-glow absolute -inset-[10px] opacity-30" />
+        <div className="aurora-blob-1 opacity-20" />
+        <div className="aurora-blob-2 opacity-15" />
       </div>
       {children}
     </div>
@@ -272,13 +273,13 @@ export function PremiumDialog({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-md"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-lg rounded-3xl border border-white/10 bg-zinc-900 p-6 shadow-2xl z-10"
+            className="relative w-full max-w-lg rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl z-10"
           >
             <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
               {title && <h3 className="text-base font-bold text-white">{title}</h3>}

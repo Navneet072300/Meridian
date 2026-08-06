@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, Plus, Trash2, Sparkles, ArrowRight, Server } from 'lucide-react';
+import { CheckCircle2, Plus, Trash2, Sparkles, ArrowRight, Server, Rocket } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsBuilder } from '../hooks/useTerminology';
 import { GlassCard, PremiumButton, PremiumInput, PremiumBadge, Spotlight } from '../components/shared/UIPrimitives';
@@ -67,29 +67,27 @@ function SelectionGroup({
 }) {
   return (
     <div className="space-y-2">
-      <p className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
         {title}
       </p>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => {
           const active = selected.includes(item.id);
           return (
-            <motion.button
+            <button
               key={item.id}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
               onClick={() => onToggle(item.id)}
               title={item.desc}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
                 active
-                  ? 'bg-purple-500/15 border-purple-500 text-purple-700 dark:text-purple-300 shadow-md shadow-purple-500/10'
-                  : 'bg-zinc-100/80 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+                  ? 'bg-zinc-800 border-zinc-700 text-white shadow-sm'
+                  : 'bg-zinc-950/60 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
               }`}
             >
               <span>{item.icon}</span>
               <span>{item.label}</span>
-              {active && <CheckCircle2 size={13} className="text-purple-500 ml-1" />}
-            </motion.button>
+              {active && <CheckCircle2 size={13} className="text-violet-400 ml-0.5" />}
+            </button>
           );
         })}
       </div>
@@ -148,14 +146,14 @@ function ClusterCard({
   };
 
   return (
-    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4 border border-zinc-200 dark:border-zinc-800">
+    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4 border border-zinc-800 bg-zinc-950">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-          <Server size={16} className="text-purple-500" />
+        <span className="text-sm font-bold text-white flex items-center gap-2">
+          <Server size={16} className="text-violet-400" />
           Cluster {index + 1}
         </span>
         {index > 0 && (
-          <button onClick={onRemove} className="text-rose-500 hover:text-rose-600 p-1">
+          <button onClick={onRemove} className="text-rose-400 hover:text-rose-300 p-1">
             <Trash2 size={15} />
           </button>
         )}
@@ -169,13 +167,13 @@ function ClusterCard({
           placeholder="e.g. dev-aks"
         />
         <div className="space-y-1.5">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">
             Environment
           </label>
           <select
             value={cluster.environment}
             onChange={(e) => onChange({ ...cluster, environment: e.target.value as any })}
-            className="w-full h-10 px-3.5 text-sm rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+            className="w-full h-10 px-3.5 text-sm rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500/30"
           >
             <option value="dev">Development</option>
             <option value="staging">Staging</option>
@@ -192,8 +190,8 @@ function ClusterCard({
             onClick={() => onChange({ ...cluster, connection_type: t })}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
               cluster.connection_type === t
-                ? 'bg-purple-500/15 border-purple-500 text-purple-600 dark:text-purple-300'
-                : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                ? 'bg-zinc-800 border-zinc-700 text-white'
+                : 'border-zinc-800 text-zinc-400 hover:bg-zinc-900'
             }`}
           >
             {t === 'token' ? (isBuilder ? 'Server access key' : 'Bearer Token + API URL') : (isBuilder ? 'Server connection file' : 'Kubeconfig paste')}
@@ -219,7 +217,7 @@ function ClusterCard({
         </div>
       ) : (
         <div className="space-y-1.5">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">
             {isBuilder ? 'Paste your server connection file' : 'Kubeconfig'}
           </label>
           <textarea
@@ -227,7 +225,7 @@ function ClusterCard({
             value={cluster.kubeconfig}
             onChange={(e) => onChange({ ...cluster, kubeconfig: e.target.value })}
             placeholder="Paste your kubeconfig YAML here..."
-            className="w-full p-3 text-xs font-mono rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+            className="w-full p-3 text-xs font-mono rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500/30"
           />
         </div>
       )}
@@ -241,8 +239,8 @@ function ClusterCard({
         >
           Test Connection
         </PremiumButton>
-        {cluster.testStatus === 'ok' && <span className="text-xs font-semibold text-emerald-500">✓ {cluster.testMessage}</span>}
-        {cluster.testStatus === 'error' && <span className="text-xs font-semibold text-rose-500">✗ {cluster.testMessage}</span>}
+        {cluster.testStatus === 'ok' && <span className="text-xs font-semibold text-emerald-400">✓ {cluster.testMessage}</span>}
+        {cluster.testStatus === 'error' && <span className="text-xs font-semibold text-rose-400">✗ {cluster.testMessage}</span>}
       </div>
     </GlassCard>
   );
@@ -256,8 +254,8 @@ function GitHubCredentials({ value, onChange }: { value: { username: string; pat
     onChange({ ...value, status: d.success ? 'ok' : 'error', msg: d.success ? `Connected as ${d.username}` : d.error || 'auth failed' });
   };
   return (
-    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4">
-      <p className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4 border border-zinc-800 bg-zinc-950">
+      <p className="font-bold text-sm text-white flex items-center gap-2">
         🐙 GitHub Integration
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -279,8 +277,8 @@ function GitHubCredentials({ value, onChange }: { value: { username: string; pat
         <PremiumButton size="sm" variant="secondary" onClick={test} isLoading={value.status === 'testing'}>
           Test Connection
         </PremiumButton>
-        {value.status === 'ok' && <span className="text-xs font-semibold text-emerald-500">✓ {value.msg}</span>}
-        {value.status === 'error' && <span className="text-xs font-semibold text-rose-500">✗ {value.msg}</span>}
+        {value.status === 'ok' && <span className="text-xs font-semibold text-emerald-400">✓ {value.msg}</span>}
+        {value.status === 'error' && <span className="text-xs font-semibold text-rose-400">✗ {value.msg}</span>}
       </div>
     </GlassCard>
   );
@@ -345,13 +343,13 @@ export function Onboarding() {
   const STEPS = ['Platforms', 'Clusters', 'Credentials', 'Ready'];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans select-none">
-      <Spotlight fill="rgba(139, 92, 246, 0.25)" />
+    <div className="min-h-screen bg-black text-zinc-100 flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans select-none">
+      <Spotlight fill="white" />
 
-      <div className="w-full max-w-3xl space-y-8 relative z-10">
+      <div className="w-full max-w-3xl space-y-6 relative z-10">
         <div className="flex items-center justify-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-xl shadow-purple-500/30">
-            M
+          <div className="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-700 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            <Rocket size={18} />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">InfraPilot Setup</span>
         </div>
@@ -365,37 +363,37 @@ export function Onboarding() {
               <div key={label} className="flex items-center gap-2">
                 <div className="flex flex-col items-center gap-1">
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                       done
-                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                        ? 'bg-emerald-500 text-white'
                         : active
-                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/40'
+                        ? 'bg-white text-zinc-950 font-bold'
                         : 'bg-zinc-900 border border-zinc-800 text-zinc-500'
                     }`}
                   >
                     {done ? '✓' : num}
                   </div>
-                  <span className={`text-[11px] font-semibold ${active ? 'text-purple-400' : 'text-zinc-500'}`}>
+                  <span className={`text-[11px] font-medium ${active ? 'text-white' : 'text-zinc-500'}`}>
                     {label}
                   </span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className={`w-8 sm:w-16 h-[2px] mb-4 ${done ? 'bg-emerald-500' : 'bg-zinc-800'}`} />
+                  <div className={`w-8 sm:w-14 h-[1px] mb-4 ${done ? 'bg-emerald-500' : 'bg-zinc-800'}`} />
                 )}
               </div>
             );
           })}
         </div>
 
-        <GlassCard glow className="p-6 sm:p-8 space-y-6 border border-white/10 dark:border-white/10">
+        <GlassCard hoverEffect={false} className="p-6 sm:p-8 space-y-6 border border-zinc-800 bg-zinc-900/60 shadow-2xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
-              initial={{ opacity: 0, x: 15 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
-              transition={{ duration: 0.25 }}
-              className="space-y-6 max-h-[60vh] overflow-y-auto pr-1 scrollbar-thin"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-6 max-h-[58vh] overflow-y-auto pr-1"
             >
               {step === 1 && (
                 <div className="space-y-6">
@@ -439,12 +437,12 @@ export function Onboarding() {
                     <GitHubCredentials value={github} onChange={setGithub} />
                   )}
                   {selections.secrets.includes('vault') && (
-                    <GlassCard hoverEffect={false} className="p-4 space-y-1 border border-amber-500/20 bg-amber-500/10">
+                    <GlassCard hoverEffect={false} className="p-4 space-y-1 border border-zinc-800 bg-zinc-950">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-sm text-white">🔐 HashiCorp Vault</span>
                         <PremiumBadge variant="warning">STUBBED</PremiumBadge>
                       </div>
-                      <p className="text-xs text-amber-300">Vault integration is stubbed for demo simulation.</p>
+                      <p className="text-xs text-zinc-400">Vault integration is stubbed for demo simulation.</p>
                     </GlassCard>
                   )}
                 </div>
@@ -458,9 +456,9 @@ export function Onboarding() {
                   </div>
                   <div className="space-y-3">
                     {clusters.filter((c) => c.name).map((c) => (
-                      <div key={c.name} className="flex items-center justify-between p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60 text-xs">
+                      <div key={c.name} className="flex items-center justify-between p-3.5 rounded-xl border border-zinc-800 bg-zinc-950 text-xs">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 size={16} className={c.testStatus === 'ok' ? 'text-emerald-500' : 'text-amber-500'} />
+                          <CheckCircle2 size={16} className={c.testStatus === 'ok' ? 'text-emerald-400' : 'text-amber-400'} />
                           <span className="font-semibold text-white">{c.name}</span>
                           <span className="text-zinc-500">({c.environment})</span>
                         </div>
@@ -475,7 +473,7 @@ export function Onboarding() {
             </motion.div>
           </AnimatePresence>
 
-          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+          <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
             <PremiumButton
               variant="ghost"
               disabled={step === 1}

@@ -1,70 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
-  /* ── Backgrounds ─────────────────────────────────────────── */
-  --bg-base:     #fafaf8;
-  --bg-surface:  #f5f5f2;
-  --bg-elevated: #ffffff;
-  --bg-hover:    #f0f0ec;
+  /* ── Typography System ────────────────────────────────────────── */
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  --font-ui: var(--font-sans);
 
-  /* ── Borders ─────────────────────────────────────────────── */
-  --border:        #e8e8e4;
-  --border-strong: #d0d0cc;
-  --border-focus:  #1a1a1a;
+  /* ── Radius Hierarchy ─────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 12px;  /* Buttons & Inputs */
+  --radius-lg: 16px;  /* Cards */
+  --radius-xl: 20px;  /* Dialogs & Drawers */
+  --radius-full: 9999px;
 
-  /* ── Text ────────────────────────────────────────────────── */
-  --text-primary:   #1a1a1a;
-  --text-secondary: #666666;
-  --text-muted:     #999999;
-  --text-disabled:  #cccccc;
+  /* ── Light Theme Defaults ─────────────────────────────────────── */
+  --bg-base:        #fafafa;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #ffffff;
+  --bg-hover:       #f4f4f5;
+  --bg-glass:       rgba(255, 255, 255, 0.75);
 
-  /* ── Brand ───────────────────────────────────────────────── */
-  --accent:        #1a1a1a;
-  --accent-hover:  #2d2d2d;
-  --accent-subtle: #f0f0ec;
+  --border:         #e4e4e7;
+  --border-strong:  #d4d4d8;
+  --border-focus:   #8b5cf6;
+  --border-glow:    rgba(139, 92, 246, 0.25);
 
-  /* ── Semantic ────────────────────────────────────────────── */
-  --success:      #22c55e;
-  --success-bg:   #f0fdf4;
-  --success-text: #16a34a;
+  --text-primary:   #09090b;
+  --text-secondary: #52525b;
+  --text-muted:     #71717a;
+  --text-disabled:  #a1a1aa;
+
+  --accent:         #7c3aed;
+  --accent-hover:   #6d28d9;
+  --accent-subtle:  #f5f3ff;
+  --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%);
+  --accent-glow:    rgba(124, 58, 237, 0.35);
+
+  --success:      #10b981;
+  --success-bg:   #ecfdf5;
+  --success-text: #047857;
   --warning:      #f59e0b;
   --warning-bg:   #fffbeb;
-  --warning-text: #d97706;
+  --warning-text: #b45309;
   --error:        #ef4444;
   --error-bg:     #fef2f2;
-  --error-text:   #dc2626;
-  --info:         #5b5bcc;
-  --info-bg:      #f0f0ff;
-  --info-text:    #4040bb;
+  --error-text:   #b91c1c;
+  --info:         #3b82f6;
+  --info-bg:      #eff6ff;
+  --info-text:    #1d4ed8;
 
-  /* ── Typography ──────────────────────────────────────────── */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 25px -5px rgba(124, 58, 237, 0.15);
 
-  /* ── Radius ──────────────────────────────────────────────── */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --dot-color: rgba(0, 0, 0, 0.05);
+  --card-bg: var(--bg-elevated);
+  --card-border: var(--border);
+  --glass-bg: var(--bg-glass);
+  --glass-border: var(--border);
+  --badge-bg: var(--accent-subtle);
+  --badge-text: var(--accent);
+}
 
-  /* ── Shadows ─────────────────────────────────────────────── */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md: 0 1px 4px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.04);
-  --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+/* ── Dark Mode Overrides (Default for Premium AI SaaS) ──────────────── */
+[data-theme="dark"], html.dark {
+  --bg-base:        #09090b;
+  --bg-surface:     #0d0d11;
+  --bg-elevated:    #121218;
+  --bg-hover:       #1a1a24;
+  --bg-glass:       rgba(18, 18, 24, 0.75);
 
-  /* ── Backward-compat aliases ─────────────────────────────── */
-  --accent-text:     var(--text-primary);
-  --accent-light:    var(--accent);
-  --accent-gradient: var(--accent);
-  --accent-glow:     rgba(0,0,0,0);
-  --badge-bg:        var(--accent-subtle);
-  --badge-text:      var(--text-secondary);
-  --glass-bg:        var(--bg-elevated);
-  --glass-border:    var(--border);
-  --card-bg:         var(--bg-elevated);
-  --card-border:     var(--border);
-  --dot-color:       rgba(0,0,0,0.04);
-  --bg-surface-elev: var(--bg-elevated);
-  --border-subtle:   var(--border);
-  --primary:         var(--info);
-  --tertiary:        var(--success);
-  --font-ui:         var(--font-sans);
+  --border:         rgba(255, 255, 255, 0.08);
+  --border-strong:  rgba(255, 255, 255, 0.16);
+  --border-focus:   #a78bfa;
+  --border-glow:    rgba(167, 139, 250, 0.35);
+
+  --text-primary:   #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted:     #71717a;
+  --text-disabled:  #52525b;
+
+  --accent:         #8b5cf6;
+  --accent-hover:   #7c3aed;
+  --accent-subtle:  rgba(139, 92, 246, 0.12);
+  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+  --accent-glow:    rgba(139, 92, 246, 0.45);
+
+  --success:      #10b981;
+  --success-bg:   rgba(16, 185, 129, 0.12);
+  --success-text: #34d399;
+  --warning:      #f59e0b;
+  --warning-bg:   rgba(245, 158, 11, 0.12);
+  --warning-text: #fbbf24;
+  --error:        #f43f5e;
+  --error-bg:     rgba(244, 63, 94, 0.12);
+  --error-text:   #fb7185;
+  --info:         #3b82f6;
+  --info-bg:      rgba(59, 130, 246, 0.12);
+  --info-text:    #60a5fa;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 35px 2px rgba(139, 92, 246, 0.25);
+
+  --dot-color: rgba(255, 255, 255, 0.04);
 }

@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, AlertCircle, Plus, Trash2, Loader2 } from 'lucide-react';
+import { CheckCircle2, Plus, Trash2, Sparkles, ArrowRight, Server } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useIsBuilder } from '../hooks/useTerminology';
-import { HelpTip } from '../components/shared/HelpTip';
-
-// ─── Step 1: Platform selections ─────────────────────────────────────────────
+import { GlassCard, PremiumButton, PremiumInput, PremiumBadge, Spotlight } from '../components/shared/UIPrimitives';
 
 const PLATFORMS = {
   cloud: [
@@ -67,42 +66,36 @@ function SelectionGroup({
   onToggle: (id: string) => void;
 }) {
   return (
-    <div style={{ marginBottom: '20px' }}>
-      <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
+    <div className="space-y-2">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
         {title}
       </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+      <div className="flex flex-wrap gap-2">
         {items.map((item) => {
           const active = selected.includes(item.id);
           return (
-            <button
+            <motion.button
               key={item.id}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => onToggle(item.id)}
               title={item.desc}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '6px 12px',
-                background: active ? 'var(--accent-subtle)' : 'var(--bg-surface)',
-                border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: '6px',
-                color: active ? 'var(--accent)' : 'var(--text-secondary)',
-                fontSize: '12px', fontWeight: active ? 600 : 400,
-                cursor: 'pointer', transition: 'all 0.1s',
-                fontFamily: 'inherit',
-              }}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                active
+                  ? 'bg-purple-500/15 border-purple-500 text-purple-700 dark:text-purple-300 shadow-md shadow-purple-500/10'
+                  : 'bg-zinc-100/80 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
             >
               <span>{item.icon}</span>
-              {item.label}
-              {active && <CheckCircle2 size={11} />}
-            </button>
+              <span>{item.label}</span>
+              {active && <CheckCircle2 size={13} className="text-purple-500 ml-1" />}
+            </motion.button>
           );
         })}
       </div>
     </div>
   );
 }
-
-// ─── Step 2: Cluster setup ───────────────────────────────────────────────────
 
 interface ClusterForm {
   name: string;
@@ -154,31 +147,36 @@ function ClusterCard({
     }
   };
 
-  const inputStyle = {
-    width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border)',
-    borderRadius: '5px', color: 'var(--text-primary)', fontSize: '13px',
-    padding: '7px 10px', outline: 'none', fontFamily: 'inherit',
-  };
-
   return (
-    <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '16px', marginBottom: '12px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-        <span style={{ fontWeight: 600, fontSize: '13px' }}>Cluster {index + 1}</span>
+    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4 border border-zinc-200 dark:border-zinc-800">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <Server size={16} className="text-purple-500" />
+          Cluster {index + 1}
+        </span>
         {index > 0 && (
-          <button onClick={onRemove} style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer' }}>
-            <Trash2 size={14} />
+          <button onClick={onRemove} className="text-rose-500 hover:text-rose-600 p-1">
+            <Trash2 size={15} />
           </button>
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
-        <div>
-          <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Cluster Name</label>
-          <input value={cluster.name} onChange={(e) => onChange({ ...cluster, name: e.target.value })} placeholder="e.g. dev-aks" style={inputStyle} />
-        </div>
-        <div>
-          <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Environment</label>
-          <select value={cluster.environment} onChange={(e) => onChange({ ...cluster, environment: e.target.value as 'dev' | 'staging' | 'prod' })} style={{ ...inputStyle, cursor: 'pointer' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <PremiumInput
+          label="Cluster Name"
+          value={cluster.name}
+          onChange={(e) => onChange({ ...cluster, name: e.target.value })}
+          placeholder="e.g. dev-aks"
+        />
+        <div className="space-y-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Environment
+          </label>
+          <select
+            value={cluster.environment}
+            onChange={(e) => onChange({ ...cluster, environment: e.target.value as any })}
+            className="w-full h-10 px-3.5 text-sm rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+          >
             <option value="dev">Development</option>
             <option value="staging">Staging</option>
             <option value="prod">Production</option>
@@ -186,22 +184,17 @@ function ClusterCard({
         </div>
       </div>
 
-      {isBuilder && (
-        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: 8, lineHeight: 1.5 }}>
-          Kubeconfig: if you manage the server yourself (most common). Bearer Token: if you're on AWS, Azure, or GCP managed services.
-        </p>
-      )}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+      <div className="flex gap-2 pt-1">
         {(['token', 'kubeconfig'] as const).map((t) => (
           <button
             key={t}
+            type="button"
             onClick={() => onChange({ ...cluster, connection_type: t })}
-            style={{
-              padding: '4px 10px', background: cluster.connection_type === t ? 'var(--accent-glow)' : 'transparent',
-              border: `1px solid ${cluster.connection_type === t ? 'var(--accent)' : 'var(--border)'}`,
-              borderRadius: '4px', color: cluster.connection_type === t ? 'var(--accent)' : 'var(--text-muted)',
-              fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
-            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              cluster.connection_type === t
+                ? 'bg-purple-500/15 border-purple-500 text-purple-600 dark:text-purple-300'
+                : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+            }`}
           >
             {t === 'token' ? (isBuilder ? 'Server access key' : 'Bearer Token + API URL') : (isBuilder ? 'Server connection file' : 'Kubeconfig paste')}
           </button>
@@ -209,98 +202,89 @@ function ClusterCard({
       </div>
 
       {cluster.connection_type === 'token' ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div>
-            <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginBottom: '4px' }}>
-              {isBuilder ? "Your server's address" : 'API Server URL'}
-            </label>
-            <input value={cluster.api_url} onChange={(e) => onChange({ ...cluster, api_url: e.target.value })} placeholder={isBuilder ? 'Looks like https://1.2.3.4 or https://cluster.yourcompany.com' : 'https://kubernetes.example.com:6443'} style={inputStyle} />
-          </div>
-          <div>
-            <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginBottom: '4px' }}>
-              {isBuilder ? 'Server access key' : 'Bearer Token'}
-              <HelpTip tip="bearerToken" />
-            </label>
-            <input type="password" value={cluster.token} onChange={(e) => onChange({ ...cluster, token: e.target.value })} placeholder="eyJhbGci..." style={inputStyle} />
-          </div>
+        <div className="space-y-3">
+          <PremiumInput
+            label={isBuilder ? "Your server's address" : 'API Server URL'}
+            value={cluster.api_url}
+            onChange={(e) => onChange({ ...cluster, api_url: e.target.value })}
+            placeholder={isBuilder ? 'https://1.2.3.4' : 'https://kubernetes.example.com:6443'}
+          />
+          <PremiumInput
+            type="password"
+            label={isBuilder ? 'Server access key' : 'Bearer Token'}
+            value={cluster.token}
+            onChange={(e) => onChange({ ...cluster, token: e.target.value })}
+            placeholder="eyJhbGci..."
+          />
         </div>
       ) : (
-        <div>
-          <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginBottom: '4px' }}>
+        <div className="space-y-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
             {isBuilder ? 'Paste your server connection file' : 'Kubeconfig'}
-            <HelpTip tip="kubeconfig" />
           </label>
-          {isBuilder && <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: 6 }}>Usually found at ~/.kube/config — run: <code>cat ~/.kube/config</code> to see it.</p>}
-          <textarea rows={6} value={cluster.kubeconfig} onChange={(e) => onChange({ ...cluster, kubeconfig: e.target.value })} placeholder="Paste your kubeconfig YAML here..." style={{ ...inputStyle, resize: 'vertical', fontFamily: 'JetBrains Mono, monospace', fontSize: '11px' }} />
+          <textarea
+            rows={5}
+            value={cluster.kubeconfig}
+            onChange={(e) => onChange({ ...cluster, kubeconfig: e.target.value })}
+            placeholder="Paste your kubeconfig YAML here..."
+            className="w-full p-3 text-xs font-mono rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+          />
         </div>
       )}
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
-        <button
+      <div className="flex items-center gap-3 pt-2">
+        <PremiumButton
+          size="sm"
+          variant="secondary"
           onClick={testConnection}
-          disabled={cluster.testStatus === 'testing'}
-          style={{
-            padding: '6px 14px', background: 'var(--bg-hover)', border: '1px solid var(--border)',
-            borderRadius: '5px', color: 'var(--text-secondary)', fontSize: '12px',
-            cursor: cluster.testStatus === 'testing' ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
-            display: 'flex', alignItems: 'center', gap: '5px',
-          }}
+          isLoading={cluster.testStatus === 'testing'}
         >
-          {cluster.testStatus === 'testing' ? <><Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> Testing...</> : 'Test Connection'}
-        </button>
-        {cluster.testStatus === 'ok' && <span style={{ fontSize: '12px', color: 'var(--success)' }}>✓ {cluster.testMessage}</span>}
-        {cluster.testStatus === 'error' && <span style={{ fontSize: '12px', color: 'var(--error)' }}>✗ {cluster.testMessage}</span>}
+          Test Connection
+        </PremiumButton>
+        {cluster.testStatus === 'ok' && <span className="text-xs font-semibold text-emerald-500">✓ {cluster.testMessage}</span>}
+        {cluster.testStatus === 'error' && <span className="text-xs font-semibold text-rose-500">✗ {cluster.testMessage}</span>}
       </div>
-    </div>
+    </GlassCard>
   );
 }
 
-// ─── Step 3: Platform credentials ────────────────────────────────────────────
-
 function GitHubCredentials({ value, onChange }: { value: { username: string; pat: string; status: string; msg: string }; onChange: (v: typeof value) => void }) {
-  const isBuilder = useIsBuilder();
   const test = async () => {
     onChange({ ...value, status: 'testing' });
     const res = await fetch('/api/platform/test-github', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pat: value.pat, username: value.username }) });
     const d = await res.json() as { success: boolean; username?: string; error?: string };
     onChange({ ...value, status: d.success ? 'ok' : 'error', msg: d.success ? `Connected as ${d.username}` : d.error || 'auth failed' });
   };
-  const inputStyle = { width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '5px', color: 'var(--text-primary)', fontSize: '13px', padding: '7px 10px', outline: 'none', fontFamily: 'inherit' };
   return (
-    <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '16px', marginBottom: '12px' }}>
-      <p style={{ fontWeight: 600, fontSize: '13px', marginBottom: 4 }}>🐙 GitHub</p>
-      {isBuilder && (
-        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.5 }}>
-          Meridian needs permission to read your code and set up automatic deploys.
-        </p>
-      )}
-      {!isBuilder && <div style={{ marginBottom: '12px' }} />}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
-        <div>
-          <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Username</label>
-          <input value={value.username} onChange={(e) => onChange({ ...value, username: e.target.value })} placeholder="octocat" style={inputStyle} />
-        </div>
-        <div>
-          <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginBottom: '4px' }}>
-            {isBuilder ? 'Paste your token here' : 'Personal Access Token'}
-            <HelpTip tip="pat" />
-          </label>
-          <input type="password" value={value.pat} onChange={(e) => onChange({ ...value, pat: e.target.value })} placeholder={isBuilder ? 'Starts with ghp_...' : 'ghp_...'} style={inputStyle} />
-          {isBuilder && <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: 3 }}>Starts with ghp_ — paste the whole thing</p>}
-        </div>
+    <GlassCard hoverEffect={false} className="p-5 space-y-4 mb-4">
+      <p className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+        🐙 GitHub Integration
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <PremiumInput
+          label="Username"
+          value={value.username}
+          onChange={(e) => onChange({ ...value, username: e.target.value })}
+          placeholder="octocat"
+        />
+        <PremiumInput
+          type="password"
+          label="Personal Access Token"
+          value={value.pat}
+          onChange={(e) => onChange({ ...value, pat: e.target.value })}
+          placeholder="ghp_..."
+        />
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <button onClick={test} disabled={value.status === 'testing'} style={{ padding: '5px 12px', background: 'var(--bg-hover)', border: '1px solid var(--border)', borderRadius: '4px', color: 'var(--text-secondary)', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}>
-          {value.status === 'testing' ? 'Testing...' : 'Test Connection'}
-        </button>
-        {value.status === 'ok' && <span style={{ fontSize: '12px', color: 'var(--success)' }}>✓ {value.msg}</span>}
-        {value.status === 'error' && <span style={{ fontSize: '12px', color: 'var(--error)' }}>✗ {value.msg}</span>}
+      <div className="flex items-center gap-3 pt-1">
+        <PremiumButton size="sm" variant="secondary" onClick={test} isLoading={value.status === 'testing'}>
+          Test Connection
+        </PremiumButton>
+        {value.status === 'ok' && <span className="text-xs font-semibold text-emerald-500">✓ {value.msg}</span>}
+        {value.status === 'error' && <span className="text-xs font-semibold text-rose-500">✗ {value.msg}</span>}
       </div>
-    </div>
+    </GlassCard>
   );
 }
-
-// ─── Main Onboarding component ────────────────────────────────────────────────
 
 const EMPTY_CLUSTER: ClusterForm = {
   name: '', environment: 'dev', connection_type: 'token',
@@ -313,7 +297,6 @@ export function Onboarding() {
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
 
-  // Step 1: selections
   const [selections, setSelections] = useState<Record<SelectionKey, string[]>>({
     cloud: ['aws'], cicd: ['github-actions'], gitops: ['argocd'],
     secrets: ['vault'], monitoring: ['grafana'], registry: ['ghcr'], cdn: ['cloudflare'],
@@ -326,10 +309,7 @@ export function Onboarding() {
     }));
   };
 
-  // Step 2: clusters
   const [clusters, setClusters] = useState<ClusterForm[]>([{ ...EMPTY_CLUSTER }]);
-
-  // Step 3: platform creds
   const [github, setGithub] = useState({ username: '', pat: '', status: 'idle', msg: '' });
 
   const canProceed = () => {
@@ -365,182 +345,165 @@ export function Onboarding() {
   const STEPS = ['Platforms', 'Clusters', 'Credentials', 'Ready'];
 
   return (
-    <div
-      style={{
-        minHeight: '100vh', background: 'var(--bg-base)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        padding: '40px 20px',
-      }}
-    >
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '36px' }}>
-        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent), #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 500, color: '#fff' }}>M</div>
-        <span style={{ fontWeight: 500, fontSize: '18px', letterSpacing: '-0.02em' }}>Meridian Setup</span>
-      </div>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans select-none">
+      <Spotlight fill="rgba(139, 92, 246, 0.25)" />
 
-      {/* Step indicator */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0', marginBottom: '32px' }}>
-        {STEPS.map((label, i) => {
-          const num = i + 1;
-          const done = step > num;
-          const active = step === num;
-          return (
-            <div key={label} style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                <div
-                  style={{
-                    width: '28px', height: '28px', borderRadius: '50%',
-                    background: done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--bg-hover)',
-                    border: `2px solid ${done ? 'var(--success)' : active ? 'var(--accent)' : 'var(--border)'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '12px', fontWeight: 500, color: done || active ? '#fff' : 'var(--text-muted)',
-                  }}
-                >
-                  {done ? '✓' : num}
+      <div className="w-full max-w-3xl space-y-8 relative z-10">
+        <div className="flex items-center justify-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-xl shadow-purple-500/30">
+            M
+          </div>
+          <span className="text-xl font-bold tracking-tight text-white">InfraPilot Setup</span>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 sm:gap-6">
+          {STEPS.map((label, i) => {
+            const num = i + 1;
+            const done = step > num;
+            const active = step === num;
+            return (
+              <div key={label} className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-1">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                      done
+                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                        : active
+                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/40'
+                        : 'bg-zinc-900 border border-zinc-800 text-zinc-500'
+                    }`}
+                  >
+                    {done ? '✓' : num}
+                  </div>
+                  <span className={`text-[11px] font-semibold ${active ? 'text-purple-400' : 'text-zinc-500'}`}>
+                    {label}
+                  </span>
                 </div>
-                <span style={{ fontSize: '10px', color: active ? 'var(--accent)' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>{label}</span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div style={{ width: '60px', height: '1px', background: done ? 'var(--success)' : 'var(--border)', margin: '0 4px', marginBottom: '20px' }} />
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Card */}
-      <div
-        style={{
-          width: '100%', maxWidth: '720px',
-          background: 'var(--bg-surface)', border: '1px solid var(--border)',
-          borderRadius: '12px', overflow: 'hidden',
-        }}
-      >
-        {/* Step content */}
-        <div style={{ padding: '28px', maxHeight: '60vh', overflowY: 'auto' }}>
-          {step === 1 && (
-            <>
-              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>What are you working with?</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' }}>Select everything in your stack — Meridian will tailor its workflows accordingly.</p>
-              {(Object.entries(PLATFORMS) as [SelectionKey, typeof PLATFORMS.cloud][]).map(([key, items]) => (
-                <SelectionGroup key={key} title={key.toUpperCase()} items={items} selected={selections[key]} onToggle={(id) => toggleSelection(key, id)} />
-              ))}
-            </>
-          )}
-
-          {step === 2 && (
-            <>
-              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>Connect your clusters</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '20px' }}>Add at least one Kubernetes cluster. You can add more later in Settings.</p>
-              {clusters.map((c, i) => (
-                <ClusterCard key={i} cluster={c} index={i} onChange={(updated) => setClusters((prev) => prev.map((x, j) => j === i ? updated : x))} onRemove={() => setClusters((prev) => prev.filter((_, j) => j !== i))} />
-              ))}
-              <button
-                onClick={() => setClusters((prev) => [...prev, { ...EMPTY_CLUSTER }])}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', background: 'transparent', border: '1px dashed var(--border)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit' }}
-              >
-                <Plus size={13} /> Add another cluster
-              </button>
-            </>
-          )}
-
-          {step === 3 && (
-            <>
-              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '6px' }}>Connect your platforms</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '20px' }}>Enter credentials for the tools you selected. Stubbed integrations are pre-configured.</p>
-              {selections.cicd.includes('github-actions') && (
-                <GitHubCredentials value={github} onChange={setGithub} />
-              )}
-              {selections.secrets.includes('vault') && (
-                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px', marginBottom: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontWeight: 600, fontSize: '13px' }}>🔐 HashiCorp Vault</span>
-                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'var(--warning-bg)', border: '1px solid var(--warning)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
-                  </div>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>Vault integration is stubbed for demo. Real Vault connection coming soon.</p>
-                </div>
-              )}
-              {selections.cdn.includes('cloudflare') && (
-                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px', marginBottom: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontWeight: 600, fontSize: '13px' }}>🌩️ Cloudflare DNS</span>
-                    <span style={{ fontSize: '10px', color: 'var(--warning)', background: 'var(--warning-bg)', border: '1px solid var(--warning)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>STUBBED</span>
-                  </div>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>Cloudflare DNS configuration is stubbed for demo. Real integration coming soon.</p>
-                </div>
-              )}
-              {!selections.cicd.includes('github-actions') && !selections.secrets.includes('vault') && !selections.cdn.includes('cloudflare') && (
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>No platform credentials needed for your selections. Click Continue.</p>
-              )}
-            </>
-          )}
-
-          {step === 4 && (
-            <>
-              <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '16px' }}>You're all set! 🎉</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-                {clusters.filter((c) => c.name).map((c) => (
-                  <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '6px' }}>
-                    {c.testStatus === 'ok' ? <CheckCircle2 size={16} color="var(--success)" /> : <AlertCircle size={16} color="var(--warning)" />}
-                    <span style={{ fontSize: '13px', color: 'var(--text-primary)' }}>{c.name}</span>
-                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{c.environment}</span>
-                    <span style={{ marginLeft: 'auto', fontSize: '11px', color: c.testStatus === 'ok' ? 'var(--success)' : 'var(--warning)' }}>
-                      {c.testStatus === 'ok' ? 'Connected' : 'Not tested — will connect on first use'}
-                    </span>
-                  </div>
-                ))}
-                {github.pat && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', background: 'var(--bg-base)', border: '1px solid var(--border)', borderRadius: '6px' }}>
-                    {github.status === 'ok' ? <CheckCircle2 size={16} color="var(--success)" /> : <AlertCircle size={16} color="var(--warning)" />}
-                    <span style={{ fontSize: '13px', color: 'var(--text-primary)' }}>GitHub</span>
-                    <span style={{ marginLeft: 'auto', fontSize: '11px', color: github.status === 'ok' ? 'var(--success)' : 'var(--text-muted)' }}>
-                      {github.status === 'ok' ? github.msg : 'Token saved — will validate on use'}
-                    </span>
-                  </div>
+                {i < STEPS.length - 1 && (
+                  <div className={`w-8 sm:w-16 h-[2px] mb-4 ${done ? 'bg-emerald-500' : 'bg-zinc-800'}`} />
                 )}
               </div>
-            </>
-          )}
+            );
+          })}
         </div>
 
-        {/* Footer */}
-        <div style={{ padding: '16px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button
-            onClick={() => setStep((s) => Math.max(1, s - 1))}
-            disabled={step === 1}
-            style={{ padding: '8px 20px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', color: step === 1 ? 'var(--text-muted)' : 'var(--text-secondary)', fontSize: '13px', cursor: step === 1 ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
-          >
-            Back
-          </button>
-          {step < 4 ? (
-            <button
-              onClick={() => setStep((s) => s + 1)}
-              disabled={!canProceed()}
-              style={{
-                padding: '8px 24px', background: canProceed() ? 'var(--accent)' : 'var(--bg-hover)',
-                border: 'none', borderRadius: '6px', color: '#fff',
-                fontSize: '13px', fontWeight: 600, cursor: canProceed() ? 'pointer' : 'not-allowed',
-                boxShadow: canProceed() ? '0 0 16px var(--accent-glow)' : 'none', fontFamily: 'inherit',
-              }}
+        <GlassCard glow className="p-6 sm:p-8 space-y-6 border border-white/10 dark:border-white/10">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 15 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -15 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-6 max-h-[60vh] overflow-y-auto pr-1 scrollbar-thin"
             >
-              Continue →
-            </button>
-          ) : (
-            <button
-              onClick={handleFinish}
-              disabled={saving}
-              style={{
-                padding: '8px 24px', background: 'var(--accent)', border: 'none',
-                borderRadius: '6px', color: '#fff', fontSize: '13px', fontWeight: 600,
-                cursor: saving ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
-                display: 'flex', alignItems: 'center', gap: '6px',
-                boxShadow: '0 0 16px var(--accent-glow)',
-              }}
+              {step === 1 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-white">What are you working with?</h2>
+                    <p className="text-xs text-zinc-400 mt-1">Select everything in your stack — InfraPilot tailors its AI workflows accordingly.</p>
+                  </div>
+                  {(Object.entries(PLATFORMS) as [SelectionKey, typeof PLATFORMS.cloud][]).map(([key, items]) => (
+                    <SelectionGroup key={key} title={key.toUpperCase()} items={items} selected={selections[key]} onToggle={(id) => toggleSelection(key, id)} />
+                  ))}
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-white">Connect your clusters</h2>
+                    <p className="text-xs text-zinc-400 mt-1">Add at least one Kubernetes cluster endpoint. You can add more later in Settings.</p>
+                  </div>
+                  {clusters.map((c, i) => (
+                    <ClusterCard key={i} cluster={c} index={i} onChange={(updated) => setClusters((prev) => prev.map((x, j) => j === i ? updated : x))} onRemove={() => setClusters((prev) => prev.filter((_, j) => j !== i))} />
+                  ))}
+                  <PremiumButton
+                    variant="outline"
+                    size="sm"
+                    icon={<Plus size={14} />}
+                    onClick={() => setClusters((prev) => [...prev, { ...EMPTY_CLUSTER }])}
+                  >
+                    Add another cluster
+                  </PremiumButton>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-white">Connect your platforms</h2>
+                    <p className="text-xs text-zinc-400 mt-1">Enter credentials for the tools you selected. Stubbed integrations are pre-configured.</p>
+                  </div>
+                  {selections.cicd.includes('github-actions') && (
+                    <GitHubCredentials value={github} onChange={setGithub} />
+                  )}
+                  {selections.secrets.includes('vault') && (
+                    <GlassCard hoverEffect={false} className="p-4 space-y-1 border border-amber-500/20 bg-amber-500/10">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm text-white">🔐 HashiCorp Vault</span>
+                        <PremiumBadge variant="warning">STUBBED</PremiumBadge>
+                      </div>
+                      <p className="text-xs text-amber-300">Vault integration is stubbed for demo simulation.</p>
+                    </GlassCard>
+                  )}
+                </div>
+              )}
+
+              {step === 4 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-white">You're all set! 🎉</h2>
+                    <p className="text-xs text-zinc-400 mt-1">Review your cluster connections below before launching.</p>
+                  </div>
+                  <div className="space-y-3">
+                    {clusters.filter((c) => c.name).map((c) => (
+                      <div key={c.name} className="flex items-center justify-between p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60 text-xs">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 size={16} className={c.testStatus === 'ok' ? 'text-emerald-500' : 'text-amber-500'} />
+                          <span className="font-semibold text-white">{c.name}</span>
+                          <span className="text-zinc-500">({c.environment})</span>
+                        </div>
+                        <span className={`font-semibold ${c.testStatus === 'ok' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                          {c.testStatus === 'ok' ? 'Connected' : 'Pending First Check'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+            <PremiumButton
+              variant="ghost"
+              disabled={step === 1}
+              onClick={() => setStep((s) => Math.max(1, s - 1))}
             >
-              {saving ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Saving...</> : 'Launch Meridian →'}
-            </button>
-          )}
-        </div>
+              Back
+            </PremiumButton>
+            {step < 4 ? (
+              <PremiumButton
+                variant="primary"
+                disabled={!canProceed()}
+                onClick={() => setStep((s) => s + 1)}
+                icon={<ArrowRight size={16} />}
+              >
+                Continue
+              </PremiumButton>
+            ) : (
+              <PremiumButton
+                variant="primary"
+                isLoading={saving}
+                onClick={handleFinish}
+                icon={<Sparkles size={16} />}
+              >
+                Launch InfraPilot
+              </PremiumButton>
+            )}
+          </div>
+        </GlassCard>
       </div>
     </div>
   );

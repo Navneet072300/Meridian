@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import type { ExperienceLevel } from '../../lib/terminology';
+import { motion } from 'framer-motion';
+import { Rocket, CheckCircle2, ArrowRight } from 'lucide-react';
+import { GlassCard, PremiumButton, AuroraBackground } from './UIPrimitives';
 
 interface Choice {
   level: ExperienceLevel;
@@ -44,7 +47,6 @@ export function UserTypeScreen({ onDone }: Props) {
       if (!selected) skip();
     }, 5 * 60 * 1000);
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   async function skip() {
@@ -78,90 +80,65 @@ export function UserTypeScreen({ onDone }: Props) {
   }
 
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 9999,
-      background: 'var(--bg-base)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-      <div style={{ width: '100%', maxWidth: 440, padding: '0 20px' }}>
-        {/* Skip button */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+    <AuroraBackground className="fixed inset-0 z-[9999] bg-zinc-950 flex items-center justify-center p-6 text-zinc-100 font-sans select-none">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="w-full max-w-md space-y-6 relative z-10"
+      >
+        <div className="flex justify-end">
           <button
             type="button"
             onClick={skip}
-            title="Skip for now — we'll use DevOps mode by default"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 12, padding: '4px 8px' }}
+            className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
           >
             Skip for now ✕
           </button>
         </div>
 
-        {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{ fontSize: 28, fontWeight: 500, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
-            Meri<span style={{ color: 'var(--accent)' }}>dian</span>
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white mx-auto shadow-lg shadow-purple-500/25">
+            <Rocket size={24} />
           </div>
+          <h2 className="text-xl font-bold tracking-tight text-white">How do you usually work?</h2>
+          <p className="text-xs text-zinc-400">This helps InfraPilot tune terminology and AI assistance.</p>
         </div>
 
-        <h2 style={{ fontSize: 22, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 6, textAlign: 'center' }}>
-          How do you usually work?
-        </h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 24 }}>
-          This helps Meridian use the right terminology for you.
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div className="space-y-3">
           {CHOICES.map((c) => {
             const active = selected === c.level;
             return (
-              <button
+              <GlassCard
                 key={c.level}
-                type="button"
                 onClick={() => setSelected(c.level)}
-                style={{
-                  display: 'flex', alignItems: 'flex-start', gap: 16,
-                  padding: '16px 20px',
-                  background: active ? 'var(--badge-bg)' : 'var(--bg-surface)',
-                  border: `1.5px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
-                  borderRadius: 12, cursor: 'pointer', textAlign: 'left',
-                  transition: 'all 0.15s ease',
-                  width: '100%',
-                }}
+                className={`p-4 cursor-pointer flex items-start gap-4 ${
+                  active ? 'border-purple-500 bg-purple-500/15 shadow-md' : ''
+                }`}
               >
-                <span style={{ fontSize: 26, flexShrink: 0, lineHeight: 1.2 }}>{c.icon}</span>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: active ? 'var(--accent-text)' : 'var(--text-primary)', marginBottom: 4 }}>
-                    {c.title}
-                  </div>
-                  {c.lines.map((l, i) => (
-                    <div key={i} style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{l}</div>
+                <span className="text-2xl">{c.icon}</span>
+                <div className="flex-1">
+                  <h3 className={`text-sm font-bold ${active ? 'text-purple-300' : 'text-white'}`}>{c.title}</h3>
+                  {c.lines.map((line, idx) => (
+                    <p key={idx} className="text-xs text-zinc-400 leading-relaxed">{line}</p>
                   ))}
                 </div>
-                <div style={{ marginLeft: 'auto', flexShrink: 0, width: 18, height: 18, borderRadius: '50%', border: `2px solid ${active ? 'var(--accent)' : 'var(--border)'}`, background: active ? 'var(--accent)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
-                  {active && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
-                </div>
-              </button>
+                {active && <CheckCircle2 size={18} className="text-purple-400 mt-1" />}
+              </GlassCard>
             );
           })}
         </div>
 
-        <button
-          type="button"
-          onClick={confirm}
+        <PremiumButton
           disabled={!selected || saving}
-          className={selected ? 'ip-button-primary' : 'ip-button-secondary'}
-          style={{
-            width: '100%', marginTop: 24, padding: '12px',
-            fontSize: 14, fontWeight: 500, opacity: (!selected || saving) ? 0.6 : 1,
-          }}
+          isLoading={saving}
+          onClick={confirm}
+          variant="primary"
+          className="w-full py-3"
+          icon={<ArrowRight size={16} />}
         >
-          {saving ? 'Saving…' : 'Continue →'}
-        </button>
-
-        <p style={{ textAlign: 'center', marginTop: 16, fontSize: 12, color: 'var(--text-muted)' }}>
-          You can change this anytime in Settings → General
-        </p>
-      </div>
-    </div>
+          Continue to InfraPilot
+        </PremiumButton>
+      </motion.div>
+    </AuroraBackground>
   );
 }

@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Wand2, Stethoscope, Compass, Activity,
   Database, Clock, HelpCircle, Zap, Rocket,
-  ChevronLeft, Menu, CreditCard, Camera, Lock, Home, Plug, KeyRound,
+  ChevronLeft, Menu, CreditCard, Camera, Lock, Home, Plug, KeyRound, Sparkles,
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useProfileStore, type Plan } from '../../store/profileStore';
 import { useAuthStore } from '../../store/authStore';
 import { UpgradeModal } from '../shared/UpgradeModal';
@@ -96,55 +97,46 @@ export function Sidebar({ collapsed, onToggle }: Props) {
         type="button"
         onClick={handleClick}
         title={
-          collapsed ? item.label
-          : locked ? `${item.label} — Pro required`
-          : item.stub ? `${item.label} (coming soon)`
-          : undefined
+          collapsed
+            ? item.label
+            : locked
+            ? `${item.label} — Pro required`
+            : item.stub
+            ? `${item.label} (coming soon)`
+            : undefined
         }
-        style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
-          padding: collapsed ? '10px 0' : '8px 12px',
-          margin: collapsed ? '2px 0' : '2px 8px 2px 6px',
-          width: collapsed ? '100%' : 'calc(100% - 14px)',
-          background: active ? 'var(--bg-hover)' : 'transparent',
-          border: 'none',
-          borderRadius: 8,
-          color: active ? 'var(--text-primary)' : (item.stub || locked) ? 'var(--text-muted)' : 'var(--text-secondary)',
-          fontSize: '13px', fontWeight: active ? 500 : 400,
-          cursor: 'pointer',
-          textAlign: 'left',
-          justifyContent: collapsed ? 'center' : 'flex-start',
-          fontFamily: 'inherit',
-          opacity: item.stub ? 0.45 : 1,
-          transition: 'all 0.15s ease',
-          boxSizing: 'border-box',
-        }}
-        onMouseEnter={(e) => {
-          if (!active) {
-            e.currentTarget.style.background = 'var(--bg-hover)';
-            e.currentTarget.style.color = 'var(--text-primary)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!active) {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = (item.stub || locked) ? 'var(--text-muted)' : 'var(--text-secondary)';
-          }
-        }}
+        className={`relative flex items-center gap-3 w-full px-3 py-2 my-0.5 rounded-xl text-xs font-medium transition-all duration-200 ${
+          collapsed ? 'justify-center px-0' : 'justify-start'
+        } ${
+          active
+            ? 'text-purple-600 dark:text-purple-300 font-semibold bg-purple-500/10 dark:bg-purple-500/15 border border-purple-500/20'
+            : locked || item.stub
+            ? 'text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
+            : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/60'
+        } ${item.stub ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
       >
-        <span style={{
-          flexShrink: 0,
-          width: 26, height: 26,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          borderRadius: 6,
-          background: 'transparent',
-          color: 'inherit',
-          transition: 'all 0.15s ease',
-        }}>
+        {active && (
+          <motion.div
+            layoutId="sidebarActivePill"
+            className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-r-full shadow-[0_0_8px_rgba(139,92,246,0.5)]"
+            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+          />
+        )}
+        <span
+          className={`flex items-center justify-center w-6 h-6 flex-shrink-0 rounded-lg ${
+            active
+              ? 'text-purple-600 dark:text-purple-400'
+              : 'text-zinc-500 dark:text-zinc-400'
+          }`}
+        >
           {item.icon}
         </span>
-        {!collapsed && <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>}
-        {!collapsed && locked && <Lock size={12} style={{ flexShrink: 0, opacity: 0.5 }} />}
+        {!collapsed && (
+          <span className="flex-1 truncate text-left tracking-tight">{item.label}</span>
+        )}
+        {!collapsed && locked && (
+          <Lock size={12} className="flex-shrink-0 text-zinc-400 dark:text-zinc-500" />
+        )}
       </button>
     );
   };
@@ -156,115 +148,53 @@ export function Sidebar({ collapsed, onToggle }: Props) {
         type="button"
         onClick={() => navigate(path)}
         title={collapsed ? label : undefined}
-        style={{
-          width: collapsed ? '100%' : 'calc(100% - 14px)',
-          margin: collapsed ? '1px 0' : '1px 8px 1px 6px',
-          display: 'flex', alignItems: 'center', gap: '9px',
-          padding: collapsed ? '8px 0' : '6px 10px',
-          background: active ? 'var(--bg-hover)' : 'transparent',
-          border: 'none',
-          borderRadius: 8,
-          color: active ? 'var(--text-primary)' : 'var(--text-muted)',
-          fontSize: '12.5px', fontWeight: active ? 500 : 400,
-          cursor: 'pointer', textAlign: 'left',
-          fontFamily: 'inherit',
-          justifyContent: collapsed ? 'center' : 'flex-start',
-          boxSizing: 'border-box',
-          transition: 'all 0.15s ease',
-        }}
-        onMouseEnter={(e) => {
-          if (!active) {
-            e.currentTarget.style.background = 'var(--bg-hover)';
-            e.currentTarget.style.color = 'var(--text-primary)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!active) {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = 'var(--text-muted)';
-          }
-        }}
+        className={`flex items-center gap-2.5 w-full px-3 py-1.5 my-0.5 rounded-xl text-xs font-medium transition-all duration-200 ${
+          collapsed ? 'justify-center px-0' : 'justify-start'
+        } ${
+          active
+            ? 'text-purple-600 dark:text-purple-300 bg-purple-500/10 dark:bg-purple-500/15'
+            : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/60'
+        }`}
       >
-        <span style={{ flexShrink: 0, width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</span>
-        {!collapsed && label}
+        <span className="flex items-center justify-center w-5 h-5 flex-shrink-0">{icon}</span>
+        {!collapsed && <span>{label}</span>}
       </button>
     );
   };
 
-  const SectionLabel = ({ label }: { label: string }) => (
-    !collapsed ? (
-      <p style={{
-        padding: '14px 16px 4px',
-        fontSize: '9.5px', fontWeight: 500,
-        letterSpacing: '0.08em',
-        color: 'var(--text-muted)',
-        textTransform: 'uppercase',
-      }}>
-        {label}
-      </p>
-    ) : (
-      <div style={{ height: '1px', background: 'var(--border)', margin: '8px 10px' }} />
-    )
-  );
-
   return (
     <>
-      <aside
-        style={{
-          width: collapsed ? '56px' : '230px',
-          minWidth: collapsed ? '56px' : '230px',
-          background: 'var(--bg-surface)',
-          borderRight: '1px solid var(--border)',
-          display: 'flex', flexDirection: 'column',
-          transition: 'width 0.2s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          overflow: 'hidden',
-          zIndex: 20,
-        }}
+      <motion.aside
+        animate={{ width: collapsed ? 64 : 240 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="h-full bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border-r border-zinc-200 dark:border-zinc-800/80 flex flex-col z-20 select-none overflow-hidden"
       >
-        {/* Logo / Brand */}
-        <div style={{
-          height: '60px',
-          display: 'flex', alignItems: 'center',
-          borderBottom: '1px solid var(--border)',
-          flexShrink: 0, overflow: 'hidden',
-          padding: collapsed ? '0' : '0 14px',
-        }}>
+        {/* Top Header / Brand Logo */}
+        <div className="h-14 px-3.5 flex items-center border-b border-zinc-200 dark:border-zinc-800/80 flex-shrink-0">
           {collapsed ? (
             <button
               type="button"
               onClick={onToggle}
               title="Expand sidebar"
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: '100%', height: '100%',
-                background: 'none', border: 'none',
-                color: 'var(--text-muted)', cursor: 'pointer',
-                transition: 'color 0.15s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+              className="w-full h-full flex items-center justify-center text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
             >
               <Menu size={18} />
             </button>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}>
-              {/* Meridian logo mark */}
-              <div style={{
-                width: 32, height: 32, borderRadius: '9px',
-                background: 'var(--accent)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '12px', fontWeight: 500, color: '#fff', flexShrink: 0,
-                letterSpacing: '-0.02em',
-              }}>
-                M
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontWeight: 500, fontSize: '15px', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
-                    Meri<span style={{ color: 'var(--accent)' }}>dian</span>
-                  </span>
-                  <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--text-muted)', background: 'var(--bg-hover)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
-                    v2.4
+            <div className="flex items-center justify-between w-full">
+              <div
+                onClick={() => navigate('/app/deploy')}
+                className="flex items-center gap-2.5 cursor-pointer group"
+              >
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform">
+                  M
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-sm tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                    InfraPilot
+                    <span className="text-[10px] font-semibold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded-full border border-purple-500/20">
+                      v2.4
+                    </span>
                   </span>
                 </div>
               </div>
@@ -272,21 +202,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                 type="button"
                 onClick={onToggle}
                 title="Collapse sidebar"
-                style={{
-                  background: 'transparent', border: 'none',
-                  color: 'var(--text-muted)', cursor: 'pointer',
-                  padding: '6px', borderRadius: 6, flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background 0.15s, color 0.15s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'var(--bg-hover)';
-                  e.currentTarget.style.color = 'var(--text-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                }}
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800/80 transition-colors"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -294,55 +210,50 @@ export function Sidebar({ collapsed, onToggle }: Props) {
           )}
         </div>
 
-        {/* Navigation */}
-        <nav style={{ flex: 1, padding: '4px 0', overflowY: 'auto' }}>
-          <SectionLabel label="Workspace" />
-          {PRIMARY.map((item) => <NavButton key={item.path} item={item} />)}
+        {/* Nav Items */}
+        <nav className="flex-1 px-2 py-3 overflow-y-auto space-y-4 scrollbar-none">
+          <div>
+            {!collapsed && (
+              <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                Workspace
+              </p>
+            )}
+            {PRIMARY.map((item) => (
+              <NavButton key={item.path} item={item} />
+            ))}
+          </div>
 
-          <SectionLabel label="Resources" />
-          {RESOURCES.map((item) => <NavButton key={item.path} item={item} />)}
+          <div>
+            {!collapsed ? (
+              <p className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                Resources
+              </p>
+            ) : (
+              <div className="h-[1px] bg-zinc-200 dark:bg-zinc-800/80 my-2 mx-2" />
+            )}
+            {RESOURCES.map((item) => (
+              <NavButton key={item.path} item={item} />
+            ))}
+          </div>
         </nav>
 
-        {/* Bottom section */}
-        <div style={{ borderTop: '1px solid var(--border)', padding: '6px' }}>
-
-          {/* Profile card */}
+        {/* Bottom Profile & Footer */}
+        <div className="p-2 border-t border-zinc-200 dark:border-zinc-800/80 space-y-1 bg-zinc-50/50 dark:bg-zinc-900/30">
+          {/* User Card */}
           <div
-            style={{
-              padding: collapsed ? '8px 0' : '8px 10px',
-              background: 'var(--bg-base)',
-              border: '1px solid var(--border)',
-              borderRadius: 10,
-              display: 'flex', alignItems: 'center',
-              gap: '10px', cursor: 'pointer',
-              justifyContent: collapsed ? 'center' : 'flex-start',
-              transition: 'all 0.15s ease',
-            }}
             onClick={() => navigate('/app/profile')}
             title={collapsed ? name : undefined}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-focus)';
-              (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-hover)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
-              (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-base)';
-            }}
+            className={`flex items-center gap-2.5 p-2 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-purple-500/40 cursor-pointer transition-all duration-200 ${
+              collapsed ? 'justify-center p-1.5' : ''
+            }`}
           >
-            {/* Avatar */}
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <div
-                style={{
-                  width: 32, height: 32, borderRadius: '50%',
-                  background: avatar ? 'transparent' : 'var(--accent)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '12px', fontWeight: 500, color: '#fff',
-                  overflow: 'hidden',
-                }}
-              >
-                {avatar
-                  ? <img src={avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : initials}
+            <div className="relative flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-medium text-xs flex items-center justify-center overflow-hidden border border-white/20">
+                {avatar ? (
+                  <img src={avatar} alt="avatar" className="w-full h-full object-cover" />
+                ) : (
+                  initials
+                )}
               </div>
               {!collapsed && (
                 <>
@@ -351,22 +262,17 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                     type="file"
                     accept="image/*"
                     aria-label="Upload profile photo"
-                    style={{ display: 'none' }}
+                    className="hidden"
                     onChange={handleAvatarFile}
                   />
                   <button
                     type="button"
                     title="Change photo"
-                    onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }}
-                    style={{
-                      position: 'absolute', inset: 0, borderRadius: '50%',
-                      background: 'rgba(0,0,0,0.2)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      opacity: 0, transition: 'opacity 0.15s',
-                      border: 'none', cursor: 'pointer', color: '#fff',
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileRef.current?.click();
                     }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0'; }}
+                    className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 text-white transition-opacity"
                   >
                     <Camera size={11} />
                   </button>
@@ -374,39 +280,26 @@ export function Sidebar({ collapsed, onToggle }: Props) {
               )}
             </div>
 
-            {/* Name + plan */}
             {!collapsed && (
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{
-                  fontSize: '12.5px', fontWeight: 500,
-                  color: 'var(--text-primary)',
-                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                }}>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">
                   {name}
-                </div>
-                <span style={{
-                  display: 'inline-block', marginTop: 2,
-                  fontSize: '9.5px', fontWeight: 500, letterSpacing: '0.05em',
-                  color: 'var(--text-muted)',
-                  background: 'var(--bg-hover)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 4, padding: '1px 6px',
-                  textTransform: 'uppercase',
-                }}>
+                </p>
+                <span className="inline-block text-[10px] font-semibold tracking-wider text-purple-600 dark:text-purple-400 bg-purple-500/10 px-1.5 py-0.2 rounded border border-purple-500/20 uppercase">
                   {PLAN_LABEL[plan]} Plan
                 </span>
               </div>
             )}
           </div>
 
-          {/* Bottom nav */}
-          <div style={{ paddingTop: '4px' }}>
-            <BottomNavBtn icon={<Home size={14} />}       label="Home"         path="/" />
+          {/* Quick links */}
+          <div className="pt-1 space-y-0.5">
+            <BottomNavBtn icon={<Home size={14} />} label="Home" path="/" />
             <BottomNavBtn icon={<CreditCard size={14} />} label="Subscription" path="/app/subscription" />
-            <BottomNavBtn icon={<HelpCircle size={14} />} label="Help"         path="/app/help" />
+            <BottomNavBtn icon={<HelpCircle size={14} />} label="Help & Docs" path="/app/help" />
           </div>
         </div>
-      </aside>
+      </motion.aside>
 
       {upgradeFeature && (
         <UpgradeModal

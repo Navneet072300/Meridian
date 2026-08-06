@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { useAuthStore } from '../../store/authStore';
+import { Eye, ArrowRight } from 'lucide-react';
 
 interface Props {
   children: React.ReactNode;
@@ -19,45 +20,39 @@ export function AppLayout({ children }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'var(--bg-base)', overflow: 'hidden' }}>
+    <div className="flex flex-col h-screen w-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans">
       {/* Demo mode banner */}
       {isDemoMode && (
-        <div style={{
-          background: 'var(--warning-bg)',
-          borderBottom: '1px solid var(--border)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          gap: 12, padding: '6px 16px', flexShrink: 0,
-        }}>
-          <span style={{ fontSize: 12, color: 'var(--warning)', fontWeight: 600 }}>
-            👁 Demo Mode — sandbox environment (simulated cluster data)
-          </span>
+        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 flex items-center justify-center gap-3 text-xs flex-shrink-0 z-30">
+          <div className="flex items-center gap-1.5 font-medium text-amber-600 dark:text-amber-400">
+            <Eye size={14} />
+            <span>Demo Mode — sandbox environment with simulated cluster telemetry</span>
+          </div>
           <button
             type="button"
             onClick={() => navigate('/signup')}
-            style={{
-              fontSize: 11, fontWeight: 500, color: '#fff',
-              background: 'var(--warning)', border: 'none',
-              borderRadius: 6, padding: '3px 10px', cursor: 'pointer',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
-            }}
+            className="flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-amber-500 text-white font-semibold text-[11px] shadow-sm hover:bg-amber-600 transition-colors"
           >
-            Sign up free
+            <span>Sign up free</span>
+            <ArrowRight size={12} />
           </button>
           <button
             type="button"
             onClick={exitDemo}
-            style={{ fontSize: 11, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+            className="text-zinc-500 dark:text-zinc-400 hover:underline text-[11px]"
           >
             Exit demo
           </button>
         </div>
       )}
 
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      <div className="flex flex-1 overflow-hidden min-h-0">
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <TopBar />
-          <main style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', background: 'var(--bg-elevated)' }}>{children}</main>
+          <main className="flex-1 overflow-y-auto overflow-x-hidden bg-zinc-50/50 dark:bg-zinc-950/50 p-6 scrollbar-thin">
+            {children}
+          </main>
         </div>
       </div>
     </div>

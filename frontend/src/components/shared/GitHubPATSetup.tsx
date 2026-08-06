@@ -214,6 +214,7 @@ export function GitHubPATSetup({ onTokenSaved, existingToken, daysUntilExpiry, c
           </button>
           {confirmRemove && (
             <ConfirmDialog
+              isOpen={confirmRemove}
               title="Remove GitHub connection?"
               message="This will delete your saved PAT. You will need to reconnect to access private repositories."
               confirmLabel="Remove"

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Rocket, RefreshCw, Trash2, ChevronRight, CheckCircle2, XCircle,
+  Rocket, RefreshCw, Trash2, CheckCircle2, XCircle,
   Clock, Loader2, GitBranch, AlertCircle, Zap, Copy, Check,
   ExternalLink, ChevronDown, ChevronUp, FileCode2, Play, ShieldCheck,
 } from 'lucide-react';
@@ -55,7 +55,7 @@ interface Analysis {
   manual_steps: string[];
 }
 
-type Tab = 'runs' | 'logs' | 'ai-fix';
+type Tab = 'runs' | 'logs' | 'ai-report';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -147,9 +147,6 @@ export function DeploymentsMode() {
   // AI
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
-  const [applying, setApplying] = useState(false);
-  const [applyConfirm, setApplyConfirm] = useState(false);
-  const [expandedFix, setExpandedFix] = useState<Set<string>>(new Set());
 
   // Deployment verification
   const [verification, setVerification] = useState<Record<string, unknown> | null>(null);
@@ -162,7 +159,8 @@ export function DeploymentsMode() {
     try {
       const r = await fetch('/api/deployments', { credentials: 'include' });
       const data = await r.json();
-      setDeployments(data.deployments ?? []);
+      const deps = (data.deployments ?? []) as Deployment[];
+      setDeployments(deps.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()));
     } catch { toast.error('Failed to load deployments'); }
     finally { setLoading(false); }
   }, []);
@@ -256,7 +254,7 @@ export function DeploymentsMode() {
   }, []);
 
   const selectDeployment = (dep: Deployment) => {
-    setSelected(dep); setTab('runs'); setAnalysis(null); setApplyConfirm(false);
+    setSelected(dep); setTab('runs'); setAnalysis(null);
     setVerification(null);
     if (verifIntervalRef.current) clearInterval(verifIntervalRef.current);
     loadRuns(dep);
@@ -313,31 +311,9 @@ export function DeploymentsMode() {
       });
       const data = await r.json();
       setAnalysis(data);
-      setTab('ai-fix');
+      setTab('ai-report');
     } catch (e) { toast.error('Analysis failed', String(e)); }
     finally { setAnalyzing(false); }
-  };
-
-  const handleApplyFix = async () => {
-    if (!selected || !analysis?.files.length) return;
-    setApplying(true);
-    try {
-      const r = await fetch(`/api/deployments/${selected.id}/apply-fix`, {
-        method: 'POST', credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: analysis.files.map(f => ({ path: f.path, content: f.content })),
-          message: `fix: ${analysis.fix_summary || 'apply Meridian AI suggestion'}`,
-          branch: selectedRun?.head_branch || selected.branch,
-        }),
-      });
-      if (!r.ok) throw new Error((await r.json()).detail ?? 'Apply failed');
-      toast.success('Fix pushed to GitHub', `${analysis.files.length} file(s) committed. CI will re-run automatically.`);
-      setApplyConfirm(false);
-      setTab('runs');
-      setTimeout(() => { if (selected) loadRuns(selected); }, 4000);
-    } catch (e) { toast.error('Apply fix failed', String(e)); }
-    finally { setApplying(false); }
   };
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -436,11 +412,11 @@ export function DeploymentsMode() {
 
           {/* Tabs */}
           <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', background: 'var(--bg-surface)', padding: '0 20px', flexShrink: 0 }}>
-            {([['runs', 'Runs'], ['logs', 'Logs'], ['ai-fix', 'AI Fix']] as [Tab, string][]).map(([id, label]) => (
+            {([['runs', 'Runs'], ['logs', 'Logs'], ['ai-report', 'AI Report']] as [Tab, string][]).map(([id, label]) => (
               <button
                 key={id}
                 type="button"
-                onClick={() => setTab(id)}
+                onClick={() => setTab(id as Tab)}
                 style={{
                   padding: '9px 16px', background: 'none', border: 'none',
                   borderBottom: tab === id ? '2px solid var(--accent)' : '2px solid transparent',
@@ -450,7 +426,7 @@ export function DeploymentsMode() {
                   display: 'flex', alignItems: 'center', gap: 5,
                 }}
               >
-                {id === 'ai-fix' && analysis && <span style={{ width: 6, height: 6, borderRadius: '50%', background: analysis.files.length > 0 ? 'var(--accent)' : 'var(--text-muted)', flexShrink: 0 }} />}
+                {id === 'ai-report' && analysis && <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', flexShrink: 0 }} />}
                 {label}
               </button>
             ))}
@@ -597,7 +573,7 @@ export function DeploymentsMode() {
                           style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, padding: '4px 10px', background: analyzing ? 'var(--bg-hover)' : 'var(--accent)', color: analyzing ? 'var(--text-muted)' : '#fff', border: 'none', borderRadius: 5, cursor: analyzing ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
                         >
                           {analyzing ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Zap size={11} />}
-                          {analyzing ? 'Analyzing…' : 'AI Fix'}
+                          {analyzing ? 'Analyzing…' : 'Analyze Issue'}
                         </button>
                       )}
                     </>
@@ -627,25 +603,20 @@ export function DeploymentsMode() {
               </div>
             )}
 
-            {/* ── AI Fix tab ── */}
-            {tab === 'ai-fix' && (
+            {/* ── AI Report tab ── */}
+            {tab === 'ai-report' && (
               <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
                 {!analysis && !analyzing && (
                   <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
                     <AlertCircle size={24} style={{ margin: '0 auto 10px', display: 'block', opacity: 0.3 }} />
-                    Go to <strong>Logs</strong> tab, view a failed job, then click <strong>AI Fix</strong>.
+                    Go to <strong>Logs</strong> tab, view a failed job, then click <strong>Analyze Issue</strong>.
                   </div>
                 )}
 
                 {analyzing && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '20px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)', fontSize: 13 }}>
-                      <Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite', color: 'var(--accent)' }} />
-                      Reading repository files and analyzing failure logs…
-                    </div>
-                    <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)', paddingLeft: 24 }}>
-                      This fetches your actual Dockerfile, workflows, and config before diagnosing — takes 10–20s.
-                    </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 0', color: 'var(--text-muted)', fontSize: 13 }}>
+                    <Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite', color: 'var(--accent)' }} />
+                    Analyzing failure logs…
                   </div>
                 )}
 
@@ -660,7 +631,7 @@ export function DeploymentsMode() {
                         border: `1px solid ${analysis.severity === 'error' ? 'rgba(248,113,113,0.25)' : analysis.severity === 'config' ? 'var(--warning)' : 'rgba(52,211,153,0.2)'}`,
                         textTransform: 'uppercase',
                       }}>
-                        {analysis.severity === 'error' ? 'Code Fix' : analysis.severity === 'config' ? 'Config Issue' : 'Transient'}
+                        {analysis.severity === 'error' ? 'Code Error' : analysis.severity === 'config' ? 'Config Issue' : 'Transient'}
                       </span>
                       <button
                         type="button"
@@ -688,97 +659,29 @@ export function DeploymentsMode() {
                       <p style={{ margin: 0, fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>{analysis.diagnosis}</p>
                     </div>
 
-                    {/* Fix summary */}
+                    {/* Fix suggestion (read-only) */}
                     {analysis.fix_summary && (
                       <div style={{ padding: '10px 14px', background: 'var(--accent-subtle)', border: '1px solid var(--border)', borderRadius: 8 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
                           <Zap size={12} style={{ color: 'var(--accent)' }} />
-                          <span style={{ fontWeight: 500, fontSize: 12, color: 'var(--accent)' }}>Proposed Fix</span>
+                          <span style={{ fontWeight: 500, fontSize: 12, color: 'var(--accent)' }}>Suggested Fix</span>
                         </div>
                         <p style={{ margin: 0, fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.6 }}>{analysis.fix_summary}</p>
                       </div>
                     )}
 
-                    {/* Manual steps (for config/transient issues) */}
+                    {/* Manual steps */}
                     {analysis.manual_steps && analysis.manual_steps.length > 0 && (
                       <div style={{ padding: '12px 14px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 8 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 8 }}>
                           <AlertCircle size={12} style={{ color: '#f59e0b' }} />
-                          <span style={{ fontWeight: 500, fontSize: 12, color: '#f59e0b' }}>Manual Steps Required</span>
+                          <span style={{ fontWeight: 500, fontSize: 12, color: '#f59e0b' }}>Steps to Resolve</span>
                         </div>
                         <ol style={{ margin: 0, paddingLeft: 18 }}>
                           {analysis.manual_steps.map((step, i) => (
                             <li key={i} style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.7, marginBottom: 4 }}>{step}</li>
                           ))}
                         </ol>
-                      </div>
-                    )}
-
-                    {/* File changes */}
-                    {analysis.files.length > 0 && (
-                      <div>
-                        <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>
-                          File Changes ({analysis.files.length})
-                        </div>
-                        {analysis.files.map((f, idx) => (
-                          <div key={idx} style={{ marginBottom: 8, border: '1px solid var(--border)', borderRadius: 7, overflow: 'hidden' }}>
-                            <button
-                              type="button"
-                              onClick={() => setExpandedFix(prev => { const s = new Set(prev); s.has(f.path) ? s.delete(f.path) : s.add(f.path); return s; })}
-                              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: 'var(--bg-hover)', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            >
-                              <FileCode2 size={11} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                              <span style={{ fontSize: 12, fontFamily: 'monospace', flex: 1, textAlign: 'left', color: 'var(--text-primary)' }}>{f.path}</span>
-                              <span style={{ fontSize: 11, color: 'var(--text-muted)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.change_description}</span>
-                              {expandedFix.has(f.path) ? <ChevronUp size={11} style={{ color: 'var(--text-muted)' }} /> : <ChevronDown size={11} style={{ color: 'var(--text-muted)' }} />}
-                            </button>
-                            {expandedFix.has(f.path) && (
-                              <pre style={{ margin: 0, padding: '10px 14px', fontSize: 11, fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-primary)', lineHeight: 1.7, background: 'var(--bg-base)', overflowX: 'auto', maxHeight: 320, overflowY: 'auto' }}>
-                                {f.content}
-                              </pre>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* No code fix — config/transient only */}
-                    {analysis.files.length === 0 && !analyzing && (
-                      <div style={{ padding: '10px 14px', background: 'var(--bg-hover)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, color: 'var(--text-muted)' }}>
-                        No file changes needed — follow the steps above, then push a commit or re-run the workflow to verify.
-                      </div>
-                    )}
-
-                    {/* Apply button */}
-                    {analysis.files.length > 0 && (
-                      <div>
-                        {!applyConfirm ? (
-                          <button
-                            type="button"
-                            onClick={() => setApplyConfirm(true)}
-                            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 18px', background: 'var(--accent)', border: 'none', borderRadius: 7, color: '#fff', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}
-                          >
-                            <GitBranch size={13} /> Apply Fix & Push to GitHub
-                          </button>
-                        ) : (
-                          <div style={{ padding: '12px 14px', background: 'rgba(245,158,11,0.08)', border: '1px solid var(--warning)', borderRadius: 8 }}>
-                            <p style={{ margin: '0 0 10px', fontSize: 13, color: 'var(--text-primary)' }}>
-                              This will commit {analysis.files.length} file(s) to <strong>{selectedRun?.head_branch || selected.branch}</strong> and trigger a new CI run. Continue?
-                            </p>
-                            <div style={{ display: 'flex', gap: 8 }}>
-                              <button
-                                type="button"
-                                onClick={handleApplyFix}
-                                disabled={applying}
-                                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'var(--accent)', border: 'none', borderRadius: 6, color: '#fff', fontSize: 12, fontWeight: 500, cursor: applying ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
-                              >
-                                {applying ? <Loader2 size={11} style={{ animation: 'spin 0.8s linear infinite' }} /> : <ChevronRight size={11} />}
-                                {applying ? 'Pushing…' : 'Yes, push it'}
-                              </button>
-                              <button type="button" onClick={() => setApplyConfirm(false)} style={{ padding: '7px 14px', background: 'transparent', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     )}
                   </div>

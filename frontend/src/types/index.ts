@@ -9,6 +9,7 @@ export interface ClusterConfig {
   kubeconfig?: string;
   active: boolean;
   token_expired?: boolean;
+  is_managed?: boolean;
 }
 
 export interface ClusterHealth {

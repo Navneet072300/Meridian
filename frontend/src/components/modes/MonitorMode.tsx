@@ -1393,13 +1393,26 @@ export function MonitorMode() {
 
       {/* Scrollable content */}
       <div style={{ flex: 1, overflow: 'auto', padding: '16px 20px' }}>
-        <div style={{ maxWidth: 1100, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {activeTab === 'health'    && <HealthTab />}
-          {activeTab === 'issues'    && <IssuesPanel incidents={incidents} summary={incidentsData?.summary} />}
-          {activeTab === 'resources' && <ResourceExplorerPanel />}
-          {activeTab === 'metrics'   && <MetricsTab />}
-          {activeTab === 'agent'     && <AgentTab />}
-        </div>
+        {activeCluster?.is_managed === false ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 14, textAlign: 'center' }}>
+            <Plug size={36} style={{ color: C.dim, opacity: 0.4 }} />
+            <div>
+              <p style={{ fontSize: 15, fontWeight: 600, color: C.primary, marginBottom: 6 }}>Monitoring not available</p>
+              <p style={{ fontSize: 13, color: C.muted, maxWidth: 420, lineHeight: 1.6 }}>
+                Monitoring is only available for applications deployed on Meridian's managed cluster.
+                External clusters you've connected are used for deployments only.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div style={{ maxWidth: 1100, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {activeTab === 'health'    && <HealthTab />}
+            {activeTab === 'issues'    && <IssuesPanel incidents={incidents} summary={incidentsData?.summary} />}
+            {activeTab === 'resources' && <ResourceExplorerPanel />}
+            {activeTab === 'metrics'   && <MetricsTab />}
+            {activeTab === 'agent'     && <AgentTab />}
+          </div>
+        )}
       </div>
 
       {/* Bottom status bar — 32px */}

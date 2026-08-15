@@ -1711,12 +1711,18 @@ function AuditLogTab() {
   async function load(p = 1) {
     setLoading(true);
     try {
-      const params = new URLSearchParams({ page: String(p), limit: String(LIMIT) });
-      if (search) params.set('search', search);
-      if (actionType) params.set('action_type', actionType);
-      const d = await apiFetch(`/api/audit-log?${params}`);
-      setEntries(d.entries || []);
-      setTotal(d.total || 0);
+      const r = await fetch('/api/audit', { credentials: 'include' });
+      if (!r.ok) throw new Error('Failed');
+      const json = await r.json();
+      const all: AuditEntry[] = json.logs ?? [];
+      const filtered = all.filter((e) => {
+        if (search && !e.action.toLowerCase().includes(search.toLowerCase()) && !e.resource.toLowerCase().includes(search.toLowerCase())) return false;
+        if (actionType && !e.action.startsWith(actionType)) return false;
+        return true;
+      });
+      const start = (p - 1) * LIMIT;
+      setEntries(filtered.slice(start, start + LIMIT));
+      setTotal(filtered.length);
       setPage(p);
     } catch { /* ignore */ } finally { setLoading(false); }
   }

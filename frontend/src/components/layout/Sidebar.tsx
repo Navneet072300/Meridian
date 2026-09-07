@@ -19,6 +19,7 @@ interface NavItem {
 }
 
 const PRIMARY: NavItem[] = [
+  { icon: <Rocket size={16} />, label: 'Projects', path: '/app/projects' },
   { icon: <Zap size={16} />,         label: 'Deploy',      path: '/app/deploy' },
   { icon: <Rocket size={16} />,      label: 'Deployments', path: '/app/deployments' },
   { icon: <Wand2 size={16} />,       label: 'Generate AI', path: '/app/generate' },
@@ -46,6 +47,9 @@ export function Sidebar({ collapsed, onToggle }: Props) {
   const location = useLocation();
   const { name, avatar, plan } = useProfileStore();
   const { user } = useAuthStore();
+  const legacy = import.meta.env.VITE_ENABLE_LEGACY === 'true';
+  const displayName = legacy ? name : user?.name || 'Your account';
+  const displayAvatar = legacy ? avatar : user?.avatar_url;
   const fileRef = useRef<HTMLInputElement>(null);
   const setAvatar = useProfileStore((s) => s.setAvatar);
   const [upgradeFeature, setUpgradeFeature] = useState<PlanFeature | null>(null);
@@ -61,7 +65,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
     location.pathname === path ||
     (path === '/app/pipeline' && location.pathname === '/app');
 
-  const initials = name
+  const initials = displayName
     .split(' ')
     .map((w) => w[0])
     .join('')
@@ -264,7 +268,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                     Meri<span style={{ color: 'var(--accent)' }}>dian</span>
                   </span>
                   <span style={{ fontSize: '9px', fontWeight: 500, color: 'var(--text-muted)', background: 'var(--bg-hover)', border: '1px solid var(--border)', padding: '1px 5px', borderRadius: 4 }}>
-                    v2.4
+                    Beta
                   </span>
                 </div>
               </div>
@@ -297,10 +301,10 @@ export function Sidebar({ collapsed, onToggle }: Props) {
         {/* Navigation */}
         <nav style={{ flex: 1, padding: '4px 0', overflowY: 'auto' }}>
           <SectionLabel label="Workspace" />
-          {PRIMARY.map((item) => <NavButton key={item.path} item={item} />)}
+          {(import.meta.env.VITE_ENABLE_LEGACY === 'true' ? PRIMARY : PRIMARY.slice(0, 1)).map((item) => <NavButton key={item.path} item={item} />)}
 
-          <SectionLabel label="Resources" />
-          {RESOURCES.map((item) => <NavButton key={item.path} item={item} />)}
+          {import.meta.env.VITE_ENABLE_LEGACY === 'true' && <><SectionLabel label="Resources" />
+          {RESOURCES.map((item) => <NavButton key={item.path} item={item} />)}</>}
         </nav>
 
         {/* Bottom section */}
@@ -318,8 +322,8 @@ export function Sidebar({ collapsed, onToggle }: Props) {
               justifyContent: collapsed ? 'center' : 'flex-start',
               transition: 'all 0.15s ease',
             }}
-            onClick={() => navigate('/app/profile')}
-            title={collapsed ? name : undefined}
+            onClick={() => navigate(import.meta.env.VITE_ENABLE_LEGACY === 'true' ? '/app/profile' : '/app/projects')}
+            title={collapsed ? displayName : undefined}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-focus)';
               (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-hover)';
@@ -334,17 +338,17 @@ export function Sidebar({ collapsed, onToggle }: Props) {
               <div
                 style={{
                   width: 32, height: 32, borderRadius: '50%',
-                  background: avatar ? 'transparent' : 'var(--accent)',
+                  background: displayAvatar ? 'transparent' : 'var(--accent)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '12px', fontWeight: 500, color: '#fff',
                   overflow: 'hidden',
                 }}
               >
-                {avatar
-                  ? <img src={avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {displayAvatar
+                  ? <img src={displayAvatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : initials}
               </div>
-              {!collapsed && (
+              {!collapsed && legacy && (
                 <>
                   <input
                     ref={fileRef}
@@ -382,7 +386,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                   color: 'var(--text-primary)',
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 }}>
-                  {name}
+                  {user?.name || name}
                 </div>
                 <span style={{
                   display: 'inline-block', marginTop: 2,
@@ -393,7 +397,7 @@ export function Sidebar({ collapsed, onToggle }: Props) {
                   borderRadius: 4, padding: '1px 6px',
                   textTransform: 'uppercase',
                 }}>
-                  {PLAN_LABEL[plan]} Plan
+                  {import.meta.env.VITE_ENABLE_LEGACY === 'true' ? `${PLAN_LABEL[plan]} Plan` : 'Early access'}
                 </span>
               </div>
             )}
@@ -402,8 +406,8 @@ export function Sidebar({ collapsed, onToggle }: Props) {
           {/* Bottom nav */}
           <div style={{ paddingTop: '4px' }}>
             <BottomNavBtn icon={<Home size={14} />}       label="Home"         path="/" />
-            <BottomNavBtn icon={<CreditCard size={14} />} label="Subscription" path="/app/subscription" />
-            <BottomNavBtn icon={<HelpCircle size={14} />} label="Help"         path="/app/help" />
+            {import.meta.env.VITE_ENABLE_LEGACY === 'true' && <BottomNavBtn icon={<CreditCard size={14} />} label="Subscription" path="/app/subscription" />}
+            {import.meta.env.VITE_ENABLE_LEGACY === 'true' && <BottomNavBtn icon={<HelpCircle size={14} />} label="Help" path="/app/help" />}
           </div>
         </div>
       </aside>

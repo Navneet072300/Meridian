@@ -1,0 +1,64 @@
+name: Release checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: meridian
+          POSTGRES_PASSWORD: meridian-test-only
+          POSTGRES_DB: meridian_test
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U meridian -d meridian_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+      - run: go test -race ./...
+        working-directory: backend
+        env:
+          TEST_DATABASE_URL: postgres://meridian:meridian-test-only@localhost:5432/meridian_test?sslmode=disable
+      - run: go vet ./...
+        working-directory: backend
+  clients:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci && npm run build
+        working-directory: frontend
+      - run: npx eslint src/pages/LaunchPage.tsx src/pages/EmailLoginPage.tsx src/pages/ReleaseLandingPage.tsx src/components/layout/AppLayout.tsx src/components/layout/Sidebar.tsx src/store/authStore.ts
+        working-directory: frontend
+      - run: npm audit --audit-level=high
+        working-directory: frontend
+      - run: npm ci && npm test
+        working-directory: mcp
+      - run: npm audit --audit-level=high
+        working-directory: mcp
+  containers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - context: backend
+            dockerfile: Dockerfile
+            image: meridian-api
+          - context: backend
+            dockerfile: Dockerfile.worker
+            image: meridian-worker
+          - context: frontend
+            dockerfile: Dockerfile
+            image: meridian-web
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ${{ matrix.image }}:ci -f ${{ matrix.context }}/${{ matrix.dockerfile }} ${{ matrix.context }}

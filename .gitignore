@@ -22,6 +22,9 @@ frontend/.vite/
 *.sqlite
 backend/config/platforms.json
 
+# ── Claude Code ───────────────────────────────────────────────────────────────
+CLAUDE.md
+
 # ── OS / Editor ───────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
@@ -34,3 +37,8 @@ Thumbs.db
 # ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
 logs/
+
+# Launch sources, local worker binary and runtime configuration
+backend/data/
+backend/meridian-worker
+.env.worker

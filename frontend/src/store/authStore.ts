@@ -39,10 +39,9 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   setUser: (updates) => set((s) => ({ user: s.user ? { ...s.user, ...updates } : null })),
 
   logout: async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-    } catch {
-      // ignore network errors on logout
+    if (!get().isDemoMode) {
+      const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      if (!response.ok) throw new Error('Could not sign out. Please try again.');
     }
     set({ user: null, isDemoMode: false });
   },

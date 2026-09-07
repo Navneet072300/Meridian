@@ -1,0 +1,16 @@
+# The operator supplies a tested, pinned BuildKit image (prefer a digest).
+ARG BUILDKIT_IMAGE=moby/buildkit:v0.24.0
+FROM ${BUILDKIT_IMAGE} AS buildkit
+FROM golang:1.23-alpine AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /worker ./cmd/worker
+FROM alpine:3.20
+RUN apk add --no-cache ca-certificates && addgroup -g 10001 meridian && adduser -D -u 10001 -G meridian meridian && mkdir -p /app/data/sources && chown -R meridian:meridian /app
+COPY --from=build /worker /usr/local/bin/meridian-worker
+COPY --from=buildkit /usr/bin/buildctl /usr/local/bin/buildctl
+WORKDIR /app
+USER 10001
+CMD ["meridian-worker"]

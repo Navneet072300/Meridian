@@ -41,7 +41,7 @@ func ParseToken(tokenStr string) (int, bool) {
 			return nil, fmt.Errorf("unexpected signing method")
 		}
 		return []byte(config.JWTSecret), nil
-	})
+	}, jwt.WithValidMethods([]string{"HS256"}), jwt.WithExpirationRequired())
 	if err != nil || !token.Valid {
 		return 0, false
 	}

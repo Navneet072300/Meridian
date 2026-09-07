@@ -1,0 +1,9 @@
+{
+  "name": "@meridian/launch-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20.17" },
+  "scripts": { "start": "node server.mjs", "test": "node --test test.mjs" },
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.25.0", "fflate": "^0.8.2", "zod": "^3.25.76" }
+}

@@ -26,6 +26,9 @@ import { useAuthStore } from './store/authStore';
 import { UserTypeScreen } from './components/shared/UserTypeScreen';
 import { useThemeStore } from './store/themeStore';
 import { ToastContainer } from './components/shared/ToastContainer';
+import { LaunchPage } from './pages/LaunchPage';
+import { EmailLoginPage } from './pages/EmailLoginPage';
+import { ReleaseLandingPage } from './pages/ReleaseLandingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
@@ -111,7 +114,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
 
   // Show user-type selection on first login (experience_level not set yet)
-  const needsTypeSelection = !isDemoMode && user && user.experience_level === null && !typeChosen;
+  const needsTypeSelection = import.meta.env.VITE_ENABLE_LEGACY === 'true' && !isDemoMode && user && user.experience_level === null && !typeChosen;
   if (needsTypeSelection) {
     return <UserTypeScreen onDone={() => setTypeChosen(true)} />;
   }
@@ -128,9 +131,13 @@ function RedirectIfAuthed({ children }: { children: React.ReactNode }) {
 }
 
 function AppShell() {
+  if (import.meta.env.VITE_ENABLE_LEGACY !== 'true') {
+    return <AppLayout><Routes><Route path="projects" element={<LaunchPage />} /><Route path="*" element={<Navigate to="projects" replace />} /></Routes></AppLayout>;
+  }
   return (
     <AppLayout>
       <Routes>
+        <Route path="projects" element={<LaunchPage />} />
         <Route path="pipeline"     element={<Navigate to="/app/deploy" replace />} />
         <Route path="generate"     element={<GenerateMode />} />
         <Route path="diagnose"     element={<DiagnoseMode />} />
@@ -147,8 +154,8 @@ function AppShell() {
         <Route path="profile"      element={<ProfilePage />} />
         <Route path="subscription" element={<SubscriptionPage />} />
         <Route path="help"         element={<HelpPage />} />
-        <Route index element={<Navigate to="deploy" replace />} />
-        <Route path="*" element={<Navigate to="deploy" replace />} />
+        <Route index element={<Navigate to="projects" replace />} />
+        <Route path="*" element={<Navigate to="projects" replace />} />
       </Routes>
     </AppLayout>
   );
@@ -159,17 +166,15 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-        <ConfigLoader>
           <ToastContainer />
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login"  element={<RedirectIfAuthed><LoginPage /></RedirectIfAuthed>} />
-            <Route path="/signup" element={<RedirectIfAuthed><SignupPage /></RedirectIfAuthed>} />
+            <Route path="/" element={<ReleaseLandingPage />} />
+            <Route path="/login"  element={<RedirectIfAuthed><EmailLoginPage /></RedirectIfAuthed>} />
+            <Route path="/signup" element={<RedirectIfAuthed><EmailLoginPage /></RedirectIfAuthed>} />
             <Route path="/auth/callback" element={<AuthCallback />} />
 <Route path="/app/*" element={<RequireAuth><AppShell /></RequireAuth>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </ConfigLoader>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

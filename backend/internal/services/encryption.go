@@ -24,7 +24,7 @@ func encryptionKey() ([]byte, error) {
 func Encrypt(plaintext string) (string, error) {
 	key, err := encryptionKey()
 	if err != nil {
-		return plaintext, nil // graceful degradation
+		return "", err
 	}
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -45,11 +45,11 @@ func Encrypt(plaintext string) (string, error) {
 func Decrypt(cipherHex string) (string, error) {
 	key, err := encryptionKey()
 	if err != nil {
-		return cipherHex, nil
+		return "", err
 	}
 	data, err := hex.DecodeString(cipherHex)
 	if err != nil {
-		return cipherHex, nil // assume unencrypted legacy value
+		return "", err
 	}
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -61,11 +61,11 @@ func Decrypt(cipherHex string) (string, error) {
 	}
 	ns := gcm.NonceSize()
 	if len(data) < ns {
-		return cipherHex, nil
+		return "", errors.New("invalid encrypted value")
 	}
 	plain, err := gcm.Open(nil, data[:ns], data[ns:], nil)
 	if err != nil {
-		return cipherHex, nil // legacy unencrypted
+		return "", err
 	}
 	return string(plain), nil
 }

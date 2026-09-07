@@ -28,11 +28,14 @@ func Init(ctx context.Context) error {
 		return fmt.Errorf("pgxpool.New: %w", err)
 	}
 	if err := pool.Ping(ctx); err != nil {
+		pool.Close()
 		return fmt.Errorf("db ping: %w", err)
 	}
 	Pool = pool
 	if err := migrate(ctx); err != nil {
-		log.Printf("DB migration warning: %v", err)
+		pool.Close()
+		Pool = nil
+		return fmt.Errorf("database migration: %w", err)
 	}
 	log.Println("PostgreSQL connected and schema ready")
 	return nil
@@ -286,7 +289,7 @@ func migrate(ctx context.Context) error {
 
 	for _, stmt := range stmts {
 		if _, err := Pool.Exec(ctx, stmt); err != nil {
-			log.Printf("migration warn: %v | stmt: %.80s", err, stmt)
+			return err
 		}
 	}
 	return nil

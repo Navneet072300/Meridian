@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"meridian/internal/auth"
@@ -43,6 +44,15 @@ func requireUser(w http.ResponseWriter, r *http.Request) (int, bool) {
 		writeError(w, 401, "Not authenticated")
 		return 0, false
 	}
+	if !db.Available() {
+		writeError(w, 503, "Database unavailable")
+		return 0, false
+	}
+	var active bool
+	if err := db.Pool.QueryRow(r.Context(), `SELECT EXISTS(SELECT 1 FROM user_sessions s JOIN users u ON u.id=s.user_id WHERE s.user_id=$1 AND s.session_token_hash=$2 AND NOT s.is_revoked)`, uid, auth.HashToken(getToken(r))).Scan(&active); err != nil || !active {
+		writeError(w, 401, "Session expired; sign in again")
+		return 0, false
+	}
 	return uid, true
 }
 
@@ -59,6 +69,7 @@ func setSessionCookie(w http.ResponseWriter, token string) {
 		Name:     auth.SessionCookie,
 		Value:    token,
 		HttpOnly: true,
+		Secure:   os.Getenv("APP_ENV") == "production",
 		MaxAge:   60 * 60 * 24 * 7,
 		SameSite: http.SameSiteLaxMode,
 		Path:     "/",

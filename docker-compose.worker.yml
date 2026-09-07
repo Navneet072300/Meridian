@@ -1,0 +1,25 @@
+# Run only after completing docs/RELEASE.md. The API never gets kubeconfig,
+# registry credentials or BuildKit access. Sources use the same durable volume.
+services:
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.worker
+    env_file:
+      - ./backend/.env
+      - ./.env.worker
+    environment:
+      DATABASE_URL: postgresql://meridian:meridian@postgres:5432/meridian
+      SOURCE_DIR: /app/data/sources
+      KUBECONFIG: /run/credentials/kubeconfig
+      BUILDKIT_TLS_DIR: /run/credentials/buildkit
+      DOCKER_CONFIG: /run/credentials/registry
+    volumes:
+      - launch_sources:/app/data/sources:ro
+      - ${MERIDIAN_WORKER_CREDENTIALS:?Set an absolute worker credentials directory}:/run/credentials:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - meridian-net

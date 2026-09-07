@@ -6,16 +6,20 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"math/big"
 	"net/http"
+	"net/mail"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5"
 	"github.com/pquerna/otp/totp"
 	"meridian/internal/auth"
 	"meridian/internal/config"
@@ -45,7 +49,7 @@ func sendEmailOTP(ctx context.Context, email, code string) bool {
 		return true
 	}
 	body := map[string]interface{}{
-		"from":    "Meridian <noreply@meridian.dev>",
+		"from":    config.EmailFrom,
 		"to":      []string{email},
 		"subject": fmt.Sprintf("Your Meridian verification code: %s", code),
 		"html": fmt.Sprintf(`<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#fafaf8;border-radius:12px">
@@ -57,9 +61,13 @@ func sendEmailOTP(ctx context.Context, email, code string) bool {
 	req, _ := http.NewRequestWithContext(ctx, "POST", "https://api.resend.com/emails", bytes.NewReader(b))
 	req.Header.Set("Authorization", "Bearer "+config.ResendAPIKey)
 	req.Header.Set("Content-Type", "application/json")
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil || resp.StatusCode >= 400 {
-		log.Printf("Resend error: %v", err)
+	resp, err := (&http.Client{Timeout: 15 * time.Second}).Do(req)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode >= 400 {
+		log.Printf("Email provider returned HTTP %d", resp.StatusCode)
 		return false
 	}
 	return true
@@ -80,19 +88,9 @@ func verifyOTP(ctx context.Context, contact, code string) bool {
 	if !db.Available() {
 		return false
 	}
-	var id int
-	var expiresAt time.Time
-	err := db.Pool.QueryRow(ctx,
-		`SELECT id, expires_at FROM otp_codes
-		 WHERE contact=$1 AND code=$2 AND used=FALSE
-		 ORDER BY created_at DESC LIMIT 1`,
-		contact, code,
-	).Scan(&id, &expiresAt)
-	if err != nil || time.Now().UTC().After(expiresAt) {
-		return false
-	}
-	db.Pool.Exec(ctx, `UPDATE otp_codes SET used=TRUE WHERE id=$1`, id)
-	return true
+	var matched bool
+	err := db.Pool.QueryRow(ctx, `UPDATE otp_codes SET attempts=attempts+1,used=(code=$2) WHERE id=(SELECT id FROM otp_codes WHERE contact=$1 AND used=FALSE AND expires_at>now() AND attempts<5 ORDER BY created_at DESC LIMIT 1 FOR UPDATE SKIP LOCKED) RETURNING used`, contact, code).Scan(&matched)
+	return err == nil && matched
 }
 
 func getOrCreateUser(ctx context.Context, email, name, provider, providerID, avatarURL string) (*db.User, error) {
@@ -105,7 +103,7 @@ func getOrCreateUser(ctx context.Context, email, name, provider, providerID, ava
 		&u.HashedPassword, &u.EmailVerified, &u.PhoneVerified, &u.Plan, &u.Role,
 		&u.TOTPSecret, &u.TOTPEnabled, &u.TOTPPendingSecret, &u.CreatedAt)
 
-	if err != nil {
+	if errors.Is(err, pgx.ErrNoRows) {
 		// create
 		if name == "" {
 			parts := strings.Split(email, "@")
@@ -122,7 +120,7 @@ func getOrCreateUser(ctx context.Context, email, name, provider, providerID, ava
 		}
 		return getUserByID(ctx, newID)
 	}
-	return &u, nil
+	return &u, err
 }
 
 func getUserByID(ctx context.Context, id int) (*db.User, error) {
@@ -157,19 +155,20 @@ func userToDict(u *db.User) map[string]interface{} {
 	}
 }
 
-func recordSession(ctx context.Context, userID int, token string, r *http.Request) {
+func recordSession(ctx context.Context, userID int, token string, r *http.Request) error {
 	if !db.Available() {
-		return
+		return fmt.Errorf("database unavailable")
 	}
 	ua := r.Header.Get("User-Agent")
 	ip := clientIP(r)
 	tokenHash := auth.HashToken(token)
 	deviceInfo := auth.ParseUA(ua)
-	db.Pool.Exec(ctx,
+	_, err := db.Pool.Exec(ctx,
 		`INSERT INTO user_sessions (user_id, session_token_hash, device_info, ip_address)
 		 VALUES ($1, $2, $3, $4)`,
 		userID, tokenHash, deviceInfo, ip,
 	)
+	return err
 }
 
 func nullStr(s string) interface{} {
@@ -273,13 +272,72 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // ── OTP ───────────────────────────────────────────────────────────────────────
 
+func betaEmailAllowed(email string) bool {
+	allowed := strings.TrimSpace(os.Getenv("BETA_ALLOWED_EMAILS"))
+	if allowed == "" {
+		return os.Getenv("APP_ENV") != "production"
+	}
+	for _, entry := range strings.Split(allowed, ",") {
+		if strings.EqualFold(strings.TrimSpace(entry), email) {
+			return true
+		}
+	}
+	return false
+}
+
 func OTPSend(w http.ResponseWriter, r *http.Request) {
+	if !requireDB(w) {
+		return
+	}
 	var req struct {
 		Contact string `json:"contact"`
 	}
-	json.NewDecoder(r.Body).Decode(&req)
+	if !launchDecode(w, r, &req) {
+		return
+	}
+	req.Contact = strings.ToLower(strings.TrimSpace(req.Contact))
+	address, err := mail.ParseAddress(req.Contact)
+	if err != nil || address.Address != req.Contact || len(req.Contact) > 254 {
+		writeError(w, 400, "Enter a valid email address")
+		return
+	}
+	if !betaEmailAllowed(req.Contact) {
+		writeError(w, 403, "Meridian is invite-only during early access. Ask the operator to invite your email.")
+		return
+	}
+	// Serialize sends for the same email across API replicas, including new users.
+	tx, err := db.Pool.Begin(r.Context())
+	if err != nil {
+		writeError(w, 503, "Sign-in is temporarily unavailable")
+		return
+	}
+	defer tx.Rollback(r.Context())
+	if _, err = tx.Exec(r.Context(), `SELECT pg_advisory_xact_lock(hashtextextended($1,71423821))`, req.Contact); err != nil {
+		writeError(w, 503, "Sign-in is temporarily unavailable")
+		return
+	}
+	var count int
+	if tx.QueryRow(r.Context(), `SELECT count(*) FROM otp_codes WHERE contact=$1 AND created_at>now()-interval '15 minutes'`, req.Contact).Scan(&count) != nil {
+		writeError(w, 503, "Sign-in is temporarily unavailable")
+		return
+	}
+	if count >= 3 {
+		writeError(w, 429, "Please wait before requesting another email code")
+		return
+	}
 	code := genOTP()
-	storeOTP(r.Context(), req.Contact, code)
+	if _, err = tx.Exec(r.Context(), `UPDATE otp_codes SET used=TRUE WHERE contact=$1 AND used=FALSE`, req.Contact); err != nil {
+		writeError(w, 503, "Could not send code")
+		return
+	}
+	if _, err = tx.Exec(r.Context(), `INSERT INTO otp_codes(contact,code,expires_at) VALUES($1,$2,now()+interval '10 minutes')`, req.Contact, code); err != nil {
+		writeError(w, 503, "Could not save sign-in code")
+		return
+	}
+	if err = tx.Commit(r.Context()); err != nil {
+		writeError(w, 503, "Could not save sign-in code")
+		return
+	}
 	if !sendEmailOTP(r.Context(), req.Contact, code) {
 		writeError(w, 500, "Failed to send OTP")
 		return
@@ -296,7 +354,28 @@ func OTPVerify(w http.ResponseWriter, r *http.Request) {
 		Code    string `json:"code"`
 		Name    string `json:"name"`
 	}
-	json.NewDecoder(r.Body).Decode(&req)
+	if !launchDecode(w, r, &req) {
+		return
+	}
+	req.Contact = strings.ToLower(strings.TrimSpace(req.Contact))
+	if !betaEmailAllowed(req.Contact) {
+		writeError(w, 403, "This email is not invited to early access")
+		return
+	}
+	if len(req.Code) != 6 {
+		writeError(w, 400, "Enter the six-digit code")
+		return
+	}
+	var hasTOTP bool
+	err := db.Pool.QueryRow(r.Context(), `SELECT totp_enabled FROM users WHERE email=$1`, req.Contact).Scan(&hasTOTP)
+	if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+		writeError(w, 503, "Sign-in is temporarily unavailable")
+		return
+	}
+	if hasTOTP {
+		writeError(w, 403, "This account requires the legacy two-factor login flow")
+		return
+	}
 
 	if !verifyOTP(r.Context(), req.Contact, req.Code) {
 		writeError(w, 400, "Invalid or expired OTP")
@@ -305,15 +384,21 @@ func OTPVerify(w http.ResponseWriter, r *http.Request) {
 
 	u, err := getOrCreateUser(r.Context(), req.Contact, req.Name, "email", "", "")
 	if err != nil {
-		writeError(w, 500, "User error: "+err.Error())
+		writeError(w, 500, "Could not complete sign-in")
 		return
 	}
 
-	db.Pool.Exec(r.Context(), `UPDATE users SET email_verified=TRUE WHERE id=$1`, u.ID)
+	if _, err = db.Pool.Exec(r.Context(), `UPDATE users SET email_verified=TRUE WHERE id=$1`, u.ID); err != nil {
+		writeError(w, 503, "Could not complete sign-in")
+		return
+	}
 
-	token, _ := auth.CreateToken(u.ID)
+	token, err := auth.CreateToken(u.ID)
+	if err != nil || recordSession(r.Context(), u.ID, token, r) != nil {
+		writeError(w, 503, "Could not create a session; request a new code and try again")
+		return
+	}
 	setSessionCookie(w, token)
-	recordSession(r.Context(), u.ID, token, r)
 	services.AuditLog(r.Context(), &u.ID, strVal(u.Email), "login", "otp", clientIP(r), "success", nil)
 
 	u.EmailVerified = true
@@ -346,11 +431,18 @@ func Me(w http.ResponseWriter, r *http.Request) {
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 	token := getToken(r)
-	clearSessionCookie(w)
+	if token != "" && !db.Available() {
+		writeError(w, 503, "Sign-out is temporarily unavailable; please retry")
+		return
+	}
 	if token != "" && db.Available() {
 		hash := auth.HashToken(token)
-		db.Pool.Exec(r.Context(), `UPDATE user_sessions SET is_revoked=TRUE WHERE session_token_hash=$1`, hash)
+		if _, err := db.Pool.Exec(r.Context(), `UPDATE user_sessions SET is_revoked=TRUE WHERE session_token_hash=$1`, hash); err != nil {
+			writeError(w, 503, "Could not revoke the server session; please retry sign-out")
+			return
+		}
 	}
+	clearSessionCookie(w)
 	writeJSON(w, 200, map[string]string{"message": "Logged out"})
 }
 
@@ -608,8 +700,8 @@ func Setup2FA(w http.ResponseWriter, r *http.Request) {
 
 	db.Pool.Exec(r.Context(), `UPDATE users SET totp_pending_secret=$1 WHERE id=$2`, key.Secret(), uid)
 	writeJSON(w, 200, map[string]string{
-		"secret":       key.Secret(),
-		"otpauth_uri":  key.URL(),
+		"secret":      key.Secret(),
+		"otpauth_uri": key.URL(),
 	})
 }
 

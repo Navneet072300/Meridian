@@ -17,19 +17,28 @@ import (
 	"meridian/internal/config"
 	"meridian/internal/db"
 	"meridian/internal/handlers"
+	"meridian/internal/launch"
 	"meridian/internal/services"
 	"meridian/internal/workers"
 )
 
 func main() {
 	godotenv.Load()
+	if err := config.ValidateProduction(); err != nil {
+		log.Fatal(err)
+	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Init DB
 	if err := db.Init(ctx); err != nil {
-		log.Printf("DB init warning: %v", err)
+		log.Fatalf("DB init failed: %v", err)
+	}
+	if db.Available() {
+		if err := launch.Migrate(ctx); err != nil {
+			log.Fatalf("Launch migration failed: %v", err)
+		}
 	}
 
 	// Init Redis
@@ -38,19 +47,20 @@ func main() {
 	}
 
 	// Start cluster monitor
-	workers.Start(ctx)
+	if os.Getenv("ENABLE_LEGACY_SINGLE_TENANT") == "true" {
+		workers.Start(ctx)
+	}
 
 	r := chi.NewRouter()
 
-	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(120 * time.Second))
 
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000", "http://localhost"},
+		AllowedOrigins:   []string{config.FrontendURL, "http://localhost:5173", "http://localhost:3000"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "Cookie"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "Cookie", "Idempotency-Key"},
 		ExposedHeaders:   []string{"Set-Cookie"},
 		AllowCredentials: true,
 		MaxAge:           300,
@@ -61,6 +71,23 @@ func main() {
 
 	// All API routes
 	r.Route("/api", func(r chi.Router) {
+		r.Use(handlers.ReleaseAccess)
+		r.Route("/launch", func(r chi.Router) {
+			r.Use(handlers.LaunchAccess)
+			r.Get("/status", handlers.LaunchStatus)
+			r.Get("/projects", handlers.LaunchProjects)
+			r.Post("/projects", handlers.LaunchCreateProject)
+			r.Get("/projects/{project}", handlers.LaunchProject)
+			r.Post("/projects/{project}/sources", handlers.LaunchUpload)
+			r.Post("/projects/{project}/github", handlers.LaunchGitHub)
+			r.Put("/projects/{project}/environment", handlers.LaunchEnvironment)
+			r.Post("/projects/{project}/deployments", handlers.LaunchDeploy)
+			r.Get("/projects/{project}/deployments/{deployment}/events", handlers.LaunchEvents)
+			r.Post("/projects/{project}/deployments/{deployment}/cancel", handlers.LaunchCancel)
+			r.Get("/agent-keys", handlers.LaunchAgentKeys)
+			r.Post("/agent-keys", handlers.LaunchAgentKeys)
+			r.Delete("/agent-keys", handlers.LaunchAgentKeys)
+		})
 		// ── Auth ───────────────────────────────────────────────────────────────
 		r.Post("/auth/signup", handlers.Signup)
 		r.Post("/auth/login", handlers.Login)

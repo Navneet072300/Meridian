@@ -14,6 +14,9 @@ services:
     environment:
       - DATABASE_URL=postgresql://meridian:meridian@postgres:5432/meridian
       - REDIS_URL=redis://redis:6379/0
+      - SOURCE_DIR=/app/data/sources
+    volumes:
+      - launch_sources:/app/data/sources
     depends_on:
       postgres:
         condition: service_healthy
@@ -135,6 +138,7 @@ networks:
     driver: bridge
 
 volumes:
+  launch_sources:
   postgres_data:
   prometheus_data:
   grafana_data:
